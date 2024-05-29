@@ -12,6 +12,7 @@ actual fun Map(
     modifier: Modifier,
     center: Location,
     caches: List<Geocache>,
+    onGeocacheClick: (String) -> Unit,
     onMapBoundsChange: (BoundingBox?) -> Unit,
 ) {
     Text("Desktop Map stub")

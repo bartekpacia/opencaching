@@ -11,5 +11,6 @@ expect fun Map(
     modifier: Modifier = Modifier,
     center: Location,
     caches: List<Geocache>,
+    onGeocacheClick: (String) -> Unit,
     onMapBoundsChange: (BoundingBox?) -> Unit,
 )

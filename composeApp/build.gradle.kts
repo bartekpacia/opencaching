@@ -70,6 +70,7 @@ kotlin {
             implementation(libs.maps.compose)
             implementation(libs.play.services.maps)
         }
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -86,7 +87,11 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.datetime)
+
+            implementation(libs.navigation.compose)
+            implementation(libs.lifecycle.viewmodel.compose)
         }
+
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
         }

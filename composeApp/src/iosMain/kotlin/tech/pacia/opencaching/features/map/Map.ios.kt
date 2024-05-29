@@ -11,16 +11,13 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
 import kotlinx.datetime.Clock
 import platform.CoreLocation.CLLocationCoordinate2DMake
-import platform.MapKit.MKAnnotationProtocol
-import platform.MapKit.MKCoordinateRegionMakeWithDistance
-import platform.MapKit.MKMapView
-import platform.MapKit.MKMapViewDelegateProtocol
-import platform.MapKit.MKPointAnnotation
+import platform.MapKit.*
 import platform.darwin.NSObject
 import tech.pacia.opencaching.data.BoundingBox
 import tech.pacia.opencaching.data.Geocache
 import tech.pacia.opencaching.data.Location
 import kotlin.time.Duration.Companion.seconds
+import tech.pacia.opencaching.debugLog
 
 
 @OptIn(ExperimentalForeignApi::class)
@@ -29,6 +26,7 @@ actual fun Map(
     modifier: Modifier,
     center: Location,
     caches: List<Geocache>,
+    onGeocacheClick: (String) -> Unit,
     onMapBoundsChange: (BoundingBox?) -> Unit,
 ) {
     val annotations = caches.map {
@@ -94,15 +92,16 @@ class MapViewDelegate(
     MKMapViewDelegateProtocol {
 
     private var lastInstant = Clock.System.now()
-
-    override fun mapView(mapView: MKMapView, didSelectAnnotation: MKAnnotationProtocol) {
-        debugLog("MapViewDelegate", "didSelectAnnotation")
-
-        val subtitle = didSelectAnnotation.subtitle
-        if (subtitle != null) {
-            onGeocacheTap(subtitle)
-        }
-    }
+    
+    // FIXME: Figure out what's wrong
+//    override fun mapView(mapView: MKMapView, didSelectAnnotation: MKAnnotationProtocol) {
+//        debugLog("MapViewDelegate", "didSelectAnnotation")
+//
+//        val subtitle = didSelectAnnotation.subtitle
+//        if (subtitle != null) {
+//            onGeocacheTap(subtitle)
+//        }
+//    }
 
     override fun mapViewDidChangeVisibleRegion(mapView: MKMapView) {
         val currentInstant = Clock.System.now()

@@ -1,4 +1,4 @@
-package tech.pacia.opencaching.features.sign_in
+package tech.pacia.opencaching.features.signin
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,7 +25,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import tech.baftek.opencaching.ui.theme.OpencachingTheme
+import tech.pacia.opencaching.ui.theme.OpencachingTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

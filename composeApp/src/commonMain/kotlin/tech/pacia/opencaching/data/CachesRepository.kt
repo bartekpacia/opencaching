@@ -1,21 +1,37 @@
 package tech.pacia.opencaching.data
 
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.accept
-import io.ktor.client.request.get
-import io.ktor.client.request.parameter
-import io.ktor.http.ContentType
+// import tech.pacia.opencaching.BuildConfig
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.request.*
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import tech.pacia.opencaching.debugLog
 
-const val API_URL = "https://opencaching.pl/okapi/services"
-const val CONSUMER_KEY = "duM7DuHSXQtLK7PCx9ee"
+private const val API_URL = "https://opencaching.pl/okapi/services"
+private const val CONSUMER_KEY = "BuildConfig.OKAPI_CONSUMER_KEY" // FIXME: use real value
+private const val CONSUMER_SECRET = "BuildConfig.OKAPI_CONSUMER_SECRET" // FIXME: use real value
 
-class CachesRepository(private val client: HttpClient) {
+private val defaultHttpClient = HttpClient {
+    install(ContentNegotiation) {
+        json(
+            Json {
+                ignoreUnknownKeys = true
+            },
+        )
+    }
+}
 
-    /// https://opencaching.pl/okapi/services/caches/shortcuts/search_and_retrieve.html
+class CachesRepository(private val client: HttpClient = defaultHttpClient) {
+    // private val basicParams = "code|name|location|status|type"
+
+    private val fullParams =
+        "code|name|location|status|type|url|owner|description|difficulty|terrain|size|hint|date_hidden|recommendations"
+
+    // / https://opencaching.pl/okapi/services/caches/shortcuts/search_and_retrieve.html
     suspend fun searchAndRetrieve(bbox: BoundingBox): Map<String, Geocache> {
         val response = client.get("$API_URL/caches/shortcuts/search_and_retrieve") {
             accept(ContentType.Application.Json)
@@ -23,13 +39,11 @@ class CachesRepository(private val client: HttpClient) {
             parameter("search_method", "services/caches/search/bbox")
             parameter("search_params", Json.encodeToString(mapOf("bbox" to bbox.toPipeFormat())))
             parameter("retr_method", "services/caches/geocaches")
-            parameter(
-                "retr_params",
-                Json.encodeToString(mapOf("fields" to "code|name|location|status|type|url|owner"))
-            )
+            parameter("retr_params", Json.encodeToString(mapOf("fields" to fullParams)))
             parameter("wrap", false)
         }
 
+        // debugLog("CachesRepository", "response: ${response.bodyAsText()}")
 
         val body = response.body<Map<String, Geocache>>()
 
@@ -50,13 +64,13 @@ class CachesRepository(private val client: HttpClient) {
         return response.body()
     }
 
-    /// https://opencaching.pl/okapi/services/caches/geocache.html
-    suspend fun getGeocache(code: String): Geocache {
+    // / https://opencaching.pl/okapi/services/caches/geocache.html
+    suspend fun getGeocache(code: String): FullGeocache {
         val response = client.get("$API_URL/caches/geocache") {
             accept(ContentType.Application.Json)
             parameter("consumer_key", CONSUMER_KEY)
             parameter("cache_code", code)
-            parameter("fields", "code|name|location|status|type|url|owner")
+            parameter("fields", fullParams)
         }
 
         debugLog("CachesRepository", "response: $response")

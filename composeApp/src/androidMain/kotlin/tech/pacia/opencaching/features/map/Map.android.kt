@@ -26,12 +26,12 @@ import tech.pacia.opencaching.data.Location
 
 @OptIn(DelicateCoroutinesApi::class)
 @Composable
-fun Map(
+actual fun Map(
+    modifier: Modifier,
     center: Location,
     caches: List<Geocache>,
     onGeocacheClick: (String) -> Unit,
-    onMapBoundsChange: (BoundingBox?) -> Unit,
-    modifier: Modifier = Modifier,
+    onMapBoundsChange: (BoundingBox?) -> Unit
 ) {
     Log.d("Map", "recomposition!")
 
