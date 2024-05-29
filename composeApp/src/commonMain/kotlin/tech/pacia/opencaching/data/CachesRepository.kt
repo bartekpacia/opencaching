@@ -9,11 +9,12 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import opencaching.composeApp.BuildConfig
 import tech.pacia.opencaching.debugLog
 
 private const val API_URL = "https://opencaching.pl/okapi/services"
-private const val CONSUMER_KEY = "BuildConfig.OKAPI_CONSUMER_KEY" // FIXME: use real value
-private const val CONSUMER_SECRET = "BuildConfig.OKAPI_CONSUMER_SECRET" // FIXME: use real value
+private const val CONSUMER_KEY = BuildConfig.CONSUMER_KEY
+private const val CONSUMER_SECRET = BuildConfig.CONSUMER_SECRET
 
 private val defaultHttpClient = HttpClient {
     install(ContentNegotiation) {

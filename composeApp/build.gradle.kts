@@ -12,14 +12,20 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinParcelize)
     alias(libs.plugins.kotlinSerialization)
+    id("com.github.gmazzo.buildconfig") version "5.3.5"
 }
 
 val properties = Properties().apply {
     load(rootProject.file("local.properties").inputStream())
 }
 
-val consumerKey = properties["okapi.consumerKey"] ?: throw IllegalStateException("consumerKey is null")
-val consumerSecret = properties["okapi.consumerSecret"] ?: throw IllegalStateException("consumerSecret is null")
+val consumerKey = properties["okapi.consumerKey"] as? String ?: throw IllegalStateException("consumerKey is null")
+val consumerSecret = properties["okapi.consumerSecret"] as? String ?: throw IllegalStateException("consumerSecret is null")
+
+buildConfig {
+    buildConfigField("String", "CONSUMER_KEY", "\"$consumerKey\"")
+    buildConfigField("String", "CONSUMER_SECRET", "\"$consumerSecret\"")
+}
 
 kotlin {
     @OptIn(ExperimentalWasmDsl::class)
