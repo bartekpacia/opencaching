@@ -1,4 +1,4 @@
-package tech.pacia.opencaching
+package tech.pacia.opencaching.features.map
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

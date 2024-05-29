@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+import java.util.*
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -12,6 +13,13 @@ plugins {
     alias(libs.plugins.kotlinParcelize)
     alias(libs.plugins.kotlinSerialization)
 }
+
+val properties = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
+}
+
+val consumerKey = properties["okapi.consumerKey"] ?: throw IllegalStateException("consumerKey is null")
+val consumerSecret = properties["okapi.consumerSecret"] ?: throw IllegalStateException("consumerSecret is null")
 
 kotlin {
     @OptIn(ExperimentalWasmDsl::class)
@@ -99,6 +107,18 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField(
+            type = "String",
+            name = "OKAPI_CONSUMER_KEY",
+            value = "\"${consumerKey}\"",
+        )
+
+        buildConfigField(
+            type = "String",
+            name = "OKAPI_CONSUMER_SECRET",
+            value = "\"${consumerSecret}\"",
+        )
     }
 
     packaging {
@@ -120,6 +140,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     dependencies {
