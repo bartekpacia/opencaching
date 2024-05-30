@@ -18,3 +18,8 @@ captures
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 composeApp/src/androidMain/res/values/google_maps_api_key.xml
+.env
+keystore.jks
+keystore.properties
+app_store_connect_api_key.p8
+google_play_android_developer_sa_key.json
