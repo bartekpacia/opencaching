@@ -1,0 +1,10 @@
+git_url('https://github.com/bartekpacia/certificates.git')
+app_identifier(ENV.fetch('APP_BUNDLE_ID'))
+api_key(
+  {
+    key_id: ENV.fetch('APP_STORE_CONNECT_KEY_ID'),
+    issuer_id: ENV.fetch('APP_STORE_CONNECT_ISSUER_ID'),
+    filepath: ENV.fetch('APP_STORE_CONNECT_P8_KEY_PATH'),
+    in_house: false
+  }
+)
