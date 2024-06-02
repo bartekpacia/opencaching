@@ -19,12 +19,12 @@ val properties = Properties().apply {
     load(rootProject.file("local.properties").inputStream())
 }
 
-val consumerKey = properties["okapi.consumerKey"] as? String ?: throw IllegalStateException("consumerKey is null")
-val consumerSecret = properties["okapi.consumerSecret"] as? String ?: throw IllegalStateException("consumerSecret is null")
+val key = properties["okapi.consumerKey"] as? String ?: throw IllegalStateException("consumerKey is null")
+val secret = properties["okapi.consumerSecret"] as? String ?: throw IllegalStateException("consumerSecret is null")
 
 buildConfig {
-    buildConfigField("String", "CONSUMER_KEY", "\"$consumerKey\"")
-    buildConfigField("String", "CONSUMER_SECRET", "\"$consumerSecret\"")
+    buildConfigField("String", "CONSUMER_KEY", "\"$key\"")
+    buildConfigField("String", "CONSUMER_SECRET", "\"$secret\"")
 }
 
 kotlin {
@@ -66,17 +66,7 @@ kotlin {
     }
 
     sourceSets {
-        val desktopMain by getting
-
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
-
-            implementation(libs.ktor.client.okhttp)
-            implementation(libs.maps.compose)
-            implementation(libs.play.services.maps)
-        }
-
+        val commonMain by getting
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -98,8 +88,33 @@ kotlin {
             implementation(libs.lifecycle.viewmodel.compose)
         }
 
+        val androidMain by getting
+        androidMain.dependencies {
+            implementation(compose.preview)
+            implementation(libs.androidx.activity.compose)
+
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.maps.compose)
+            implementation(libs.play.services.maps)
+            }
+
+        val desktopMain by getting
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+        }
+
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+        val iosMain by creating {
+            dependsOn(commonMain)
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
+
+            dependencies {
+                implementation(libs.ktor.client.darwin)
+            }
         }
     }
 }
@@ -122,13 +137,13 @@ android {
         buildConfigField(
             type = "String",
             name = "OKAPI_CONSUMER_KEY",
-            value = "\"${consumerKey}\"",
+            value = "\"${key}\"",
         )
 
         buildConfigField(
             type = "String",
             name = "OKAPI_CONSUMER_SECRET",
-            value = "\"${consumerSecret}\"",
+            value = "\"${secret}\"",
         )
     }
 

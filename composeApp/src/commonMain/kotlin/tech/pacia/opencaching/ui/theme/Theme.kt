@@ -39,7 +39,7 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun OpencachingTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkThemeActive: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit,
@@ -62,7 +62,7 @@ fun OpencachingTheme(
 //        }
 //    }
 
-    val colorScheme = DarkColorScheme
+    val colorScheme = if (darkThemeActive) DarkColorScheme else LightColorScheme
 
     MaterialTheme(
         colorScheme = colorScheme,

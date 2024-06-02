@@ -260,7 +260,7 @@ private fun GeocacheScreemPreview() {
 @Preview
 @Composable
 private fun GeocacheScreemPreviewDark() {
-    OpencachingTheme(darkTheme = true) {
+    OpencachingTheme(darkThemeActive = true) {
         GeocacheScreen(geocache = sampleGeocache) {}
     }
 }

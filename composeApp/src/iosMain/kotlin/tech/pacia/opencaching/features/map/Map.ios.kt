@@ -2,6 +2,10 @@
 
 package tech.pacia.opencaching.features.map
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -11,13 +15,15 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
 import kotlinx.datetime.Clock
 import platform.CoreLocation.CLLocationCoordinate2DMake
-import platform.MapKit.*
+import platform.MapKit.MKCoordinateRegionMakeWithDistance
+import platform.MapKit.MKMapView
+import platform.MapKit.MKMapViewDelegateProtocol
+import platform.MapKit.MKPointAnnotation
 import platform.darwin.NSObject
 import tech.pacia.opencaching.data.BoundingBox
 import tech.pacia.opencaching.data.Geocache
 import tech.pacia.opencaching.data.Location
 import kotlin.time.Duration.Companion.seconds
-import tech.pacia.opencaching.debugLog
 
 
 @OptIn(ExperimentalForeignApi::class)
@@ -75,12 +81,19 @@ actual fun Map(
         mkMapView.addAnnotations(annotations)
     }
 
-    UIKitView(
-        modifier = modifier,
-        factory = { mkMapView },
-        update = { }
-    )
+    Text("IOS MAP!")
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        UIKitView(
+            modifier = modifier,
+            factory = { mkMapView },
+            update = { }
+        )
+    }
 }
+
 
 /**
  * A delegate that fires a callback when map bounds change. It does so in a debounced manner.
@@ -92,7 +105,7 @@ class MapViewDelegate(
     MKMapViewDelegateProtocol {
 
     private var lastInstant = Clock.System.now()
-    
+
     // FIXME: Figure out what's wrong
 //    override fun mapView(mapView: MKMapView, didSelectAnnotation: MKAnnotationProtocol) {
 //        debugLog("MapViewDelegate", "didSelectAnnotation")
