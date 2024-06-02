@@ -21,8 +21,7 @@ platform :ios do
     google_play_json_key_path: ENV.fetch('GOOGLE_PLAY_JSON_KEY_PATH'),
   ).to_s
 
-  # build_name = get_new_build_name
-  build_name = "1.0.0"
+  build_name = get_new_build_name
 
   desc 'Nuke all certificates and provisioning profiles'
   lane :nukeall do

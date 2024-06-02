@@ -1,3 +1,4 @@
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -88,6 +89,14 @@ kotlin {
             implementation(libs.lifecycle.viewmodel.compose)
         }
 
+        val commonTest by getting
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
+        }
+
         val androidMain by getting
         androidMain.dependencies {
             implementation(compose.preview)
@@ -96,7 +105,7 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.maps.compose)
             implementation(libs.play.services.maps)
-            }
+        }
 
         val desktopMain by getting
         desktopMain.dependencies {

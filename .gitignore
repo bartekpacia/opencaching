@@ -26,3 +26,4 @@ google_play_android_developer_sa_key.json
 
 iosApp/iosApp.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
 iosApp/build
+iosApp/fastlane/report.xml
