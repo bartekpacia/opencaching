@@ -1,9 +1,6 @@
-@file:OptIn(ExperimentalForeignApi::class)
-
 package tech.pacia.opencaching.features.map
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -19,7 +16,6 @@ import platform.darwin.NSObject
 import tech.pacia.opencaching.data.BoundingBox
 import tech.pacia.opencaching.data.Geocache
 import tech.pacia.opencaching.data.Location
-import tech.pacia.opencaching.debugLog
 import kotlin.time.Duration.Companion.seconds
 
 
@@ -47,7 +43,7 @@ actual fun Map(
         MapViewDelegate(
             onMapBoundsChange = onMapBoundsChange,
             // TODO: Move NavStack to CompositionLocal?
-            onGeocacheTap = { /* navStack.push(GeocachePage()) */ }
+            onGeocacheTap = onGeocacheClick,
         )
     }
 
