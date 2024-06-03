@@ -13,7 +13,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinParcelize)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.buildConfig) 
+    alias(libs.plugins.buildConfig)
     alias(libs.plugins.detekt)
 }
 

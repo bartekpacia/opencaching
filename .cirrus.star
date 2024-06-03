@@ -31,12 +31,12 @@ def main():
                 setup_fastlane(),
                 script(
                     "fastlane_ios_distribute",
-                    "cd ios",
+                    "cd iosApp",
                     """\
 if [ "$CIRRUS_TAG" == "v*" ]; then
     op run -- bundle exec fastlane ios prod
 else
-    op run -- bundle exec fastlane ios distribute
+    op run -- bundle exec fastlane ios tst
 fi
 """,
                 ),
