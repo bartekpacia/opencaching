@@ -8,8 +8,10 @@ androidx-espresso-core = "3.5.1"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.1.5"
 compose-plugin = "1.6.10"
+build-config = "5.3.5"
 junit = "4.13.2"
 kotlin = "2.0.0"
+detekt = "1.23.6"
 kotlinxDatetime = "0.5.0"
 kotlinxSerializationJson = "1.6.2"
 kotlinxCoroutinesCore = "1.8.0"
@@ -51,3 +53,5 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "build-config" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

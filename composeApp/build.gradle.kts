@@ -13,7 +13,8 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinParcelize)
     alias(libs.plugins.kotlinSerialization)
-    id("com.github.gmazzo.buildconfig") version "5.3.5"
+    alias(libs.plugins.buildConfig) 
+    alias(libs.plugins.detekt)
 }
 
 val properties = Properties().apply {

@@ -1,0 +1,24 @@
+complexity:
+  LongMethod:
+    active: false
+
+formatting:
+  TrailingCommaOnCallSite:
+    active: true
+
+  TrailingCommaOnDeclarationSite:
+    active: true
+
+naming:
+  FunctionNaming:
+    ignoreAnnotated: ['Composable']
+
+style:
+  MaxLineLength:
+    active: false
+  MagicNumber:
+    active: false
+  UnusedPrivateMember:
+    active: true
+    ignoreAnnotated:
+      - 'Preview'
