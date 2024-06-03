@@ -2,8 +2,6 @@
 
 package tech.pacia.opencaching.features.map
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,17 +10,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.UIKitView
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.ObjCSignatureOverride
 import kotlinx.cinterop.useContents
 import kotlinx.datetime.Clock
 import platform.CoreLocation.CLLocationCoordinate2DMake
-import platform.MapKit.MKCoordinateRegionMakeWithDistance
-import platform.MapKit.MKMapView
-import platform.MapKit.MKMapViewDelegateProtocol
-import platform.MapKit.MKPointAnnotation
+import platform.MapKit.*
 import platform.darwin.NSObject
 import tech.pacia.opencaching.data.BoundingBox
 import tech.pacia.opencaching.data.Geocache
 import tech.pacia.opencaching.data.Location
+import tech.pacia.opencaching.debugLog
 import kotlin.time.Duration.Companion.seconds
 
 
@@ -81,17 +78,11 @@ actual fun Map(
         mkMapView.addAnnotations(annotations)
     }
 
-    Text("IOS MAP!")
-
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        UIKitView(
-            modifier = modifier,
-            factory = { mkMapView },
-            update = { }
-        )
-    }
+    UIKitView(
+        modifier = modifier.fillMaxSize(),
+        factory = { mkMapView },
+        update = { }
+    )
 }
 
 
@@ -106,15 +97,13 @@ class MapViewDelegate(
 
     private var lastInstant = Clock.System.now()
 
-    // FIXME: Figure out what's wrong
-//    override fun mapView(mapView: MKMapView, didSelectAnnotation: MKAnnotationProtocol) {
-//        debugLog("MapViewDelegate", "didSelectAnnotation")
-//
-//        val subtitle = didSelectAnnotation.subtitle
-//        if (subtitle != null) {
-//            onGeocacheTap(subtitle)
-//        }
-//    }
+    @ObjCSignatureOverride
+    override fun mapView(mapView: MKMapView, didSelectAnnotation: MKAnnotationProtocol) {
+        val subtitle = didSelectAnnotation.subtitle
+        if (subtitle != null) {
+            onGeocacheTap(subtitle)
+        }
+    }
 
     override fun mapViewDidChangeVisibleRegion(mapView: MKMapView) {
         val currentInstant = Clock.System.now()

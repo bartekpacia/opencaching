@@ -61,33 +61,30 @@ fun MapScreen(
             )
         },
         content = { padding ->
-            Column(
+            Map(
                 modifier = Modifier.padding(padding),
-            ) {
-                Map(
-                    center = centerOfRudy,
-                    caches = geocaches.entries.map { it.value },
-                    onGeocacheClick = { code -> onNavigateToGeocache(geocaches[code]!!) },
-                    onMapBoundsChange = {
-                        if (it == null) return@Map
+                center = centerOfRudy,
+                caches = geocaches.entries.map { it.value },
+                onGeocacheClick = { code -> onNavigateToGeocache(geocaches[code]!!) },
+                onMapBoundsChange = {
+                    if (it == null) return@Map
 
-                        val currentInstant = Clock.System.now()
-                        val duration = currentInstant - lastInstant
-                        lastInstant = currentInstant
+                    val currentInstant = Clock.System.now()
+                    val duration = currentInstant - lastInstant
+                    lastInstant = currentInstant
 
-                        if (duration < 1.seconds) {
-                            return@Map
-                        }
+                    if (duration < 1.seconds) {
+                        return@Map
+                    }
 
-                        debugLog("MapScreen", "onMapBoundsChange: $it")
+                    debugLog("MapScreen", "onMapBoundsChange: $it")
 
-                        scope.launch {
-                            delay(500)
-                            geocaches.putAll(repository.searchAndRetrieve(it))
-                        }
-                    },
-                )
-            }
+                    scope.launch {
+                        delay(500)
+                        geocaches.putAll(repository.searchAndRetrieve(it))
+                    }
+                },
+            )
         },
         bottomBar = {
             NavigationBar {
