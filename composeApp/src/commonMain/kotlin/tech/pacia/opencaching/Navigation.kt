@@ -46,7 +46,7 @@ fun OpencachingNavHost(
                 code = code,
                 onNavUp = { navController.popBackStack() },
                 onNavigateToDescription = {
-                    navController.navigate("geocache/$code/description?html=XDXD")
+                    navController.navigate("geocache/$code/description?html=Siemka_<strong>siemka</strong>")
                 },
             )
         }
