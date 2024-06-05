@@ -30,6 +30,7 @@ fun OpencachingNavHost(
                 onNavigateToMap = { navController.navigate(Destinations.MAP_ROUTE) },
             )
         }
+
         composable(Destinations.MAP_ROUTE) {
             MapRoute(
                 onNavigateToGeocache = { cache ->
@@ -37,19 +38,20 @@ fun OpencachingNavHost(
                 },
             )
         }
-        composable(Destinations.GEOCACHE_ROUTE) {
-            val code = it.arguments?.getString("code") ?: "empty"
+
+        composable(Destinations.GEOCACHE_ROUTE) { backstackEntry ->
+            val code = backstackEntry.arguments?.getString("code") ?: "empty"
             GeocacheRoute(
                 code = code,
                 onNavUp = { navController.popBackStack() },
                 onNavigateToDescription = {
-                    navController.navigate("geocache/$code/description")
+                    navController.navigate("geocache/$code/description?html=XDXD")
                 },
             )
         }
 
-        composable(Destinations.GEOCACHE_DESCRIPTION_ROUTE) {
-            val html = it.arguments?.getString("html") ?: "empty"
+        composable(Destinations.GEOCACHE_DESCRIPTION_ROUTE) { backstackEntry ->
+            val html = backstackEntry.arguments?.getString("html") ?: "empty"
             GeocacheDescriptionRoute(
                 html = html,
                 onNavUp = { navController.popBackStack() },
