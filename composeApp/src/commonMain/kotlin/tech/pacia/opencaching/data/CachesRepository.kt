@@ -1,6 +1,5 @@
 package tech.pacia.opencaching.data
 
-// import tech.pacia.opencaching.BuildConfig
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -31,8 +30,9 @@ class CachesRepository(private val client: HttpClient = defaultHttpClient) {
 
     private val fullParams =
         "code|name|location|status|type|url|owner|description|difficulty|terrain|size|hint|date_hidden|recommendations"
-
-    // / https://opencaching.pl/okapi/services/caches/shortcuts/search_and_retrieve.html
+    /**
+     * Calls https://opencaching.pl/okapi/services/caches/shortcuts/search_and_retrieve.html
+     */
     suspend fun searchAndRetrieve(bbox: BoundingBox): Map<String, Geocache> {
         val response = client.get("$API_URL/caches/shortcuts/search_and_retrieve") {
             accept(ContentType.Application.Json)
@@ -48,7 +48,7 @@ class CachesRepository(private val client: HttpClient = defaultHttpClient) {
 
         val body = response.body<Map<String, Geocache>>()
 
-        debugLog("CachesRepository", "response: got ${body.values.size} geocaches")
+        // debugLog("CachesRepository", "response: got ${body.values.size} geocaches")
 
         return body
     }
@@ -60,12 +60,14 @@ class CachesRepository(private val client: HttpClient = defaultHttpClient) {
             parameter("bbox", bbox.toPipeFormat())
         }
 
-        debugLog("CachesRepository", "response: $response")
+        // debugLog("CachesRepository", "response: $response")
 
         return response.body()
     }
 
-    // / https://opencaching.pl/okapi/services/caches/geocache.html
+    /**
+     * Calls https://opencaching.pl/okapi/services/caches/geocache.html
+     */
     suspend fun getGeocache(code: String): FullGeocache {
         val response = client.get("$API_URL/caches/geocache") {
             accept(ContentType.Application.Json)
@@ -74,7 +76,7 @@ class CachesRepository(private val client: HttpClient = defaultHttpClient) {
             parameter("fields", fullParams)
         }
 
-        debugLog("CachesRepository", "response: $response")
+        // debugLog("CachesRepository", "response: $response")
 
         return response.body()
     }
