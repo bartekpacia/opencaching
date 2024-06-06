@@ -7,24 +7,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import tech.pacia.opencaching.common.WebView
+import tech.pacia.opencaching.ui.theme.OpencachingTheme
 
 private enum class ViewMode { Web, Text }
 
@@ -87,11 +76,12 @@ fun GeocacheDescriptionScreen(
 }
 
 
-
 @Preview
 @Composable
 private fun GeocacheDescriptionScreenPreview() {
-    GeocacheDescriptionScreen(
-        html = "xdxdxd",
-    )
+    OpencachingTheme(darkThemeActive = true) {
+        GeocacheDescriptionScreen(
+            html = "xdxdxd",
+        )
+    }
 }
