@@ -46,18 +46,17 @@ fun OpencachingNavHost(
                 code = code,
                 onNavUp = { navController.popBackStack() },
                 onNavigateToDescription = {
-                    navController.navigate("geocache/$code/description?html=Siemka_<strong>siemka</strong>")
+                    navController.navigate("geocache/$code/description")
                 },
             )
         }
 
         composable(
-            route = "geocache/{code}/description?html={html}",
-            arguments = listOf(navArgument("html") { defaultValue = "defaultValue" })
+            route = "geocache/{code}/description",
            ) { backstackEntry ->
-            val html = backstackEntry.arguments?.getString("html") ?: "empty"
+            val code = backstackEntry.arguments?.getString("code") ?: "empty"
             GeocacheDescriptionRoute(
-                html = html,
+                code = code,
                 onNavUp = { navController.popBackStack() },
             )
         }

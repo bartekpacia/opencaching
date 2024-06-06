@@ -19,7 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import tech.pacia.opencaching.data.FullGeocache
@@ -142,7 +146,14 @@ fun GeocacheScreen(
                     .background(MaterialTheme.colorScheme.surfaceVariant),
             ) {
                 Text(
-                    text = "Placed by: ${geocache.owner.username}\non ${geocache.dateHidden}",
+                    text = buildAnnotatedString {
+                        append("Placed by: ")
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append(geocache.owner.username)
+                        }
+
+                        append("\non ${geocache.dateHidden}")
+                    },
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .padding(12.dp),

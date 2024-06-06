@@ -22,11 +22,9 @@ fun GeocacheRoute(
     onNavigateToDescription: () -> Unit,
 ) {
     val repository = remember { CachesRepository() }
-
     val geocache = remember { mutableStateOf<FullGeocache?>(null) }
 
     LaunchedEffect(code) {
-        delay(1000)
         geocache.value = repository.getGeocache(code)
     }
 
