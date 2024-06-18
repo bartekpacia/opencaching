@@ -19,8 +19,8 @@ val properties = Properties().apply {
     load(rootProject.file("local.properties").inputStream())
 }
 
-val key = properties["okapi.consumerKey"] as? String ?: throw IllegalStateException("consumerKey is null")
-val secret = properties["okapi.consumerSecret"] as? String ?: throw IllegalStateException("consumerSecret is null")
+val key = properties["okapi.consumerKey"] as? String ?: "NOT_PROVIDED"
+val secret = properties["okapi.consumerSecret"] as? String ?: "NOT_PROVIDED"
 
 buildConfig {
     buildConfigField("String", "CONSUMER_KEY", "\"$key\"")
