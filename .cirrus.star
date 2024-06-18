@@ -18,6 +18,15 @@ load(
 def main():
     return [
         task(
+            name = "prepare",
+            instance = container(
+                image = "ghcr.io/cirruslabs/android-sdk:34",
+            ),
+            instructions = [
+                "./gradlew :composeApp:lint",
+            ],
+        ),
+        task(
             name = "Deploy iOS app",
             env = {"CIRRUS_CLONE_TAGS": "true"} | secrets(),
             instance = macos_instance(
