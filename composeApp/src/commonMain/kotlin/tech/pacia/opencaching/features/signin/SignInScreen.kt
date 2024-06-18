@@ -112,7 +112,7 @@ fun SignInScreen(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }, // This is mandatory
                     onClick = { /* block interactions with other UI */ },
-                )
+                ),
         ) {
             Column(
                 modifier = Modifier.align(Alignment.Center),
@@ -146,7 +146,6 @@ fun SignInScreen(
             },
         )
     }
-
 }
 
 @Preview

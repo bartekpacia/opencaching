@@ -75,7 +75,6 @@ fun GeocacheDescriptionScreen(
     }
 }
 
-
 @Preview
 @Composable
 private fun GeocacheDescriptionScreenPreview() {

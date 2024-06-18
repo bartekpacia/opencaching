@@ -9,7 +9,6 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import opencaching.composeApp.BuildConfig
-import tech.pacia.opencaching.debugLog
 
 private const val API_URL = "https://opencaching.pl/okapi/services"
 private const val CONSUMER_KEY = BuildConfig.CONSUMER_KEY
@@ -30,6 +29,7 @@ class CachesRepository(private val client: HttpClient = defaultHttpClient) {
 
     private val fullParams =
         "code|name|location|status|type|url|owner|description|difficulty|terrain|size|hint|date_hidden|recommendations"
+
     /**
      * Calls https://opencaching.pl/okapi/services/caches/shortcuts/search_and_retrieve.html
      */

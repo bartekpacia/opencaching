@@ -24,23 +24,23 @@ fun SlidingChooser(
     ) {
         val selectedItemIndex = items.indexOf(selectedItem)
         val delta = maxWidth.value / 1
-        
+
         val offset by animateIntOffsetAsState(
             targetValue = IntOffset((selectedItemIndex * delta).toInt(), 0),
-            label = "offset"
+            label = "offset",
         )
-        
+
         Box(
             modifier = Modifier
                 .width(delta.dp)
                 .height(30.dp)
                 .offset { offset }
-                .background(Color.DarkGray)
+                .background(Color.DarkGray),
         )
-        
+
         Row(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
         ) {
             for (item in items) {
                 Text(

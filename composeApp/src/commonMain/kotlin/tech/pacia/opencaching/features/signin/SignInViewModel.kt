@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
-
 class SignInViewModel : ViewModel() {
     private val _inProgress = MutableStateFlow(false)
     val inProgress: StateFlow<Boolean> = _inProgress

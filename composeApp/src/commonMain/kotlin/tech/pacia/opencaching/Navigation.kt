@@ -5,7 +5,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import tech.pacia.opencaching.features.geocache.GeocacheRoute
 import tech.pacia.opencaching.features.geocache.description.GeocacheDescriptionRoute
 import tech.pacia.opencaching.features.map.MapRoute
@@ -53,7 +52,7 @@ fun OpencachingNavHost(
 
         composable(
             route = "geocache/{code}/description",
-           ) { backstackEntry ->
+        ) { backstackEntry ->
             val code = backstackEntry.arguments?.getString("code") ?: "empty"
             GeocacheDescriptionRoute(
                 code = code,
