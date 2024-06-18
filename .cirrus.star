@@ -23,7 +23,10 @@ def main():
                 image = "ghcr.io/cirruslabs/android-sdk:34",
             ),
             instructions = [
-                "./gradlew :composeApp:lint",
+                script(
+                    "lint",
+                    "./gradlew :composeApp:lint",
+                ),
             ],
         ),
         task(
