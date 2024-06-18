@@ -24,6 +24,10 @@ def main():
             ),
             instructions = [
                 script(
+                    "presetup",
+                    "touch local.properties",
+                ),
+                script(
                     "lint",
                     "./gradlew :composeApp:lint",
                 ),
