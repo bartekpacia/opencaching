@@ -25,5 +25,7 @@ app_store_connect_api_key.p8
 google_play_android_developer_sa_key.json
 
 iosApp/iosApp.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+iosApp/ExportOptions.plist
+iosApp/iosApp.xcarchive/
 iosApp/build
 iosApp/fastlane/report.xml

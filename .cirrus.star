@@ -18,6 +18,15 @@ load(
 def main():
     return [
         task(
+            name = "prepare",
+            instance = container(
+                image = "ghcr.io/cirruslabs/android-sdk:34",
+            ),
+            instructions = [
+                "./gradlew :composeApp:lint",
+            ],
+        ),
+        task(
             name = "Deploy iOS app",
             env = {"CIRRUS_CLONE_TAGS": "true"} | secrets(),
             instance = macos_instance(
@@ -31,6 +40,7 @@ def main():
                 setup_fastlane(),
                 script(
                     "fastlane_ios_distribute",
+                    "chmod +x ./gradlew",  # workaround for "permission denied" when running gradlew
                     "cd iosApp",
                     """\
 if [ "$CIRRUS_TAG" == "v*" ]; then

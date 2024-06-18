@@ -1,3 +1,4 @@
+require_relative 'common'
 require 'base64'
 
 ENV['FASTLANE_HIDE_TIMESTAMP'] = 'true'
@@ -53,8 +54,6 @@ platform :ios do
       force_for_new_devices: true
     )
 
-    UI.message("Building iOS app, project_root: #{project_root}, pwd: #{Dir.pwd}")
-
     project_path = File.join(project_root, 'iosApp/iosApp.xcodeproj')
 
     app_bundle_id = ENV.fetch('APP_BUNDLE_ID')
@@ -62,19 +61,18 @@ platform :ios do
     update_code_signing_settings(
       targets: 'iosApp',
       profile_name: provisioning_profile_name,
-      # build_configurations: 'Release',
       build_configurations: 'iosApp',
       code_sign_identity: 'Apple Distribution',
       path: project_path
     )
 
-    # export_options = create_export_options_plist(
-    #   bundle_id: app_bundle_id,
-    #   provisioning_profile: provisioning_profile_name,
-    #   method: 'ad-hoc'
-    # )
-    # export_options_file = File.join(project_root, 'ExportOptions.plist')
-    # File.write(export_options_file, export_options)
+    export_options = create_export_options_plist(
+      bundle_id: app_bundle_id,
+      provisioning_profile: provisioning_profile_name,
+      method: 'app-store-connect'
+    )
+    export_options_file = File.join(project_root, 'iosApp', 'ExportOptions.plist')
+    File.write(export_options_file, export_options)
     
     increment_build_number(
       build_number: build_number,
@@ -86,71 +84,40 @@ platform :ios do
       xcodeproj: project_path
     )
 
-    build_app(
-      project: project_path,
-      scheme: "iosApp",
-      export_method: "app-store",
-      output_directory: File.join(project_root, 'iosApp/build'),
-      output_name: "opencaching.ipa"
+    # build_app(
+    #   project: project_path,
+    #   scheme: 'iosApp',
+    #   export_method: 'app-store',
+    #   output_directory: File.join(project_root, 'iosApp/build'),
+    #   output_name: 'opencaching.ipa'
+    # )
+
+    sh(
+      step_name: 'xcodebuild resolvePackageDependencies',
+      command: 'xcodebuild -resolvePackageDependencies ' \
+               '-scheme iosApp ' \
+               "-project #{project_path}"
     )
 
-    # sh(
-    #   step_name: 'flutter build ipa',
-    #   command: 'flutter build ipa  ' \
-    #            '--no-version-check  ' \
-    #            "--build-number #{build_number}  " \
-    #            "--build-name #{build_name}  " \
-    #            "--export-options-plist #{export_options_file}"
-    # )
+    sh(
+      step_name: 'xcodebuild archive',
+      command: 'xcodebuild archive ' \
+               '-scheme iosApp ' \
+               "-project #{project_path} " \
+               "-destination 'generic/platform=iOS' " \
+               "-archivePath #{project_root}/iosApp/iosApp.xcarchive"
+    )
+
+    sh(
+      step_name: 'xcodebuild -exportArchive',
+      command: 'xcodebuild -exportArchive ' \
+               "-exportOptionsPlist #{export_options_file} " \
+               "-archivePath #{project_root}/iosApp/iosApp.xcarchive " \
+               "-exportPath #{project_root}/iosApp/build"
+    )
 
     upload_to_testflight(
       ipa: File.join(project_root, 'iosApp/build/opencaching.ipa')
-    )
-  end
-
-  desc 'Push a new release build to App Store'
-  lane :prod do
-    project_root = Dir.chdir('../..') { Dir.pwd }
-
-    setup_ci if is_ci
-
-    sync_code_signing(
-      type: 'appstore',
-      readonly: false
-    )
-
-    app_bundle_id = ENV.fetch('APP_BUNDLE_ID')
-    provisioning_profile_name = "match AppStore #{app_bundle_id}"
-    update_code_signing_settings(
-      targets: 'Runner',
-      profile_name: provisioning_profile_name,
-      build_configurations: 'Release',
-      code_sign_identity: 'Apple Distribution'
-    )
-
-    export_options = create_export_options_plist(
-      bundle_id: app_bundle_id,
-      provisioning_profile: provisioning_profile_name,
-      method: 'app-store'
-    )
-    export_options_file = File.join(project_root, 'ExportOptions.plist')
-    File.write(export_options_file, export_options)
-
-    sh(
-      step_name: 'flutter build ipa',
-      command: 'flutter build ipa ' \
-               '--no-version-check ' \
-               "--build-number #{build_number} " \
-               "--build-name #{build_name} " \
-               "--export-options-plist #{export_options_file}"
-    )
-
-    upload_to_app_store(
-      ipa: File.join(project_root, 'build/ios/ipa/Runner.ipa'),
-      force: true,
-      precheck_include_in_app_purchases: false,
-      skip_screenshots: true,
-      skip_metadata: true
     )
   end
 end
