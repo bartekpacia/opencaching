@@ -23,10 +23,8 @@ def main():
                 image = "ghcr.io/cirruslabs/android-sdk:34",
             ),
             instructions = [
-                script(
-                    "presetup",
-                    "touch local.properties",
-                ),
+                setup_1password_cli(),
+                setup_credentials(),
                 script(
                     "lint",
                     "./gradlew :composeApp:lint",
