@@ -26,8 +26,10 @@ def main():
                 setup_1password_cli(),
                 setup_credentials(),
                 script(
-                    "lint",
+                    "run_checks",
                     "./gradlew :composeApp:lint",
+                    "./gradlew :composeApp:detektAndroidDebug",
+                    "./gradlew :composeApp:detektMetadataMain",
                 ),
             ],
         ),

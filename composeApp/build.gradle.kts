@@ -2,7 +2,8 @@ import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.util.*
+import java.util.Properties
+import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -69,6 +70,9 @@ kotlin {
 
             implementation(libs.navigation.compose)
             implementation(libs.lifecycle.viewmodel.compose)
+
+            // detektPlugins(libs.detekt.formatting)
+            // detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.6")
         }
 
         val commonTest by getting
@@ -163,6 +167,7 @@ android {
 
     dependencies {
         debugImplementation(compose.uiTooling)
+        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.6")
     }
 }
 
@@ -176,4 +181,11 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+tasks.withType<Detekt> {
+    config.setFrom(file("../config/detekt/detekt.yml"))
+    buildUponDefaultConfig = true
+    autoCorrect = true
+    jvmTarget = "11"
 }
