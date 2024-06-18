@@ -96,7 +96,7 @@ platform :ios do
       step_name: 'xcodebuild resolvePackageDependencies',
       command: 'xcodebuild -resolvePackageDependencies ' \
                '-scheme iosApp ' \
-               "-project #{project_path} | xcbeautify"
+               "-project #{project_path}"
     )
 
     sh(
@@ -105,7 +105,7 @@ platform :ios do
                '-scheme iosApp ' \
                "-project #{project_path} " \
                "-destination 'generic/platform=iOS' " \
-               "-archivePath #{project_root}/iosApp/iosApp.xcarchive | xcbeautify"
+               "-archivePath #{project_root}/iosApp/iosApp.xcarchive"
     )
 
     sh(

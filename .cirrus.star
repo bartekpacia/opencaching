@@ -30,10 +30,9 @@ def main():
                 setup_credentials(),
                 setup_fastlane(),
                 script(
-                    "./gradlew :composeApp:embedAndSignAppleFrameworkForXcode",
                     "fastlane_ios_distribute",
+                    "chmod +x ./gradlew",  # workaround for "permission denied" when running gradlew
                     "cd iosApp",
-                    # "chmod +x /Users/admin/Library/Developer/Xcode/DerivedData/iosApp-hbzxgesegqzspqcqjnzjaxabpiif/Build/Intermediates.noindex/ArchiveIntermediates/iosApp/IntermediateBuildFilesPath/iosApp.build/Release-iphoneos/iosApp.build/Script-F36B1CEB2AD83DDC00CB74D5.sh",
                     """\
 if [ "$CIRRUS_TAG" == "v*" ]; then
     op run -- bundle exec fastlane ios prod
