@@ -26,7 +26,7 @@ fun SlidingChooser(
     items: List<String>,
 ) {
     BoxWithConstraints(
-        modifier = Modifier.fillMaxWidth().background(Color.Cyan),
+        modifier = modifier.fillMaxWidth().background(Color.Cyan),
     ) {
         val selectedItemIndex = items.indexOf(selectedItem)
         val delta = maxWidth.value / 1

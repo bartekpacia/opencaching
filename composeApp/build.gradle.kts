@@ -188,4 +188,8 @@ tasks.withType<Detekt> {
     buildUponDefaultConfig = true
     autoCorrect = true
     jvmTarget = "11"
+    exclude {
+        // See https://github.com/detekt/detekt/issues/5611#issuecomment-1364313507
+        it.file.relativeTo(projectDir).startsWith("build")
+   }
 }
