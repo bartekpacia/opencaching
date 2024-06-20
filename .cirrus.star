@@ -19,8 +19,9 @@ def main():
     return [
         task(
             name = "prepare",
-            instance = container(
-                image = "ghcr.io/cirruslabs/android-sdk:34",
+            env = secrets(),
+            instance = macos_instance(
+                image = "ghcr.io/cirruslabs/macos-sonoma-xcode@sha256:07bbebb2931113e187a49284f98d3834ffbe8584e9c90ab789d914b0f2df4a40",
             ),
             instructions = [
                 setup_1password_cli(),
