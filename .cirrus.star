@@ -30,6 +30,8 @@ def main():
                     "./gradlew :composeApp:lint",
                     "./gradlew :composeApp:detektAndroidDebug",
                     "./gradlew :composeApp:detektMetadataMain",
+                    "./gradlew :composeApp:detektMetadataIosMain",
+                    "./gradlew :composeApp:detektMetadataCommonMain",
                 ),
             ],
         ),
