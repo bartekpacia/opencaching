@@ -2,7 +2,7 @@ load("github.com/cirrus-modules/helpers", "script")
 
 def secrets():
     return {
-        "OP_SERVICE_ACCOUNT_TOKEN": "ENCRYPTED[6cb47a274401075b0883b77c85a850631b342ec26afc074cc1bf679b6fd18d2ae81e53bde62b2fde49a89374271e82fa]",
+        "OP_SERVICE_ACCOUNT_TOKEN": "ENCRYPTED[1c8ed911ba6af668314a9fc5729c56abaadeac2c9ef67af86840b1fe65e40b0e5fb49b249739d57c1d3841655ba7ab33]",
     }
 
 def setup_credentials():
@@ -28,7 +28,6 @@ elif [ $(uname) = \"Darwin\" ]; then
     %s
 fi
 """ % (_setup_1password_cli_debian, _setup_1password_cli_macos),
-        "echo \"OP_SERVICE_ACCOUNT_KEY: $OP_SERVICE_ACCOUNT_KEY\"",
     )
 
 _setup_1password_cli_debian = """\
