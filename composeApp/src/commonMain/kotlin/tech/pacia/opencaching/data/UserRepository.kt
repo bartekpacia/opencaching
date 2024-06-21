@@ -5,7 +5,6 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-
 private val defaultHttpClient = HttpClient {
     install(ContentNegotiation) {
         json(
@@ -16,9 +15,12 @@ private val defaultHttpClient = HttpClient {
     }
 }
 
-class UserRepository(private val client: HttpClient = defaultHttpClient) {
+class UserRepository(@Suppress("UnusedPrivateProperty") private val client: HttpClient = defaultHttpClient) {
 
-    suspend fun signIn(username: String, password: String) {
-
+    @Suppress("EmptyFunctionBlock")
+    suspend fun signIn(
+        @Suppress("UNUSED_PARAMETER") username: String,
+        @Suppress("UNUSED_PARAMETER")password: String,
+    ) {
     }
 }

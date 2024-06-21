@@ -2,7 +2,13 @@ package tech.pacia.opencaching.features.geocache.description
 
 import androidx.compose.animation.core.animateIntOffsetAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,27 +26,27 @@ fun SlidingChooser(
     items: List<String>,
 ) {
     BoxWithConstraints(
-        modifier = Modifier.fillMaxWidth().background(Color.Cyan),
+        modifier = modifier.fillMaxWidth().background(Color.Cyan),
     ) {
         val selectedItemIndex = items.indexOf(selectedItem)
         val delta = maxWidth.value / 1
-        
+
         val offset by animateIntOffsetAsState(
             targetValue = IntOffset((selectedItemIndex * delta).toInt(), 0),
-            label = "offset"
+            label = "offset",
         )
-        
+
         Box(
             modifier = Modifier
                 .width(delta.dp)
                 .height(30.dp)
                 .offset { offset }
-                .background(Color.DarkGray)
+                .background(Color.DarkGray),
         )
-        
+
         Row(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
         ) {
             for (item in items) {
                 Text(

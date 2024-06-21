@@ -11,13 +11,16 @@ import kotlinx.cinterop.ObjCSignatureOverride
 import kotlinx.cinterop.useContents
 import kotlinx.datetime.Clock
 import platform.CoreLocation.CLLocationCoordinate2DMake
-import platform.MapKit.*
+import platform.MapKit.MKAnnotationProtocol
+import platform.MapKit.MKCoordinateRegionMakeWithDistance
+import platform.MapKit.MKMapView
+import platform.MapKit.MKMapViewDelegateProtocol
+import platform.MapKit.MKPointAnnotation
 import platform.darwin.NSObject
 import tech.pacia.opencaching.data.BoundingBox
 import tech.pacia.opencaching.data.Geocache
 import tech.pacia.opencaching.data.Location
 import kotlin.time.Duration.Companion.seconds
-
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
@@ -32,7 +35,7 @@ actual fun Map(
         MKPointAnnotation(
             coordinate = CLLocationCoordinate2DMake(
                 it.location.latitude,
-                it.location.longitude
+                it.location.longitude,
             ),
             title = it.name,
             subtitle = it.code,
@@ -42,7 +45,6 @@ actual fun Map(
     val mapViewDelegate = remember {
         MapViewDelegate(
             onMapBoundsChange = onMapBoundsChange,
-            // TODO: Move NavStack to CompositionLocal?
             onGeocacheTap = onGeocacheClick,
         )
     }
@@ -55,15 +57,15 @@ actual fun Map(
                 MKCoordinateRegionMakeWithDistance(
                     centerCoordinate = CLLocationCoordinate2DMake(
                         center.latitude,
-                        center.longitude
+                        center.longitude,
                     ),
                     latitudinalMeters = 10_000.0,
-                    longitudinalMeters = 10_000.0
-                )
+                    longitudinalMeters = 10_000.0,
+                ),
             )
 
             addAnnotation(
-                MKPointAnnotation(CLLocationCoordinate2DMake(center.latitude, center.longitude))
+                MKPointAnnotation(CLLocationCoordinate2DMake(center.latitude, center.longitude)),
             )
 
             addAnnotations(annotations)
@@ -77,17 +79,16 @@ actual fun Map(
     UIKitView(
         modifier = modifier.fillMaxSize(),
         factory = { mkMapView },
-        update = { }
+        update = { },
     )
 }
-
 
 /**
  * A delegate that fires a callback when map bounds change. It does so in a debounced manner.
  */
 class MapViewDelegate(
     private val onMapBoundsChange: (BoundingBox?) -> Unit,
-    private val onGeocacheTap: (String) -> Unit
+    private val onGeocacheTap: (String) -> Unit,
 ) : NSObject(),
     MKMapViewDelegateProtocol {
 
@@ -112,7 +113,6 @@ class MapViewDelegate(
     }
 }
 
-
 @OptIn(ExperimentalForeignApi::class)
 fun MKMapView.boundingBox(): BoundingBox {
     // Be careful - don't return objects from useContents or dragons will appear
@@ -124,7 +124,7 @@ fun MKMapView.boundingBox(): BoundingBox {
 
     val northWestCorner = CLLocationCoordinate2DMake(
         latitude = latitude + latitudeDelta / 2,
-        longitude = longitude - longitudeDelta / 2
+        longitude = longitude - longitudeDelta / 2,
     )
 
     val southEastCorner = CLLocationCoordinate2DMake(

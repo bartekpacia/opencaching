@@ -31,7 +31,7 @@ actual fun Map(
     center: Location,
     caches: List<Geocache>,
     onGeocacheClick: (String) -> Unit,
-    onMapBoundsChange: (BoundingBox?) -> Unit
+    onMapBoundsChange: (BoundingBox?) -> Unit,
 ) {
     Log.d("Map", "recomposition!")
 

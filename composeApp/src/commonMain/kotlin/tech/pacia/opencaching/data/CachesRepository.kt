@@ -1,15 +1,16 @@
 package tech.pacia.opencaching.data
 
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.request.*
-import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.accept
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+import io.ktor.http.ContentType
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import opencaching.composeApp.BuildConfig
-import tech.pacia.opencaching.debugLog
 
 private const val API_URL = "https://opencaching.pl/okapi/services"
 private const val CONSUMER_KEY = BuildConfig.CONSUMER_KEY
@@ -30,6 +31,7 @@ class CachesRepository(private val client: HttpClient = defaultHttpClient) {
 
     private val fullParams =
         "code|name|location|status|type|url|owner|description|difficulty|terrain|size|hint|date_hidden|recommendations"
+
     /**
      * Calls https://opencaching.pl/okapi/services/caches/shortcuts/search_and_retrieve.html
      */
