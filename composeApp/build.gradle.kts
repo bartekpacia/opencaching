@@ -98,18 +98,7 @@ kotlin {
             implementation(compose.desktop.currentOs)
         }
 
-        val iosX64Main by getting
-        iosX64Main.dependencies {
-            implementation(libs.ktor.client.darwin)
-        }
-
-        val iosSimulatorArm64Main by getting
-        iosSimulatorArm64Main.dependencies {
-            implementation(libs.ktor.client.darwin)
-        }
-
-        val iosArm64Main by getting
-        iosSimulatorArm64Main.dependencies {
+        iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
     }
