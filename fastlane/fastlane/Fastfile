@@ -84,14 +84,6 @@ platform :ios do
       xcodeproj: project_path
     )
 
-    # build_app(
-    #   project: project_path,
-    #   scheme: 'iosApp',
-    #   export_method: 'app-store',
-    #   output_directory: File.join(project_root, 'iosApp/build'),
-    #   output_name: 'opencaching.ipa'
-    # )
-
     sh(
       step_name: 'xcodebuild resolvePackageDependencies',
       command: 'xcodebuild -resolvePackageDependencies ' \
