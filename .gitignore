@@ -29,3 +29,4 @@ iosApp/ExportOptions.plist
 iosApp/iosApp.xcarchive/
 iosApp/build
 iosApp/fastlane/report.xml
+fastlane/fastlane/report.xml

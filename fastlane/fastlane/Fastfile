@@ -4,45 +4,73 @@ require 'base64'
 ENV['FASTLANE_HIDE_TIMESTAMP'] = 'true'
 skip_docs
 
+ENV['MATCH_GIT_BASIC_AUTHORIZATION'] = Base64.strict_encode64(
+  "#{ENV.fetch('GITHUB_USERNAME')}:#{ENV.fetch('GITHUB_PAT')}"
+)
+
+app_store_connect_api_key(
+  key_id: ENV.fetch('APP_STORE_CONNECT_KEY_ID'),
+  issuer_id: ENV.fetch('APP_STORE_CONNECT_ISSUER_ID'),
+  key_filepath: ENV.fetch('APP_STORE_CONNECT_P8_KEY_PATH'),
+  in_house: false
+)
+
+build_number = get_new_build_number(
+  bundle_identifier: ENV.fetch('APP_BUNDLE_ID'),
+  package_name: ENV.fetch('APP_PACKAGE_NAME'),
+  google_play_json_key_path: ENV.fetch('GOOGLE_PLAY_JSON_KEY_PATH')
+).to_s
+
+build_name = get_new_build_name
+
+platform :android do
+  desc 'Upload a new Android build to Google Play'
+  lane :tst do
+    project_root = Dir.chdir('../..') { Dir.pwd }
+
+    Dir.chdir(project_root) do
+      sh(
+        step_name: 'Build Android app bundle',
+        command: './gradlew :composeApp:bundleRelease'
+      )
+    end
+
+    upload_to_play_store(
+      track: 'internal',
+      aab: File.join(project_root, 'composeApp/build/outputs/bundle/release/composeApp-release.aab'),
+      json_key: ENV.fetch('GOOGLE_PLAY_JSON_KEY_PATH'),
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+      # mapping_paths: [
+      #   File.join(project_root, 'build/app/outputs/mapping/release/mapping.txt'),
+      #   native_symbols_path
+      # ]
+    )
+  end
+end
+
 platform :ios do
-  ENV['MATCH_GIT_BASIC_AUTHORIZATION'] = Base64.strict_encode64(
-    "#{ENV.fetch('GITHUB_USERNAME')}:#{ENV.fetch('GITHUB_PAT')}"
-  )
-
-  app_store_connect_api_key(
-    key_id: ENV.fetch('APP_STORE_CONNECT_KEY_ID'),
-    issuer_id: ENV.fetch('APP_STORE_CONNECT_ISSUER_ID'),
-    key_filepath: ENV.fetch('APP_STORE_CONNECT_P8_KEY_PATH'),
-    in_house: false
-  )
-
-  build_number = get_new_build_number(
-    bundle_identifier: ENV.fetch('APP_BUNDLE_ID'),
-    package_name: ENV.fetch('APP_PACKAGE_NAME'),
-    google_play_json_key_path: ENV.fetch('GOOGLE_PLAY_JSON_KEY_PATH'),
-  ).to_s
-
-  build_name = get_new_build_name
-
   desc 'Nuke all certificates and provisioning profiles'
   lane :nukeall do
     match_nuke(
       type: 'development',
-      skip_confirmation: true,
+      skip_confirmation: true
     )
 
     match_nuke(
       type: 'adhoc',
-      skip_confirmation: true,
+      skip_confirmation: true
     )
 
     match_nuke(
       type: 'appstore',
-      skip_confirmation: true,
+      skip_confirmation: true
     )
   end
 
-  desc 'Upload a new build to Firebase App Distribution'
+  desc 'Upload a new iOS build to TestFlight'
   lane :tst do
     project_root = Dir.chdir('../..') { Dir.pwd }
 
@@ -73,9 +101,9 @@ platform :ios do
     )
     export_options_file = File.join(project_root, 'iosApp', 'ExportOptions.plist')
     File.write(export_options_file, export_options)
-    
+
     increment_build_number(
-      build_number: build_number,
+      build_number:,
       xcodeproj: project_path
     )
 

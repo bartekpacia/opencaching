@@ -1,4 +1,10 @@
+# Android config
+json_key_file("../google_play_android_developer_sa_key.json")
+package_name("tech.pacia.opencaching")
+
+# iOS config
 app_identifier("tech.pacia.opencaching") # The bundle identifier of your app
 apple_id("barpac02@gmail.com") # Your Apple email address
 itc_team_id("122009185") # App Store Connect Team ID
 team_id("VX8P4VC6NH") # Developer Portal Team ID
+ 
