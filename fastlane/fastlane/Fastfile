@@ -39,10 +39,11 @@ platform :android do
       track: 'internal',
       aab: File.join(project_root, 'composeApp/build/outputs/bundle/release/composeApp-release.aab'),
       json_key: ENV.fetch('GOOGLE_PLAY_JSON_KEY_PATH'),
-      skip_upload_metadata: true,
-      skip_upload_changelogs: true,
-      skip_upload_images: true,
-      skip_upload_screenshots: true
+      metadata_path: File.join("project_root", "fastlane/fastlane/android_metadata"),
+      # skip_upload_metadata: true,
+      # skip_upload_changelogs: true,
+      # skip_upload_images: true,
+      # skip_upload_screenshots: true
       # mapping_paths: [
       #   File.join(project_root, 'build/app/outputs/mapping/release/mapping.txt'),
       #   native_symbols_path
