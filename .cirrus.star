@@ -9,6 +9,7 @@ load(
     "github.com/cirrus-modules/helpers",
     "arm_container",
     "cache",
+    "container",
     "macos_instance",
     "script",
     "task",
@@ -19,7 +20,7 @@ def main():
         task(
             name = "prepare",
             env = secrets(),
-            instance = arm_container(image = "ghcr.io/cirruslabs/android-sdk:34"),
+            instance = container(image = "ghcr.io/cirruslabs/android-sdk:34"),
             instructions = [
                 setup_1password_cli(),
                 setup_credentials(),
