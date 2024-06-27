@@ -63,10 +63,12 @@ def main():
             name = "Deploy iOS app",
             env = {"CIRRUS_CLONE_TAGS": "true"} | secrets(),
             instance = macos_instance(
-                image = "ghcr.io/cirruslabs/macos-sonoma-xcode@sha256:07bbebb2931113e187a49284f98d3834ffbe8584e9c90ab789d914b0f2df4a40",
+                image = "ghcr.io/cirruslabs/macos-runner:sonoma",
+                cpu = 4,
+                memory = "6GB",
             ),
-            # only_if = "$CIRRUS_TAG =~ 'v.*' || $CIRRUS_BRANCH == 'master'",
-            only_if = "$CIRRUS_TAG =~ 'v.*'",
+            only_if = "$CIRRUS_TAG =~ 'v.*' || $CIRRUS_BRANCH == 'master'",
+            # only_if = "$CIRRUS_TAG =~ 'v.*'",
             instructions = [
                 cache("cocoapods", "~/.cocoapods"),
                 setup_1password_cli(),

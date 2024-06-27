@@ -1,0 +1,5 @@
+macos_instance:
+  image: ghcr.io/cirruslabs/macos-runner:sonoma
+
+task:
+  script: uname -a
