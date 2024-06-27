@@ -52,5 +52,5 @@ def setup_fastlane():
         "gem install bundler",
         # "cd android && bundle install",
         # "cd ..",
-        "cd iosApp && bundle install",
+        "cd fastlane && bundle install",
     )
