@@ -54,7 +54,7 @@ def main():
                 setup_credentials(),
                 setup_fastlane(),
                 script(
-                    "fastlane_android',
+                    "fastlane_android",
                     "cd fastlane",
                     "op run -- bundle exec fastlane android tst",
                 ),
