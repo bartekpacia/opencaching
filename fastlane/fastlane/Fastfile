@@ -1,7 +1,6 @@
 require_relative 'common'
 require 'base64'
 
-ENV['FASTLANE_HIDE_TIMESTAMP'] = 'true'
 skip_docs
 
 ENV['MATCH_GIT_BASIC_AUTHORIZATION'] = Base64.strict_encode64(
@@ -95,7 +94,7 @@ platform :ios do
       provisioning_profile: provisioning_profile_name,
       method: 'app-store-connect'
     )
-    export_options_file = File.join(project_root, 'iosApp', 'ExportOptions.plist')
+    export_options_file = File.join(project_root, 'fastlane', 'ExportOptions.plist')
     File.write(export_options_file, export_options)
 
     increment_build_number(
