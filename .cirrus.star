@@ -21,6 +21,7 @@ def main():
             name = "prepare",
             env = secrets(),
             instance = container(image = "ghcr.io/cirruslabs/android-sdk:34"),
+            only_if = "$CIRRUS_BRANCH != 'master'",
             instructions = [
                 setup_1password_cli(),
                 setup_credentials(),
@@ -53,7 +54,7 @@ def main():
                 setup_credentials(),
                 setup_fastlane(),
                 script(
-                    "fastlane_android_tst",
+                    "fastlane_android',
                     "cd fastlane",
                     "op run -- bundle exec fastlane android tst",
                 ),
@@ -75,7 +76,7 @@ def main():
                 setup_credentials(),
                 setup_fastlane(),
                 script(
-                    "fastlane_ios_tst",
+                    "fastlane_ios",
                     "chmod +x ./gradlew",  # workaround for "permission denied" when running gradlew
                     "cd fastlane",
                     "op run -- bundle exec fastlane ios tst",
