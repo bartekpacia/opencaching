@@ -2,6 +2,7 @@ import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.io.FileInputStream
 import java.util.Properties
 import io.gitlab.arturbosch.detekt.Detekt
 
@@ -22,6 +23,12 @@ val properties = Properties().apply {
 
 val key = properties["okapi.consumerKey"] as? String ?: "NOT_PROVIDED"
 val secret = properties["okapi.consumerSecret"] as? String ?: "NOT_PROVIDED"
+
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
 
 buildConfig {
     buildConfigField("String", "CONSUMER_KEY", "\"$key\"")
@@ -132,6 +139,15 @@ android {
         )
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = if (keystorePropertiesFile.exists()) file(keystoreProperties["storeFile"] as String) else null
+            storePassword = if (keystorePropertiesFile.exists()) keystoreProperties["storePassword"] as String else null
+            keyAlias = if (keystorePropertiesFile.exists()) keystoreProperties["keyAlias"] as String else null
+            keyPassword = if (keystorePropertiesFile.exists()) keystoreProperties["keyPassword"] as String else null
+        }
+    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -139,8 +155,21 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        named("debug") {
+            signingConfig = signingConfigs.getByName("debug")
+            isShrinkResources = false
             isMinifyEnabled = false
+        }
+
+        named("release") {
+            signingConfig = signingConfigs.getByName("release")
+            isShrinkResources = true
+            isMinifyEnabled = true
+
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 

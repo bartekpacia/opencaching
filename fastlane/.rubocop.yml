@@ -1,0 +1,8 @@
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.3
+
+Style/FrozenStringLiteralComment: # disabled because clutters files
+  Enabled: false
+Metrics/BlockLength: # disabled because not useful at all
+  Enabled: false
