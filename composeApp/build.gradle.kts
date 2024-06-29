@@ -123,8 +123,8 @@ android {
         applicationId = "tech.pacia.opencaching"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = (findProperty("versionCode") as? String)?.toIntOrNull() ?: 1
+        versionName = findProperty("versionName") as? String ?: "1.0.0"
 
         buildConfigField(
             type = "String",

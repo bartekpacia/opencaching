@@ -27,12 +27,14 @@ platform :android do
   lane :tst do
     project_root = Dir.chdir('../..') { Dir.pwd }
 
-    Dir.chdir(project_root) do
-      sh(
-        step_name: 'Build Android app bundle',
-        command: './gradlew :composeApp:bundleRelease'
-      )
-    end
+    gradle(
+      task: ':composeApp:bundleRelease',
+      project_dir: project_root,
+      properties: {
+        'versionCode' => build_number,
+        'versionName' => build_name
+      }
+    )
 
     upload_to_play_store(
       track: 'internal',
