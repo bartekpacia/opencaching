@@ -56,7 +56,7 @@ def main():
                 script(
                     "fastlane_android",
                     "cd fastlane",
-                    "op run -- bundle exec fastlane android tst",
+                    "bundle exec fastlane android tst",
                 ),
             ],
         ),

@@ -5,20 +5,22 @@ skip_docs
 
 project_root = Dir.chdir('../..') { Dir.pwd }
 
-app_store_connect_api_key(
-  key_id: ENV.fetch('APP_STORE_CONNECT_KEY_ID'),
-  issuer_id: ENV.fetch('APP_STORE_CONNECT_ISSUER_ID'),
-  key_filepath: ENV.fetch('APP_STORE_CONNECT_P8_KEY_PATH'),
-  in_house: false
-)
+# app_store_connect_api_key(
+#   key_id: ENV.fetch('APP_STORE_CONNECT_KEY_ID'),
+#   issuer_id: ENV.fetch('APP_STORE_CONNECT_ISSUER_ID'),
+#   key_filepath: ENV.fetch('APP_STORE_CONNECT_P8_KEY_PATH'),
+#   in_house: false
+# )
 
-build_number = get_new_build_number(
-  bundle_identifier: ENV.fetch('APP_BUNDLE_ID'),
-  package_name: ENV.fetch('APP_PACKAGE_NAME'),
-  google_play_json_key_path: ENV.fetch('GOOGLE_PLAY_JSON_KEY_PATH')
-).to_s
+# build_number = get_new_build_number(
+#   bundle_identifier: ENV.fetch('APP_BUNDLE_ID'),
+#   package_name: ENV.fetch('APP_PACKAGE_NAME'),
+#   google_play_json_key_path: ENV.fetch('GOOGLE_PLAY_JSON_KEY_PATH')
+# ).to_s
 
-build_name = get_new_build_name
+build_number = '1'
+
+build_name = '1.0.0'
 
 platform :android do
   desc 'Upload a new Android build to Google Play'
