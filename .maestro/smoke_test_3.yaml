@@ -1,5 +1,5 @@
 appId: tech.pacia.opencaching
-name: Smoke test
+name: Smoke test (3)
 ---
 - launchApp
 - tapOn: Username

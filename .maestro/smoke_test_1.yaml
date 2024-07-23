@@ -1,0 +1,17 @@
+appId: tech.pacia.opencaching
+name: Smoke test (1)
+---
+- launchApp
+- tapOn: Username
+- inputText: bartek
+- tapOn: Password
+- inputText: 123
+- tapOn: Sign in
+- doubleTapOn:
+    label: Zoom in
+    point: 30%, 30%
+- tapOn:
+    label: Tap on a map pin
+    text: "Pamiętliwe drzewo, OP8BHN"
+
+
