@@ -7,7 +7,6 @@ load(
 )
 load(
     "github.com/cirrus-modules/helpers",
-    "arm_container",
     "cache",
     "container",
     "macos_instance",
@@ -46,7 +45,7 @@ def main():
         task(
             name = "Deploy Android app",
             env = {"CIRRUS_CLONE_TAGS": "true"} | secrets(),
-            instance = arm_container(image = "ghcr.io/cirruslabs/android-sdk:34"),
+            instance = container(image = "ghcr.io/cirruslabs/android-sdk:34"),
             only_if = "$CIRRUS_TAG =~ 'v.*' || $CIRRUS_BRANCH == 'master'",
             # only_if = "$CIRRUS_TAG =~ 'v.*'",
             instructions = [
