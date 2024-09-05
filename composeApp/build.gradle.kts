@@ -202,7 +202,6 @@ compose.desktop {
 }
 
 tasks.withType<Detekt> {
-    config.setFrom(file("../config/detekt/detekt.yml"))
     buildUponDefaultConfig = true
     autoCorrect = true
     jvmTarget = "11"
