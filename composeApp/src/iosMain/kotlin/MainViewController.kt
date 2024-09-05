@@ -9,6 +9,6 @@ import tech.pacia.opencaching.App
 fun MainViewController(): UIViewController {
     return ComposeUIViewController(
         configure = { accessibilitySyncOptions = AccessibilitySyncOptions.Always(null) },
-        content = { App() }
+        content = { App() },
     )
 }
