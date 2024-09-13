@@ -80,6 +80,8 @@ kotlin {
 
             // detektPlugins(libs.detekt.formatting)
             // detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.6")
+
+            implementation(project(":okapi-client"))
         }
 
         val commonTest by getting

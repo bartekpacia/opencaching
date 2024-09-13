@@ -50,6 +50,7 @@ import tech.pacia.opencaching.data.Geocache
 import tech.pacia.opencaching.data.Location
 import tech.pacia.opencaching.data.User
 import tech.pacia.opencaching.ui.theme.OpencachingTheme
+import tech.pacia.okapi.client
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,6 +60,8 @@ fun GeocacheScreen(
     onNavUp: () -> Unit = {},
     onNavigateToDescription: () -> Unit = {},
 ) {
+    val a: Library? = null
+
     Scaffold(
         modifier = modifier,
         topBar = {
