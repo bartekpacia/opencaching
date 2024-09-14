@@ -46,6 +46,7 @@ maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = 
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+clikt = { module = "com.github.ajalt.clikt:clikt", version = "4.2.2" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

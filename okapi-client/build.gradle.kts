@@ -12,18 +12,32 @@ description = "Client for OKAPI"
 kotlin {
     explicitApi()
 
-    jvm()
-    androidTarget {
-        publishLibraryVariants("release")
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    jvm {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_1_8)
+            jvmTarget = JvmTarget.JVM_11
+            // TODO: set -Xjdk-release
         }
     }
+
     iosX64()
     iosArm64()
     iosSimulatorArm64()
+
+    macosX64()
+    macosArm64()
+
     linuxX64()
+    // linuxArm64() // not supported by clikt
+
+    // mingwX64() // not supported by ktor-client-cio
+
+    androidTarget {
+        // publishLibraryVariants("release")
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_11
+        }
+    }
 
     sourceSets {
         commonMain {
