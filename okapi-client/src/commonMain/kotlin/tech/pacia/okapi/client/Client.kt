@@ -37,9 +37,6 @@ public class OpencachingClient public constructor(
     private val consumerKey: String,
     public val apiUrl: String = OKAPI_URL_PL,
 ) {
-    private val fullParams =
-        "code|name|location|status|type|url|owner|description|difficulty|terrain|size|hint|date_hidden|recommendations"
-
     /**
      * Calls [caches/shortcuts/search_and_retrieve](https://opencaching.pl/okapi/services/caches/shortcuts/search_and_retrieve.html) endpoint.
      */
@@ -50,7 +47,7 @@ public class OpencachingClient public constructor(
             parameter("search_method", "services/caches/search/bbox")
             parameter("search_params", Json.encodeToString(mapOf("bbox" to bbox.toPipeFormat())))
             parameter("retr_method", "services/caches/geocaches")
-            parameter("retr_params", Json.encodeToString(mapOf("fields" to fullParams)))
+            parameter("retr_params", Json.encodeToString(mapOf("fields" to Geocache.allParams)))
             parameter("wrap", false)
         }
 
@@ -78,7 +75,7 @@ public class OpencachingClient public constructor(
             accept(Application.Json)
             parameter("consumer_key", consumerKey)
             parameter("cache_code", code)
-            parameter("fields", fullParams)
+            parameter("fields", Geocache.allParams)
         }
 
         println(response.bodyAsText())

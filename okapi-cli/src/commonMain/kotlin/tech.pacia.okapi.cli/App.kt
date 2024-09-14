@@ -14,7 +14,7 @@ class App : CliktCommand() {
     override fun run() {}
 }
 
-class Logs : CliktCommand(name = "logs") {
+class Logs : CliktCommand(name = "logs", help = "Perform operations on logs") {
     private val geocacheCode: String by option("--code").required().help("Cache ID")
     private val consumerKey: String by option(envvar = "OKAPI_CONSUMER_KEY").required().help("OKAPI customer key")
 
@@ -33,19 +33,17 @@ class Logs : CliktCommand(name = "logs") {
     }
 }
 
-class Geocache : CliktCommand(name = "geocache") {
+class Geocache : CliktCommand(name = "geocache", help = "Perform operations on geocaches") {
+    override fun run() {}
+}
+
+class GeocacheGet : CliktCommand(name = "get") {
     private val geocacheCode: String by option("--code").required().help("Cache ID")
     private val consumerKey: String by option(envvar = "OKAPI_CONSUMER_KEY").required().help("OKAPI customer key")
 
     override fun run() = runBlocking {
         val client = OpencachingClient(consumerKey = consumerKey)
         echo(client.getGeocache(geocacheCode))
-    }
-}
-
-class GeocacheGet : CliktCommand(name = "get") {
-    override fun run() {
-        echo("executing geocache get")
     }
 }
 

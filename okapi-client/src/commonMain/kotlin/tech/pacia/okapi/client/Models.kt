@@ -44,14 +44,14 @@ public data class Geocache(
     @SerialName("location") val location: Location,
     @SerialName("type") val type: Type,
     @SerialName("status") val status: Status,
-    @SerialName("needs_maintenance") val needsMaintenance: Boolean,
+    @SerialName("needs_maintenance") val needsMaintenance: Boolean?, // docs don't mention this, but it's actually nullable
     @SerialName("url") val url: String,
     @SerialName("owner") val owner: User,
-    @SerialName("gc_code") val gcCode: String,
-    // @SerialName("distance") val distance: Float,
-    // @SerialName("bearing") val bearing: Float,
-    // @SerialName("bearing2") val bearing2: Float,
-    // @SerialName("bearing3") val bearing3: Float,
+    @SerialName("gc_code") val gcCode: String?,
+    // @SerialName("distance") val distance: Float?, // Requires my_location parameter to be provided
+    // @SerialName("bearing") val bearing: Float?, // Requires my_location parameter to be provided
+    // @SerialName("bearing2") val bearing2: Float?, // Requires my_location parameter to be provided
+    // @SerialName("bearing3") val bearing3: Float?, // Requires my_location parameter to be provided
     // @SerialName("is_found") val isFound: Boolean, // Requires user_uuid param, or Auth level 3
     // @SerialName("is_not_found") val isNotFound: Boolean, // Requires user_uuid param, or Auth level 3
     // @SerialName("is_watched") val isWatched: Boolean, // Requires Auth level 3
@@ -69,7 +69,7 @@ public data class Geocache(
     @SerialName("rating") val rating: Float?,
     @SerialName("recommendations") val recommendations: Int,
     // @SerialName("is_recommended") val isRecommended: Boolean, // Requires Auth level 3
-    @SerialName("sort_description") val shortDescription: String,
+    @SerialName("short_description") val shortDescription: String,
     @SerialName("description") val description: String,
     @SerialName("descriptions") val descriptions: Map<String, String>,
     @SerialName("hint2") val hint2: String,
@@ -92,6 +92,17 @@ public data class Geocache(
     @SerialName("date_created") val dateCreated: Instant,
     @SerialName("date_hidden") val dateHidden: Instant,
 ) {
+    public companion object {
+        public val allParams: String = listOf(
+            "code|name|location|type|status|needs_maintenance|url|owner|gc_code", // Basics (part 1)
+            // "distance|bearing|bearing2|bearing3", // Requires my_location parameter to be provided
+            "founds|notfounds|willattends|watchers|size2|oxsize|difficulty|terrain|trip_time|trip_distance", // Basic (part 2)
+            "rating|recommendations|short_description|description|descriptions|hint2|hints2", // Basic (part 3)
+            "attr_acodes|attrnames|trackables_count|trackables", // Basic (part 4)
+            "last_found|last_modified|date_created|date_hidden", // Basic (part 5)
+        ).joinToString("|")
+    }
+
     @Serializable(with = GeocacheTypeSerializer::class)
     public enum class Type {
         Traditional,
