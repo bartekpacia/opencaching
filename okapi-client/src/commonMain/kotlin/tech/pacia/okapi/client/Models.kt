@@ -18,27 +18,86 @@ public data class Geocache(
     val status: Status,
     val type: Type,
 ) {
-    public enum class Type { Traditional, Multi, Moving, Quiz, Own, Webcam, Other }
+    @Serializable(with = GeocacheTypeSerializer::class)
+    public enum class Type {
+        Traditional,
+        Multi,
+        Quiz,
+        Moving,
+        Virtual,
+        Webcam,
+        Other,
+        Event,
 
-    public enum class Status { Available, TEMPORARILY_UNAVAILABLE, Archived }
+        // More types are in use at some installations
+        Own,
+        Podcast,
+    }
+
+    @Serializable
+    public enum class Status {
+        @SerialName("Available")
+        Available,
+
+        @SerialName("Temporarily unavailable")
+        TemporarilyUnavailable,
+
+        @SerialName("Archived")
+        Archived,
+    }
 }
 
+// Custom serializer is needed because documentation says the we MUST be prepare for new enums to be added to API.
+private object GeocacheTypeSerializer : KSerializer<Geocache.Type> {
+    override val descriptor = PrimitiveSerialDescriptor("type", PrimitiveKind.STRING)
+
+    override fun serialize(encoder: Encoder, value: Geocache.Type) {
+        encoder.encodeString(value.name)
+    }
+
+    override fun deserialize(decoder: Decoder): Geocache.Type {
+        val name = decoder.decodeString()
+        return when (name) {
+            "Traditional" -> Geocache.Type.Traditional
+            "Multi" -> Geocache.Type.Multi
+            "Moving" -> Geocache.Type.Moving
+            "Quiz" -> Geocache.Type.Quiz
+            "Own" -> Geocache.Type.Own
+            "Webcam" -> Geocache.Type.Webcam
+            "Other" -> Geocache.Type.Other
+            else -> Geocache.Type.Other
+        }
+    }
+}
+
+/**
+ * Structure is documented in [the docs](https://opencaching.pl/okapi/services/caches/geocache.html)
+ */
 @Serializable
 public data class FullGeocache(
-    val code: String,
-    val name: String,
-    val location: Location,
-    val status: Geocache.Status,
-    val type: Geocache.Type,
-    val url: String,
-    val owner: User,
-    val description: String,
-    val difficulty: Float,
-    val terrain: Float,
-    val size: Int,
-    val hint: String,
+    @SerialName("code") val code: String,
+    @SerialName("name") val name: String,
+    @SerialName("location") val location: Location,
+    @SerialName("type") val type: Geocache.Type,
+    @SerialName("status") val status: Geocache.Status,
+    @SerialName("needs_maintenance") val needsMaintenance: Boolean,
+    @SerialName("url") val url: String,
+    @SerialName("owner") val owner: User,
+    @SerialName("gc_code") val gcCode: String,
+    // @SerialName("distance") val distance: Float,
+    // @SerialName("bearing") val bearing: Float,
+    // @SerialName("bearing2") val bearing2: Float,
+    // @SerialName("bearing3") val bearing3: Float,
+    // @SerialName("is_found") val isFound: Boolean, // Requires user_uuid param, or Auth level 3
+    // @SerialName("is_not_found") val isNotFound: Boolean, // Requires user_uuid param, or Auth level 3
+
+    @SerialName("description") val description: String,
+    @SerialName("difficulty") val difficulty: Float,
+    @SerialName("terrain") val terrain: Float,
+    @SerialName("size") val size: Int,
+    @SerialName("hint") val hint: String,
     @SerialName("date_hidden") val dateHidden: String,
-    val recommendations: Int,
+    @SerialName("recommendations") val recommendations: Int,
 )
 
 @Serializable(with = LocationAsStringSerializer::class)
@@ -136,6 +195,7 @@ public data class Log(
     )
 }
 
+// Custom serializer is needed because documentation says the we MUST be prepare for new enums to be added to API.
 private object LogTypeSerializer : KSerializer<Log.Type> {
     override val descriptor = PrimitiveSerialDescriptor("type", PrimitiveKind.STRING)
 

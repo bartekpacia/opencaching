@@ -108,7 +108,7 @@ public fun main(): Unit = runBlocking {
     val consumerKey = "***"
     val geocacheCode = "OP9655"
     val client = OpencachingClient(
-        httpClient = HttpClient() {
+        httpClient = HttpClient {
             install(ContentNegotiation) {
                 json(
                     Json {
