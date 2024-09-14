@@ -78,8 +78,6 @@ public class OpencachingClient public constructor(
             parameter("fields", Geocache.allParams)
         }
 
-        println(response.bodyAsText())
-
         if (!response.status.isSuccess()) {
             when (response.status.value) {
                 in 400..499 -> {

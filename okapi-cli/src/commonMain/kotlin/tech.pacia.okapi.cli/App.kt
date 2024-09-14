@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.parameters.options.help
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
+import io.ktor.http.ContentType.Application.Json
 import kotlinx.coroutines.runBlocking
 import tech.pacia.okapi.client.OpencachingClient
 
@@ -28,7 +29,8 @@ class Logs : CliktCommand(name = "logs", help = "Perform operations on logs") {
             .getGeocacheLogs(geocacheCode, offset = offset, limit = limit)
             .reversed()
             .forEach {
-                echo("${it.user.username} • ${it.dateCreated} • ${it.type}\n${it.comment}\n\n")
+                echo(Json.encodeToString() it)
+                // echo("${it.user.username} • ${it.dateCreated} • ${it.type}\n${it.comment}\n\n")
             }
     }
 }
@@ -55,7 +57,8 @@ class GeocacheList : CliktCommand(name = "list") {
 
 fun execute(args: Array<String>) {
     App().subcommands(
-        Logs(), Geocache().subcommands(
+        Logs(),
+        Geocache().subcommands(
             GeocacheGet(),
             GeocacheList(),
         )

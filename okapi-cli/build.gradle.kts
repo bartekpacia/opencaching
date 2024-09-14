@@ -27,6 +27,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.clikt)
+                implementation(libs.kotlinx.serialization.json)
                 implementation(project(":okapi-client"))
             }
         }
