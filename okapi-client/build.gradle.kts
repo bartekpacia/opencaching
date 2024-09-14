@@ -14,7 +14,7 @@ kotlin {
 
     jvm {
         compilerOptions {
-            jvmTarget = JvmTarget.JVM_11
+            jvmTarget = JvmTarget.JVM_1_8
             // TODO: set -Xjdk-release
         }
     }
@@ -35,7 +35,7 @@ kotlin {
         // publishLibraryVariants("release")
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget = JvmTarget.JVM_11
+            jvmTarget = JvmTarget.JVM_1_8
         }
     }
 
