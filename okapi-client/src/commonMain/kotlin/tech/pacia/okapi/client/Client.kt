@@ -8,6 +8,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType.Application
+import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.encodeToString
@@ -43,13 +44,7 @@ public class OpencachingClient public constructor(
             parameter("wrap", false)
         }
 
-        // debugLog("CachesRepository", "response: ${response.bodyAsText()}")
-
-        val body = response.body<Map<String, Geocache>>()
-
-        // debugLog("CachesRepository", "response: got ${body.values.size} geocaches")
-
-        return body
+        return response.body<Map<String, Geocache>>()
     }
 
     /**
@@ -62,15 +57,13 @@ public class OpencachingClient public constructor(
             parameter("bbox", bbox.toPipeFormat())
         }
 
-        // debugLog("CachesRepository", "response: $response")
-
-        return response.body()
+        return response.body<List<Geocache>>()
     }
 
     /**
      * Calls [caches/geocache](https://opencaching.pl/okapi/services/caches/geocache.html) endpoint.
      */
-    public suspend fun getGeocache(code: String): FullGeocache {
+    public suspend fun getGeocache(code: String): Geocache {
         val response = httpClient.get("$apiUrl/caches/geocache") {
             accept(Application.Json)
             parameter("consumer_key", consumerKey)
@@ -78,9 +71,20 @@ public class OpencachingClient public constructor(
             parameter("fields", fullParams)
         }
 
-        // debugLog("CachesRepository", "response: $response")
+        println(response.bodyAsText())
 
-        return response.body()
+       if (!response.status.isSuccess()) {
+            when (response.status.value) {
+                in 400..499 -> {
+                    val error = response.body<Error>()
+                    throw OKAPIClientException(error)
+                }
+                else -> throw IllegalArgumentException("Unexpected response: ${response.status}")
+            }
+        }
+
+
+        return response.body<Geocache>()
     }
 
     /**
@@ -98,11 +102,26 @@ public class OpencachingClient public constructor(
             parameter("user_fields", "uuid|username|profile_url")
         }
 
-        println(response.bodyAsText())
+        if (!response.status.isSuccess()) {
+            when (response.status.value) {
+                in 400..499 -> {
+                    val error = response.body<Error>()
+                    throw OKAPIClientException(error)
+                }
+                else -> throw IllegalArgumentException("Unexpected response: ${response.status}")
+            }
+        }
 
-        return response.body()
+        return response.body<List<Log>>()
     }
 }
+
+/**
+ * Thrown when the OKAPI server returns a 4xx status code.
+ */
+public class OKAPIClientException(
+    public val error: Error,
+) : IllegalArgumentException(error.error.developerMessage)
 
 public fun main(): Unit = runBlocking {
     val consumerKey = "***"
@@ -121,11 +140,11 @@ public fun main(): Unit = runBlocking {
     )
     println("Hello!")
 
-//    client.getGeocache(geocacheCode).let {
-//        println(it)
-//    }
+    client.getGeocache(geocacheCode).let {
+        println(it)
+    }
 
-     client.getGeocacheLogs(geocacheCode).reversed().forEach {
-         println("${it.user.username} • ${it.dateCreated} • ${it.type}\n${it.comment}\n\n")
-     }
+    client.getGeocacheLogs(geocacheCode).reversed().forEach {
+        println("${it.user.username} • ${it.dateCreated} • ${it.type}\n${it.comment}\n\n")
+    }
 }
