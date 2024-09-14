@@ -22,8 +22,18 @@ public class Library {
 
 public const val OKAPI_URL_PL: String = "https://opencaching.pl/okapi/services"
 
+private val defaultHttpClient = HttpClient {
+    install(ContentNegotiation) {
+        json(
+            Json {
+                ignoreUnknownKeys = true
+            },
+        )
+    }
+}
+
 public class OpencachingClient public constructor(
-    private val httpClient: HttpClient,
+    private val httpClient: HttpClient = defaultHttpClient,
     private val consumerKey: String,
     public val apiUrl: String = OKAPI_URL_PL,
 ) {
@@ -73,12 +83,13 @@ public class OpencachingClient public constructor(
 
         println(response.bodyAsText())
 
-       if (!response.status.isSuccess()) {
+        if (!response.status.isSuccess()) {
             when (response.status.value) {
                 in 400..499 -> {
                     val error = response.body<Error>()
                     throw OKAPIClientException(error)
                 }
+
                 else -> throw IllegalArgumentException("Unexpected response: ${response.status}")
             }
         }
@@ -108,6 +119,7 @@ public class OpencachingClient public constructor(
                     val error = response.body<Error>()
                     throw OKAPIClientException(error)
                 }
+
                 else -> throw IllegalArgumentException("Unexpected response: ${response.status}")
             }
         }
