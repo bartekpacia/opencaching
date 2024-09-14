@@ -101,7 +101,7 @@ public class OpencachingClient public constructor(
     /**
      * Calls [logs/logs](https://opencaching.pl/okapi/services/logs/logs.html) endpoint.
      */
-    public suspend fun getGeocacheLogs(code: String): List<Log> {
+    public suspend fun getGeocacheLogs(code: String, limit: Int = 10, offset: Int = 10): List<Log> {
         val response = httpClient.get("$apiUrl/logs/logs") {
             accept(Application.Json)
             parameter("consumer_key", consumerKey)
@@ -111,6 +111,8 @@ public class OpencachingClient public constructor(
                 "uuid|cache_code|date|user|type|oc_team_entry|was_recommended|needs_maintenance2|comment|images|date_created|last_modified",
             )
             parameter("user_fields", "uuid|username|profile_url")
+            parameter("offset", offset)
+            parameter("limit", limit)
         }
 
         if (!response.status.isSuccess()) {

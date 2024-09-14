@@ -11,33 +11,35 @@ import kotlinx.coroutines.runBlocking
 import tech.pacia.okapi.client.OpencachingClient
 
 class App : CliktCommand() {
-    val count: Int by option().int().default(1).help("Number of greetings")
-
-    override fun run() {
-        echo("executing app")
-    }
+    override fun run() {}
 }
 
 class Logs : CliktCommand(name = "logs") {
-    val geocacheCode: String by option("--code").required().help("Cache ID")
-    val consumerKey: String by option(envvar = "OKAPI_CONSUMER_KEY").required().help("OKAPI customer key")
+    private val geocacheCode: String by option("--code").required().help("Cache ID")
+    private val consumerKey: String by option(envvar = "OKAPI_CONSUMER_KEY").required().help("OKAPI customer key")
+
+    private val offset: Int by option("--offset").int().default(0).help("Offset")
+    private val limit: Int by option("--limit").int().default(10).help("Number of logs to fetch")
 
     override fun run() = runBlocking {
-        println("Hello!")
         val client = OpencachingClient(consumerKey = consumerKey)
 
-        println(client.getGeocache(geocacheCode))
-
-        client.getGeocacheLogs(geocacheCode).reversed().forEach {
-            println("${it.user.username} • ${it.dateCreated} • ${it.type}\n${it.comment}\n\n")
-        }
-
+        client
+            .getGeocacheLogs(geocacheCode, offset = offset, limit = limit)
+            .reversed()
+            .forEach {
+                echo("${it.user.username} • ${it.dateCreated} • ${it.type}\n${it.comment}\n\n")
+            }
     }
 }
 
 class Geocache : CliktCommand(name = "geocache") {
-    override fun run() {
-        echo("executing geocache")
+    private val geocacheCode: String by option("--code").required().help("Cache ID")
+    private val consumerKey: String by option(envvar = "OKAPI_CONSUMER_KEY").required().help("OKAPI customer key")
+
+    override fun run() = runBlocking {
+        val client = OpencachingClient(consumerKey = consumerKey)
+        echo(client.getGeocache(geocacheCode))
     }
 }
 
@@ -55,8 +57,7 @@ class GeocacheList : CliktCommand(name = "list") {
 
 fun execute(args: Array<String>) {
     App().subcommands(
-        Logs(),
-        Geocache().subcommands(
+        Logs(), Geocache().subcommands(
             GeocacheGet(),
             GeocacheList(),
         )

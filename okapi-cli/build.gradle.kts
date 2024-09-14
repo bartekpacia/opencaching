@@ -31,6 +31,12 @@ kotlin {
             }
         }
 
+        macosMain {
+            dependencies {
+                implementation(libs.ktor.client.darwin)
+            }
+        }
+
         // TODO: Make JVM build work
 //        jvmMain {
 //            dependencies {
