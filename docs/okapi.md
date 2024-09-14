@@ -1,5 +1,7 @@
 # OKAPI
 
+To get curl commands, check out [curl2httpie](https://curl2httpie.online).
+
 ### Get cache IDs in a bounding box
 
 ```console
@@ -48,4 +50,12 @@ http GET opencaching.pl/okapi/services/caches/shortcuts/search_and_retrieve \
     retr_method=="services/caches/geocaches" \
     retr_params=='{"fields": "code|name|location|status|type|url|owner"}' \
     wrap==false
+```
+
+### Get cache's logs
+
+```console
+http GET opencaching.pl/okapi/services/logs/logs \
+    consumer_key==$OKAPI_CONSUMER_KEY \
+    cache_code==OP9655
 ```
