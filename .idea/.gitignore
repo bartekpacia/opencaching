@@ -26,3 +26,4 @@ deploymentTargetSelector.xml
 gradle.xml
 kotlinc.xml
 vcs.xml
+modules.xml
