@@ -227,8 +227,8 @@ public data class Log(
     // @SerialName("needs_maintenance2") val needsMaintenance: Boolean?,
     @SerialName("comment") val comment: String,
     @SerialName("images") val images: List<Image>,
-    @SerialName("date_created") val dateCreated: String,
-    @SerialName("last_modified") val lastModified: String,
+    @SerialName("date_created") val dateCreated: Instant,
+    @SerialName("last_modified") val lastModified: Instant,
 ) {
     @Serializable(with = LogTypeSerializer::class)
     public enum class Type(internal val id: String) {

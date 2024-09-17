@@ -4,6 +4,7 @@ import opencaching.composeApp.BuildConfig
 import tech.pacia.okapi.client.OpencachingClient
 import tech.pacia.okapi.client.models.BoundingBox
 import tech.pacia.okapi.client.models.Geocache
+import tech.pacia.okapi.client.models.Log
 
 private const val API_URL = "https://opencaching.pl/okapi/services"
 private const val CONSUMER_KEY = BuildConfig.CONSUMER_KEY
@@ -24,4 +25,9 @@ class CachesRepository(private val client: OpencachingClient = defaultOpencachin
     suspend fun searchInBoundingBox(bbox: BoundingBox): List<Geocache> = client.searchInBoundingBox(bbox)
 
     suspend fun getGeocache(code: String): Geocache = client.getGeocache(code)
+
+    suspend fun getLogs(code: String, limit: Int = 10, offset: Int = 0): List<Log> {
+        return client.getGeocacheLogs(code, limit = limit, offset = offset)
+    }
 }
+
