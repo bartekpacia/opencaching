@@ -1,4 +1,4 @@
-package tech.pacia.okapi.client
+package tech.pacia.okapi.client.models
 
 import kotlinx.datetime.Instant
 import kotlinx.serialization.KSerializer
@@ -154,7 +154,9 @@ public data class Geocache(
         ExtraLarg(6),
 
         @SerialName("other")
-        Other(0),
+        Other(0);
+
+        public fun toFloat(): Float = value.toFloat()
     }
 
     @Serializable

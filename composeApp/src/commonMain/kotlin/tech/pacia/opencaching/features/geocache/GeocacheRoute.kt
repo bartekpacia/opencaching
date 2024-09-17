@@ -11,8 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import tech.pacia.okapi.client.models.Geocache
 import tech.pacia.opencaching.data.CachesRepository
-import tech.pacia.opencaching.data.FullGeocache
 
 @Composable
 fun GeocacheRoute(
@@ -21,7 +21,7 @@ fun GeocacheRoute(
     onNavigateToDescription: () -> Unit,
 ) {
     val repository = remember { CachesRepository() }
-    val geocache = remember { mutableStateOf<FullGeocache?>(null) }
+    val geocache = remember { mutableStateOf<Geocache?>(null) }
 
     LaunchedEffect(code) {
         geocache.value = repository.getGeocache(code)

@@ -6,13 +6,16 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.accept
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
-import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType.Application
 import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import tech.pacia.okapi.client.models.BoundingBox
+import tech.pacia.okapi.client.models.Error
+import tech.pacia.okapi.client.models.Geocache
+import tech.pacia.okapi.client.models.Log
 
 public class Library {
     public fun someLibraryMethod(): Boolean {

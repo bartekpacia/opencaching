@@ -5,7 +5,7 @@ import platform.UIKit.UIViewController
 import tech.pacia.opencaching.App
 
 @OptIn(ExperimentalComposeApi::class)
-@Suppress("FunctionNaming")
+@Suppress("FunctionNaming", "Unused")
 fun MainViewController(): UIViewController {
     return ComposeUIViewController(
         configure = { accessibilitySyncOptions = AccessibilitySyncOptions.Always(null) },
