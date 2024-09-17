@@ -20,9 +20,9 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import tech.pacia.opencaching.data.BoundingBox
-import tech.pacia.opencaching.data.Geocache
-import tech.pacia.opencaching.data.Location
+import tech.pacia.okapi.client.models.BoundingBox
+import tech.pacia.okapi.client.models.Geocache
+import tech.pacia.okapi.client.models.Location
 
 @OptIn(DelicateCoroutinesApi::class)
 @Composable

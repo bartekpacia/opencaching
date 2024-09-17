@@ -2,9 +2,9 @@ package tech.pacia.opencaching.features.map
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import tech.pacia.opencaching.data.BoundingBox
-import tech.pacia.opencaching.data.Geocache
-import tech.pacia.opencaching.data.Location
+import tech.pacia.okapi.client.models.BoundingBox
+import tech.pacia.okapi.client.models.Geocache
+import tech.pacia.okapi.client.models.Location
 
 @Composable
 expect fun Map(

@@ -19,3 +19,5 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":okapi-cli")
+include(":okapi-client")

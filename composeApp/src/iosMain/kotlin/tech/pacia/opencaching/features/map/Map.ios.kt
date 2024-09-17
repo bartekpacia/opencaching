@@ -17,9 +17,9 @@ import platform.MapKit.MKMapView
 import platform.MapKit.MKMapViewDelegateProtocol
 import platform.MapKit.MKPointAnnotation
 import platform.darwin.NSObject
-import tech.pacia.opencaching.data.BoundingBox
-import tech.pacia.opencaching.data.Geocache
-import tech.pacia.opencaching.data.Location
+import tech.pacia.okapi.client.models.BoundingBox
+import tech.pacia.okapi.client.models.Geocache
+import tech.pacia.okapi.client.models.Location
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalForeignApi::class)

@@ -1,7 +1,7 @@
 package tech.pacia.opencaching.features.map
 
 import androidx.compose.runtime.Composable
-import tech.pacia.opencaching.data.Geocache
+import tech.pacia.okapi.client.models.Geocache
 
 @Composable
 fun MapRoute(

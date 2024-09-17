@@ -28,9 +28,9 @@ import kotlinx.datetime.Clock
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import tech.pacia.okapi.client.models.Geocache
+import tech.pacia.okapi.client.models.Location
 import tech.pacia.opencaching.data.CachesRepository
-import tech.pacia.opencaching.data.Geocache
-import tech.pacia.opencaching.data.Location
 import tech.pacia.opencaching.debugLog
 import kotlin.time.Duration.Companion.seconds
 

@@ -39,16 +39,14 @@ kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget = JvmTarget.JVM_11
+            jvmTarget = JvmTarget.JVM_1_8
         }
     }
 
     jvm("desktop")
 
     listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
+        iosX64(), iosArm64(), iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
@@ -57,47 +55,52 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting
-        commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+        commonMain {
+            dependencies {
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(compose.material3)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
 
-            implementation(compose.materialIconsExtended)
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.kotlinx.serialization.json)
-            implementation(libs.kotlinx.datetime)
+                implementation(compose.materialIconsExtended)
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.serialization.kotlinx.json)
+                implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.kotlinx.datetime)
 
-            implementation(libs.navigation.compose)
-            implementation(libs.lifecycle.viewmodel.compose)
+                implementation(libs.navigation.compose)
+                implementation(libs.lifecycle.viewmodel.compose)
 
-            // detektPlugins(libs.detekt.formatting)
-            // detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.6")
+                // detektPlugins(libs.detekt.formatting)
+                // detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.6")
+
+                implementation(project(":okapi-client"))
+            }
         }
 
-        val commonTest by getting
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
+        commonTest {
+            dependencies {
+                implementation(libs.kotlin.test)
 
-            @OptIn(ExperimentalComposeLibrary::class)
-            implementation(compose.uiTest)
+                @OptIn(ExperimentalComposeLibrary::class)
+                implementation(compose.uiTest)
+            }
         }
 
-        val androidMain by getting
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
+        androidMain {
+            dependencies {
+                implementation(compose.preview)
+                implementation(libs.androidx.activity.compose)
 
-            implementation(libs.ktor.client.okhttp)
-            implementation(libs.maps.compose)
-            implementation(libs.play.services.maps)
+                implementation(libs.ktor.client.okhttp)
+                implementation(libs.maps.compose)
+                implementation(libs.play.services.maps)
+            }
         }
 
         val desktopMain by getting
@@ -122,7 +125,7 @@ android {
     defaultConfig {
         applicationId = "tech.pacia.opencaching"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = (findProperty("versionCode") as? String)?.toIntOrNull() ?: 1
         versionName = findProperty("versionName") as? String ?: "1.0.0"
 
@@ -174,8 +177,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     buildFeatures {
@@ -208,5 +211,5 @@ tasks.withType<Detekt> {
     exclude {
         // See https://github.com/detekt/detekt/issues/5611#issuecomment-1364313507
         it.file.relativeTo(projectDir).startsWith("build")
-   }
+    }
 }

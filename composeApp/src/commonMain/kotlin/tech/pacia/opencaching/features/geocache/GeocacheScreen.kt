@@ -44,21 +44,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import kotlinx.datetime.toInstant
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import tech.pacia.opencaching.data.FullGeocache
-import tech.pacia.opencaching.data.Geocache
-import tech.pacia.opencaching.data.Location
-import tech.pacia.opencaching.data.User
+import tech.pacia.okapi.client.models.Geocache
+import tech.pacia.okapi.client.models.Location
+import tech.pacia.okapi.client.models.User
 import tech.pacia.opencaching.ui.theme.OpencachingTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GeocacheScreen(
-    geocache: FullGeocache,
+    geocache: Geocache,
     modifier: Modifier = Modifier,
     onNavUp: () -> Unit = {},
     onNavigateToDescription: () -> Unit = {},
 ) {
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -295,23 +296,43 @@ private fun GeocacheScreemPreviewDark() {
     }
 }
 
-private val sampleGeocache = FullGeocache(
-    code = "GC1234",
+private val sampleGeocache = Geocache(
+    code = "OP9655",
     name = "Drewniany most na długiej rzece Rudzie XXD",
     location = Location(latitude = 50.196168, longitude = 18.446953),
     type = Geocache.Type.Traditional,
     status = Geocache.Status.Available,
     difficulty = 2.5f,
     terrain = 2.5f,
-    size = 2,
+    size = Geocache.Size.Micro,
     owner = User(
         username = "Bartek_Wojak",
         uuid = "1234",
         profileUrl = "https://opencaching.pl/images/avatars/1234.jpg",
     ),
-    description = "This is a test geocache",
+    description = "This is a longer description. It's longer than the short description.",
+    descriptions = mapOf(),
     url = "https://opencaching.pl/viewcache.php?wp=OP9655",
-    hint = "Hint: it's here",
-    dateHidden = "12/12/2022",
+    hint2 = "Hint: it's here",
     recommendations = 3,
+    needsMaintenance = false,
+    gcCode = null,
+    founds = 21,
+    notFounds = 37,
+    willattends = 0,
+    watchers = 0,
+    oxSize = 2.0f,
+    tripTimeHours = null,
+    tripDistanceKm = null,
+    rating = 5.0f,
+    shortDescription = "Some short descriptio",
+    hints2 = mapOf(),
+    attributeCodes = listOf(),
+    atrributeNames = listOf(),
+    trackablesCount = 0,
+    trackables = listOf(),
+    lastFound = null,
+    dateHidden = "2022-12-12T11:21:37+00:00".toInstant(),
+    lastModified = "2022-12-12T11:22:37+00:00".toInstant(),
+    dateCreated = "2022-12-12T11:21:37+00:00".toInstant(),
 )
