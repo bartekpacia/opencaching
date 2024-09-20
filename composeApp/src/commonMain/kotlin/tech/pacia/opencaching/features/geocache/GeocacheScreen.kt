@@ -59,7 +59,6 @@ fun GeocacheScreen(
     onNavUp: () -> Unit = {},
     onNavigateToDescription: () -> Unit = {},
 ) {
-
     Scaffold(
         modifier = modifier,
         topBar = {

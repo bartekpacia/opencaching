@@ -15,7 +15,7 @@ private val defaultOpencachingClient = OpencachingClient(
     apiUrl = API_URL,
 )
 
-// TODO: Make this repo offline-first.
+// I plan to make this repo to be offline-first.
 //  See https://developer.android.com/topic/architecture/data-layer/offline-first
 
 class CachesRepository(private val client: OpencachingClient = defaultOpencachingClient) {
@@ -30,4 +30,3 @@ class CachesRepository(private val client: OpencachingClient = defaultOpencachin
         return client.getGeocacheLogs(code, limit = limit, offset = offset)
     }
 }
-

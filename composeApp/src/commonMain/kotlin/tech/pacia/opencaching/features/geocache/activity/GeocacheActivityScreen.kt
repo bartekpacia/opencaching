@@ -1,6 +1,5 @@
 package tech.pacia.opencaching.features.geocache.activity
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -115,7 +114,7 @@ fun GeocacheActivityScreen(
 
 @Composable
 fun LogItem(
-    profileUrl: String,
+    @Suppress("UNUSED_PARAMETER") profileUrl: String,
     username: String,
     userFinds: Int,
     content: String,
@@ -164,7 +163,7 @@ fun LogItem(
 
                         val localDateTime = date.toLocalDateTime(TimeZone.currentSystemDefault())
                         append(localDateTime.format(dateFormat))
-                    }
+                    },
                 )
             }
 
