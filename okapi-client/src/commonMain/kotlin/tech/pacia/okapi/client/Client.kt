@@ -1,14 +1,12 @@
 package tech.pacia.okapi.client
 
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.request.accept
-import io.ktor.client.request.get
-import io.ktor.client.request.parameter
-import io.ktor.http.ContentType.Application
-import io.ktor.http.isSuccess
-import io.ktor.serialization.kotlinx.json.json
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.request.*
+import io.ktor.http.*
+import io.ktor.http.ContentType.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -108,7 +106,7 @@ public class OpencachingClient public constructor(
                 "fields",
                 "uuid|cache_code|date|user|type|oc_team_entry|was_recommended|needs_maintenance2|comment|images|date_created|last_modified",
             )
-            parameter("user_fields", "uuid|username|profile_url")
+            parameter("user_fields", "uuid|username|profile_url|date_registered|caches_found|caches_hidden")
             parameter("offset", offset)
             parameter("limit", limit)
         }
@@ -157,6 +155,6 @@ public fun main(): Unit = runBlocking {
     }
 
     client.getGeocacheLogs(geocacheCode).reversed().forEach {
-        println("${it.user.username} • ${it.dateCreated} • ${it.type}\n${it.comment}\n\n")
+        println("${it.user.username} • ${it.date} • ${it.type}\n${it.comment}\n\n")
     }
 }
