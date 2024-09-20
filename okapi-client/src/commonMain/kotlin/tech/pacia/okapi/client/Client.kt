@@ -4,6 +4,7 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.http.ContentType.*
 import io.ktor.serialization.kotlinx.json.*
@@ -14,6 +15,7 @@ import tech.pacia.okapi.client.models.BoundingBox
 import tech.pacia.okapi.client.models.Error
 import tech.pacia.okapi.client.models.Geocache
 import tech.pacia.okapi.client.models.Log
+import tech.pacia.okapi.client.models.User
 
 public class Library {
     public fun someLibraryMethod(): Boolean {
@@ -48,8 +50,29 @@ public class OpencachingClient public constructor(
             parameter("search_method", "services/caches/search/bbox")
             parameter("search_params", Json.encodeToString(mapOf("bbox" to bbox.toPipeFormat())))
             parameter("retr_method", "services/caches/geocaches")
-            parameter("retr_params", Json.encodeToString(mapOf("fields" to Geocache.allParams)))
+            parameter(
+                key = "retr_params",
+                value = Json.encodeToString(
+                    mapOf(
+                        "fields" to Geocache.allParams,
+                        "owner_fields" to User.allParams,
+                    )
+                )
+            )
             parameter("wrap", false)
+        }
+
+        println(response.bodyAsText())
+
+        if (!response.status.isSuccess()) {
+            when (response.status.value) {
+                in 400..499 -> {
+                    val error = response.body<Error>()
+                    throw OKAPIClientException(error)
+                }
+
+                else -> throw IllegalArgumentException("Unexpected response: ${response.status}")
+            }
         }
 
         return response.body<Map<String, Geocache>>()
@@ -77,6 +100,7 @@ public class OpencachingClient public constructor(
             parameter("consumer_key", consumerKey)
             parameter("cache_code", code)
             parameter("fields", Geocache.allParams)
+            parameter("owner_fields", User.allParams)
         }
 
         if (!response.status.isSuccess()) {
@@ -90,7 +114,6 @@ public class OpencachingClient public constructor(
             }
         }
 
-
         return response.body<Geocache>()
     }
 
@@ -102,11 +125,8 @@ public class OpencachingClient public constructor(
             accept(Application.Json)
             parameter("consumer_key", consumerKey)
             parameter("cache_code", code)
-            parameter(
-                "fields",
-                "uuid|cache_code|date|user|type|oc_team_entry|was_recommended|needs_maintenance2|comment|images|date_created|last_modified",
-            )
-            parameter("user_fields", "uuid|username|profile_url|date_registered|caches_found|caches_hidden")
+            parameter("fields", Log.allParams)
+            parameter("user_fields", User.allParams)
             parameter("offset", offset)
             parameter("limit", limit)
         }

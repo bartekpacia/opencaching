@@ -58,6 +58,7 @@ fun GeocacheScreen(
     modifier: Modifier = Modifier,
     onNavUp: () -> Unit = {},
     onNavigateToDescription: () -> Unit = {},
+    onNavigateToActivity: () -> Unit = {},
 ) {
     Scaffold(
         modifier = modifier,
@@ -220,7 +221,10 @@ fun GeocacheScreen(
                 GeocacheInfoTile(
                     icon = Icons.AutoMirrored.Rounded.List,
                     title = "Description",
-                    subtitle = geocache.description.split(" ").take(4).joinToString(" ") + "...",
+                    subtitle =
+                        geocache.shortDescription.ifBlank {
+                            geocache.description.split(" ").take(4).joinToString(" ") + "..."
+                        },
                     onClick = onNavigateToDescription,
                 )
 
@@ -228,6 +232,7 @@ fun GeocacheScreen(
                     icon = Icons.Filled.MonitorHeart,
                     title = "Activity",
                     subtitle = "Found 2 days ago",
+                    onClick = onNavigateToActivity,
                 )
 
                 GeocacheInfoTile(

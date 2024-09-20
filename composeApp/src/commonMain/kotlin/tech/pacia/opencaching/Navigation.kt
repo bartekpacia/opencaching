@@ -5,16 +5,29 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import kotlinx.serialization.Serializable
 import tech.pacia.opencaching.features.geocache.GeocacheRoute
+import tech.pacia.opencaching.features.geocache.activity.GeocacheActivityRoute
 import tech.pacia.opencaching.features.geocache.description.GeocacheDescriptionRoute
 import tech.pacia.opencaching.features.map.MapRoute
 import tech.pacia.opencaching.features.signin.SignInRoute
 
 private object Destinations {
-    // const val SIGN_IN_ROUTE = "signin/"
-    // const val MAP_ROUTE = "map/"
-    // const val GEOCACHE_ROUTE = "geocache/{code}"
-    // const val GEOCACHE_DESCRIPTION_ROUTE = "geocache/{code}/description"
+    @Serializable
+    object SignIn
+
+    @Serializable
+    object Map
+
+    @Serializable
+    data class Geocache(val cacheCode: String)
+
+    @Serializable
+    data class GeocacheDescription(val cacheCode: String)
+
+    @Serializable
+    data class GeocacheActivity(val cacheCode: String)
 }
 
 @Composable
@@ -23,39 +36,50 @@ fun OpencachingNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = "signin/",
+        startDestination = Destinations.SignIn,
     ) {
-        composable("signin/") {
+        composable<Destinations.SignIn> {
             SignInRoute(
-                onNavigateToMap = { navController.navigate("map/") },
+                onNavigateToMap = {
+                    navController.navigate(Destinations.Map)
+                },
             )
         }
 
-        composable("map/") {
+        composable<Destinations.Map> {
             MapRoute(
                 onNavigateToGeocache = { cache ->
-                    navController.navigate("geocache/${cache.code}")
+                    navController.navigate(Destinations.Geocache(cacheCode = cache.code))
                 },
             )
         }
 
-        composable("geocache/{code}") { backstackEntry ->
-            val code = backstackEntry.arguments?.getString("code") ?: "empty"
+        composable<Destinations.Geocache> { backstackEntry ->
+            val route: Destinations.Geocache = backstackEntry.toRoute()
             GeocacheRoute(
-                code = code,
+                code = route.cacheCode,
                 onNavUp = { navController.popBackStack() },
                 onNavigateToDescription = {
-                    navController.navigate("geocache/$code/description")
+                    navController.navigate(Destinations.GeocacheDescription(cacheCode = route.cacheCode))
+                },
+                onNavigateToActivity = {
+                    navController.navigate(Destinations.GeocacheActivity(cacheCode = route.cacheCode))
                 },
             )
         }
 
-        composable(
-            route = "geocache/{code}/description",
-        ) { backstackEntry ->
-            val code = backstackEntry.arguments?.getString("code") ?: "empty"
+        composable<Destinations.GeocacheDescription> { backstackEntry ->
+            val route: Destinations.GeocacheDescription = backstackEntry.toRoute()
             GeocacheDescriptionRoute(
-                code = code,
+                code = route.cacheCode,
+                onNavUp = { navController.popBackStack() },
+            )
+        }
+
+        composable<Destinations.GeocacheActivity> { backstackEntry ->
+            val route: Destinations.GeocacheActivity = backstackEntry.toRoute()
+            GeocacheActivityRoute(
+                code = route.cacheCode,
                 onNavUp = { navController.popBackStack() },
             )
         }

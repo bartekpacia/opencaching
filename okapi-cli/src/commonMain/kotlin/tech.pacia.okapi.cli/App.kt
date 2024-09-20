@@ -11,6 +11,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import tech.pacia.okapi.client.OpencachingClient
+import tech.pacia.okapi.client.models.BoundingBox
 
 class App : CliktCommand() {
     override fun run() {}
@@ -56,12 +57,30 @@ class GeocacheList : CliktCommand(name = "list") {
     }
 }
 
+class SearchAndRetrieve : CliktCommand(name = "search_and_retrieve") {
+    private val boundingBox: String by option("--bbox").required().help(
+        """
+        |Bounding box in pipe format (S|W|N|E), for example:
+        |    50.18295|18.42268|50.20496|18.46956
+        """.trimMargin()
+    )
+    private val consumerKey: String by option(envvar = "OKAPI_CONSUMER_KEY").required().help("OKAPI customer key")
+
+    override fun run() = runBlocking {
+        val bbox = BoundingBox.fromPipeFormat(boundingBox)
+
+        val client = OpencachingClient(consumerKey = consumerKey)
+        echo(client.searchAndRetrieve(bbox))
+    }
+}
+
 fun execute(args: Array<String>) {
     App().subcommands(
         Logs(),
         Geocache().subcommands(
             GeocacheGet(),
             GeocacheList(),
-        )
+        ),
+        SearchAndRetrieve(),
     ).main(args)
 }

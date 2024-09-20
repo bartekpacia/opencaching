@@ -181,6 +181,13 @@ public data class BoundingBox(
     val west: Double,
 ) {
     public fun toPipeFormat(): String = "$south|$west|$north|$east"
+
+    public companion object {
+        public fun fromPipeFormat(pipeFormat: String): BoundingBox {
+            val (south, west, north, east) = pipeFormat.split("|").map { it.toDouble() }
+            return BoundingBox(south = south, west = west, north = north, east = east)
+        }
+    }
 }
 
 private object LocationAsStringSerializer : KSerializer<Location> {
@@ -212,7 +219,11 @@ public data class User(
     @SerialName("profile_url") val profileUrl: String,
     @SerialName("caches_found") val cachesFound: Int,
     @SerialName("caches_hidden") val cachesHidden: Int,
-)
+) {
+    public companion object {
+        public val allParams: String = "uuid|username|profile_url|date_registered|caches_found|caches_hidden"
+    }
+}
 
 
 /**
@@ -233,6 +244,11 @@ public data class Log(
     @SerialName("date_created") val dateCreated: LocalDate,
     @SerialName("last_modified") val lastModified: LocalDate,
 ) {
+    public companion object {
+        public val allParams: String =
+            "uuid|cache_code|date|user|type|oc_team_entry|was_recommended|needs_maintenance2|comment|images|date_created|last_modified"
+    }
+
     @Serializable(with = LogTypeSerializer::class)
     public enum class Type(internal val id: String) {
 
@@ -302,7 +318,7 @@ public data class Image(
  */
 @Serializable
 public data class Error(
-    val error: BasicError,
+    public val error: BasicError,
 ) {
     @Serializable
     public data class BasicError(

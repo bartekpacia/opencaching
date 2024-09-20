@@ -19,6 +19,7 @@ fun GeocacheRoute(
     code: String,
     onNavUp: () -> Unit,
     onNavigateToDescription: () -> Unit,
+    onNavigateToActivity: () -> Unit = {},
 ) {
     val repository = remember { CachesRepository() }
     val geocache = remember { mutableStateOf<Geocache?>(null) }
@@ -43,6 +44,7 @@ fun GeocacheRoute(
             geocache = geocache.value!!,
             onNavUp = onNavUp,
             onNavigateToDescription = onNavigateToDescription,
+            onNavigateToActivity = onNavigateToActivity,
         )
     }
 }
