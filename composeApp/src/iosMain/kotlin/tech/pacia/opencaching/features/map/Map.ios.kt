@@ -5,7 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.interop.UIKitView
+import androidx.compose.ui.viewinterop.UIKitInteropProperties
+import androidx.compose.ui.viewinterop.UIKitView
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCSignatureOverride
 import kotlinx.cinterop.useContents
@@ -77,9 +78,10 @@ actual fun Map(
     }
 
     UIKitView(
-        modifier = modifier.fillMaxSize(),
         factory = { mkMapView },
+        modifier = modifier.fillMaxSize(),
         update = { },
+        properties = UIKitInteropProperties(isInteractive = true, isNativeAccessibilityEnabled = true)
     )
 }
 

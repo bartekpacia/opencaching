@@ -4,7 +4,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.interop.UIKitViewController
+import androidx.compose.ui.viewinterop.UIKitInteropProperties
+import androidx.compose.ui.viewinterop.UIKitViewController
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.UIKit.UIViewController
 import platform.WebKit.WKWebView
@@ -18,9 +19,10 @@ actual fun WebView(
     val webView = remember { WebViewController(html) }
 
     UIKitViewController(
-        modifier = modifier.fillMaxSize(),
         factory = { webView },
+        modifier = modifier.fillMaxSize(),
         update = {},
+        properties = UIKitInteropProperties(isInteractive = true, isNativeAccessibilityEnabled = true)
     )
 }
 

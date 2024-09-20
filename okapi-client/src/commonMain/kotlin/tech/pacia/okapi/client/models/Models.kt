@@ -1,6 +1,7 @@
 package tech.pacia.okapi.client.models
 
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -209,6 +210,8 @@ public data class User(
     @SerialName("uuid") val uuid: String,
     @SerialName("username") val username: String,
     @SerialName("profile_url") val profileUrl: String,
+    @SerialName("caches_found") val cachesFound: Int,
+    @SerialName("caches_hidden") val cachesHidden: Int,
 )
 
 
@@ -219,7 +222,7 @@ public data class User(
 public data class Log(
     @SerialName("uuid") val uuid: String,
     @SerialName("cache_code") val cacheCode: String,
-    @SerialName("date") val dateHidden: String,
+    @SerialName("date") val date: Instant,
     @SerialName("user") val user: User,
     @SerialName("type") val type: Type,
     @SerialName("oc_team_entry") val ocTeamEntry: Boolean,
@@ -227,8 +230,8 @@ public data class Log(
     // @SerialName("needs_maintenance2") val needsMaintenance: Boolean?,
     @SerialName("comment") val comment: String,
     @SerialName("images") val images: List<Image>,
-    @SerialName("date_created") val dateCreated: Instant,
-    @SerialName("last_modified") val lastModified: Instant,
+    @SerialName("date_created") val dateCreated: LocalDate,
+    @SerialName("last_modified") val lastModified: LocalDate,
 ) {
     @Serializable(with = LogTypeSerializer::class)
     public enum class Type(internal val id: String) {

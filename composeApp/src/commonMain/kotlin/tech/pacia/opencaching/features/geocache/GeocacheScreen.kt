@@ -44,7 +44,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import kotlinx.datetime.toInstant
+import kotlinx.datetime.Instant
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import tech.pacia.okapi.client.models.Geocache
 import tech.pacia.okapi.client.models.Location
@@ -309,6 +309,8 @@ private val sampleGeocache = Geocache(
         username = "Bartek_Wojak",
         uuid = "1234",
         profileUrl = "https://opencaching.pl/images/avatars/1234.jpg",
+        cachesFound = 268,
+        cachesHidden = 7,
     ),
     description = "This is a longer description. It's longer than the short description.",
     descriptions = mapOf(),
@@ -332,7 +334,7 @@ private val sampleGeocache = Geocache(
     trackablesCount = 0,
     trackables = listOf(),
     lastFound = null,
-    dateHidden = "2022-12-12T11:21:37+00:00".toInstant(),
-    lastModified = "2022-12-12T11:22:37+00:00".toInstant(),
-    dateCreated = "2022-12-12T11:21:37+00:00".toInstant(),
+    dateHidden = Instant.parse("2022-12-12T11:21:37+00:00"),
+    lastModified = Instant.parse("2022-12-12T11:22:37+00:00"),
+    dateCreated = Instant.parse("2022-12-12T11:21:37+00:00"),
 )
