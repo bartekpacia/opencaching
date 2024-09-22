@@ -138,7 +138,7 @@ private val sampleLogs = listOf(
             // Image("view.jpg", "A stunning view at the cache location")
         ),
         dateCreated = LocalDate.parse("2024-08-15"),
-        lastModified = LocalDate.parse("2024-08-15")
+        lastModified = LocalDate.parse("2024-08-15"),
     ),
     Log(
         uuid = "234e4567-e89b-12d3-a456-426614174001",
@@ -151,7 +151,7 @@ private val sampleLogs = listOf(
         comment = "Searched for an hour but couldn't locate the cache. Might need maintenance.",
         images = emptyList(),
         dateCreated = LocalDate.parse("2024-09-05"),
-        lastModified = LocalDate.parse("2024-09-05")
+        lastModified = LocalDate.parse("2024-09-05"),
     ),
     Log(
         uuid = "345e4567-e89b-12d3-a456-426614174002",
@@ -166,7 +166,7 @@ private val sampleLogs = listOf(
             // Image("damage.jpg", "The broken container")
         ),
         dateCreated = LocalDate.parse("2024-09-10"),
-        lastModified = LocalDate.parse("2024-09-11")
+        lastModified = LocalDate.parse("2024-09-11"),
     ),
     Log(
         uuid = "456e4567-e89b-12d3-a456-426614174003",
@@ -179,8 +179,8 @@ private val sampleLogs = listOf(
         comment = "Cache temporarily unavailable due to nearby construction work.",
         images = emptyList(),
         dateCreated = LocalDate.parse("2024-09-12"),
-        lastModified = LocalDate.parse("2024-09-12")
-    )
+        lastModified = LocalDate.parse("2024-09-12"),
+    ),
 )
 
 private object SampleUsers {

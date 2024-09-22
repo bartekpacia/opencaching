@@ -39,7 +39,6 @@ fun LogItem(
     Row(
         modifier = modifier,
     ) {
-
         CoilImage(
             modifier = Modifier
                 .width(48.dp)
@@ -49,7 +48,7 @@ fun LogItem(
             imageOptions = ImageOptions(
                 contentScale = ContentScale.Crop,
                 alignment = Alignment.Center,
-            )
+            ),
         )
 
         Spacer(modifier = Modifier.width(8.dp))
