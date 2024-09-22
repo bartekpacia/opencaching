@@ -76,6 +76,8 @@ kotlin {
                 implementation(libs.navigation.compose)
                 implementation(libs.lifecycle.viewmodel.compose)
 
+                implementation(libs.landscapist)
+
                 // detektPlugins(libs.detekt.formatting)
                 // detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.6")
 

@@ -20,6 +20,8 @@ lifecycleViewmodelCompose = "2.8.2"
 mapsCompose = "6.1.2"
 navigationCompose = "2.8.0-alpha10"
 playServicesMaps = "19.0.0"
+clikt = "4.2.2"
+landscapist = "2.3.8"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -46,7 +48,8 @@ maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = 
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-clikt = { module = "com.github.ajalt.clikt:clikt", version = "4.2.2" }
+clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
+landscapist = { module = "com.github.skydoves:landscapist-coil3", version.ref = "landscapist" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
