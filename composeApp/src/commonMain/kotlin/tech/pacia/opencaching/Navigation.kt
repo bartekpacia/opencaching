@@ -7,18 +7,24 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
+import tech.pacia.opencaching.features.HomeScreen
 import tech.pacia.opencaching.features.geocache.GeocacheRoute
 import tech.pacia.opencaching.features.geocache.activity.GeocacheActivityRoute
 import tech.pacia.opencaching.features.geocache.description.GeocacheDescriptionRoute
-import tech.pacia.opencaching.features.map.MapRoute
 import tech.pacia.opencaching.features.signin.SignInRoute
 
-private object Destinations {
+object Destinations {
     @Serializable
     object SignIn
 
     @Serializable
-    object Map
+    object Home
+
+//    @Serializable
+//    object HomeMapTab
+//
+//    @Serializable
+//    object HomeProfileTab
 
     @Serializable
     data class Geocache(val cacheCode: String)
@@ -34,6 +40,8 @@ private object Destinations {
 fun OpencachingNavHost(
     navController: NavHostController = rememberNavController(),
 ) {
+    val homeNavController: NavHostController = rememberNavController()
+
     NavHost(
         navController = navController,
         startDestination = Destinations.SignIn,
@@ -41,16 +49,14 @@ fun OpencachingNavHost(
         composable<Destinations.SignIn> {
             SignInRoute(
                 onNavigateToMap = {
-                    navController.navigate(Destinations.Map)
+                    navController.navigate(Destinations.Home)
                 },
             )
         }
 
-        composable<Destinations.Map> {
-            MapRoute(
-                onNavigateToGeocache = { cache ->
-                    navController.navigate(Destinations.Geocache(cacheCode = cache.code))
-                },
+        composable<Destinations.Home> {
+            HomeScreen(
+                navController = homeNavController,
             )
         }
 
