@@ -1,7 +1,6 @@
 package tech.pacia.opencaching.features
 
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Map
 import androidx.compose.material.icons.rounded.Person
@@ -17,28 +16,33 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import tech.pacia.opencaching.Destinations
+import kotlinx.serialization.Serializable
+import tech.pacia.opencaching.TopLevelDestinations
 import tech.pacia.opencaching.features.map.MapRoute
 import tech.pacia.opencaching.features.profile.ProfileRoute
 
 private object HomeNavDestinations {
+    @Serializable
+    data object HomeMapTab
+
+    @Serializable
+    data object HomeProfileTab
+
 //    @Serializable
-//    object HomeMapTab
+//     val HomeMapTab = "/map"
 //
 //    @Serializable
-//    object HomeProfileTab
-
-    val HomeMapTab = "/map"
-    val HomeProfileTab = "/profile"
+//     val HomeProfileTab = "/profile"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navController: NavHostController,
+    topLevelNavController: NavHostController,
+    homeNavController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
-    val currentDestination = navController.currentDestination?.route
+    val currentDestination = homeNavController.currentDestination?.route
 
     Scaffold(
         modifier = modifier,
@@ -47,24 +51,23 @@ fun HomeScreen(
                 title = { Text("Home") },
             )
         },
-        content = { innerPadding ->
+        content = {
             NavHost(
-                navController = navController,
+                navController = homeNavController,
                 startDestination = HomeNavDestinations.HomeMapTab,
-                modifier = Modifier.padding(innerPadding),
             ) {
-                composable(route = HomeNavDestinations.HomeMapTab) {
+                composable<HomeNavDestinations.HomeMapTab> {
                     MapRoute(
                         onNavigateToGeocache = { cache ->
-                            navController.navigate(Destinations.Geocache(cacheCode = cache.code))
+                            topLevelNavController.navigate(TopLevelDestinations.Geocache(cacheCode = cache.code))
                         },
                     )
                 }
 
-                composable(route = HomeNavDestinations.HomeProfileTab) {
+                composable<HomeNavDestinations.HomeProfileTab> {
                     ProfileRoute(
                         onNavigateToGeocache = { cache ->
-                            navController.navigate(Destinations.Geocache(cacheCode = cache.code))
+                            topLevelNavController.navigate(TopLevelDestinations.Geocache(cacheCode = cache.code))
                         },
                     )
                 }
@@ -73,23 +76,21 @@ fun HomeScreen(
         bottomBar = {
             NavigationBar {
                 NavigationBarItem(
-                    selected = HomeNavDestinations.HomeMapTab == currentDestination,
+                    selected = HomeNavDestinations.HomeMapTab.toString() == currentDestination,
                     onClick = {
-                        navController.navigate(HomeNavDestinations.HomeMapTab)
+                        homeNavController.navigate(HomeNavDestinations.HomeMapTab)
                     },
                     icon = { Icon(Icons.Rounded.Map, contentDescription = "Map") },
                     label = { Text("Map") },
                 )
 
                 NavigationBarItem(
-                    selected = HomeNavDestinations.HomeProfileTab == currentDestination,
-                    onClick = {
-                        navController.navigate(HomeNavDestinations.HomeProfileTab)
-                    },
+                    selected = HomeNavDestinations.HomeProfileTab.toString() == currentDestination,
+                    onClick = { homeNavController.navigate(HomeNavDestinations.HomeProfileTab) },
                     icon = { Icon(Icons.Rounded.Person, contentDescription = "Profile") },
                     label = { Text("Profile") },
                 )
             }
-        }
+        },
     )
 }
