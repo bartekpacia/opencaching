@@ -13,6 +13,7 @@ kotlin {
     explicitApi()
 
     jvm {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget = JvmTarget.JVM_1_8
             // TODO: set -Xjdk-release
@@ -62,7 +63,7 @@ kotlin {
 
 android {
     namespace = "tech.pacia.okapi.client"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         minSdk = 21
     }

@@ -76,10 +76,12 @@ kotlin {
                 implementation(libs.navigation.compose)
                 implementation(libs.lifecycle.viewmodel.compose)
 
+                implementation(libs.landscapist)
+
                 // detektPlugins(libs.detekt.formatting)
                 // detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.6")
 
-                implementation(project(":okapi-client"))
+                implementation(projects.okapiClient)
             }
         }
 
@@ -116,11 +118,16 @@ kotlin {
 
 android {
     namespace = "tech.pacia.opencaching"
-    compileSdk = 34
+    compileSdk = 35
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         applicationId = "tech.pacia.opencaching"
