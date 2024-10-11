@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -14,7 +14,13 @@ plugins {
 //}
 
 kotlin {
-    jvm()
+    jvm {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_1_8
+            // TODO: set -Xjdk-release
+        }
+    }
 
     macosX64()
     macosArm64()
@@ -29,7 +35,7 @@ kotlin {
             dependencies {
                 implementation(libs.clikt)
                 implementation(libs.kotlinx.serialization.json)
-                implementation(project(":okapi-client"))
+                implementation(projects.okapiClient)
             }
         }
 
