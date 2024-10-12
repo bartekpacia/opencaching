@@ -221,10 +221,9 @@ fun GeocacheScreen(
                 GeocacheInfoTile(
                     icon = Icons.AutoMirrored.Rounded.List,
                     title = "Description",
-                    subtitle =
-                        geocache.shortDescription.ifBlank {
-                            geocache.description.split(" ").take(4).joinToString(" ") + "..."
-                        },
+                    subtitle = geocache.shortDescription.ifBlank {
+                        geocache.description.split(" ").take(4).joinToString(" ") + "..."
+                    },
                     onClick = onNavigateToDescription,
                 )
 

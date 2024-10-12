@@ -81,7 +81,7 @@ actual fun Map(
         factory = { mkMapView },
         modifier = modifier.fillMaxSize(),
         update = { },
-        properties = UIKitInteropProperties(isInteractive = true, isNativeAccessibilityEnabled = true)
+        properties = UIKitInteropProperties(isInteractive = true, isNativeAccessibilityEnabled = true),
     )
 }
 

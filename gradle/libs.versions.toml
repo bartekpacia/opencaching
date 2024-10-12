@@ -1,5 +1,5 @@
 [versions]
-agp = "8.5.2"
+agp = "8.7.0"
 androidx-activityCompose = "1.9.2"
 androidx-appcompat = "1.7.0"
 androidx-constraintlayout = "2.1.4"
@@ -10,16 +10,18 @@ androidx-test-junit = "1.2.1"
 compose-plugin = "1.7.0-beta02"
 build-config = "5.5.0"
 junit = "4.13.2"
-kotlin = "2.0.20"
-detekt = "1.23.6"
+kotlin = "2.0.21"
+detekt = "1.23.7"
 kotlinxDatetime = "0.6.1"
 kotlinxSerialization = "1.7.3"
 kotlinxCoroutinesCore = "1.9.0"
-ktor = "3.0.0-rc-1"
+ktor = "3.0.0"
 lifecycleViewmodelCompose = "2.8.2"
 mapsCompose = "6.1.2"
 navigationCompose = "2.8.0-alpha10"
 playServicesMaps = "19.0.0"
+clikt = "4.2.2"
+landscapist = "2.3.8"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -46,7 +48,8 @@ maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = 
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-clikt = { module = "com.github.ajalt.clikt:clikt", version = "4.2.2" }
+clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
+landscapist = { module = "com.github.skydoves:landscapist-coil3", version.ref = "landscapist" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
