@@ -21,5 +21,6 @@ fun SignInRoute(
         onSignInSubmitted = { username, password ->
             signInViewModel.signIn(username, password, onNavigateToMap)
         },
+        onSignInSkipped = onNavigateToMap,
     )
 }

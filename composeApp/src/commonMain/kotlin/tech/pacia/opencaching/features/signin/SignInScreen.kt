@@ -55,6 +55,7 @@ fun SignInScreen(
     hasError: Boolean = false,
     onDismissError: () -> Unit = {},
     onSignInSubmitted: (email: String, password: String) -> Unit = { _, _ -> },
+    onSignInSkipped: () -> Unit = {},
 ) {
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -119,6 +120,15 @@ fun SignInScreen(
                     .padding(8.dp),
             ) {
                 Text("Sign in")
+            }
+
+            TextButton(
+                onClick = onSignInSkipped,
+                modifier = Modifier
+                    .fillMaxWidth(fraction = 0.75f)
+                    .padding(8.dp),
+            ) {
+                Text("Continue without signing in")
             }
         }
     }
