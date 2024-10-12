@@ -22,7 +22,7 @@ actual fun WebView(
         factory = { webView },
         modifier = modifier.fillMaxSize(),
         update = {},
-        properties = UIKitInteropProperties(isInteractive = true, isNativeAccessibilityEnabled = true)
+        properties = UIKitInteropProperties(isInteractive = true, isNativeAccessibilityEnabled = true),
     )
 }
 
