@@ -1,3 +1,5 @@
+@file:Suppress("MatchingDeclarationName")
+
 package tech.pacia.opencaching
 
 import androidx.compose.runtime.Composable
@@ -19,12 +21,6 @@ object TopLevelDestinations {
 
     @Serializable
     data object Home
-
-//    @Serializable
-//    object HomeMapTab
-//
-//    @Serializable
-//    object HomeProfileTab
 
     @Serializable
     data class Geocache(val cacheCode: String)

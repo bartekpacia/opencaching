@@ -1,6 +1,5 @@
 package tech.pacia.opencaching.features
 
-
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Map
 import androidx.compose.material.icons.rounded.Person
@@ -27,12 +26,6 @@ private object HomeNavDestinations {
 
     @Serializable
     data object HomeProfileTab
-
-//    @Serializable
-//     val HomeMapTab = "/map"
-//
-//    @Serializable
-//     val HomeProfileTab = "/profile"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
