@@ -7,7 +7,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
-import tech.pacia.opencaching.features.HomeScreen
 import tech.pacia.opencaching.features.HomeRoute
 import tech.pacia.opencaching.features.geocache.GeocacheRoute
 import tech.pacia.opencaching.features.geocache.activity.GeocacheActivityRoute
