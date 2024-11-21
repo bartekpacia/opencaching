@@ -1,19 +1,7 @@
 package tech.pacia.opencaching.features.map
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Map
-import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,7 +22,6 @@ import tech.pacia.opencaching.data.CachesRepository
 import tech.pacia.opencaching.debugLog
 import kotlin.time.Duration.Companion.seconds
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MapScreen(
     onNavigateToGeocache: (Geocache) -> Unit,
@@ -63,56 +50,27 @@ fun MapScreen(
 
     var lastInstant by remember { mutableStateOf(Clock.System.now()) }
 
-    var selectedNavBarItem by remember { mutableIntStateOf(0) }
-
-    Scaffold(
+    Map(
         modifier = modifier,
-        topBar = {
-            TopAppBar(
-                title = { Text("Map") },
-            )
-        },
-        content = { padding ->
-            Map(
-                modifier = Modifier.padding(padding),
-                center = centerOfRudy,
-                caches = geocaches.entries.map { it.value },
-                onGeocacheClick = { code -> onNavigateToGeocache(geocaches[code]!!) },
-                onMapBoundsChange = {
-                    if (it == null) return@Map
+        center = centerOfRudy,
+        caches = geocaches.entries.map { it.value },
+        onGeocacheClick = { code -> onNavigateToGeocache(geocaches[code]!!) },
+        onMapBoundsChange = {
+            if (it == null) return@Map
 
-                    val currentInstant = Clock.System.now()
-                    val duration = currentInstant - lastInstant
-                    lastInstant = currentInstant
+            val currentInstant = Clock.System.now()
+            val duration = currentInstant - lastInstant
+            lastInstant = currentInstant
 
-                    if (duration < 1.seconds) {
-                        return@Map
-                    }
+            if (duration < 1.seconds) {
+                return@Map
+            }
 
-                    debugLog("MapScreen", "onMapBoundsChange: $it")
+            debugLog("MapScreen", "onMapBoundsChange: $it")
 
-                    scope.launch {
-                        delay(500)
-                        geocaches.putAll(repository.searchAndRetrieve(it))
-                    }
-                },
-            )
-        },
-        bottomBar = {
-            NavigationBar {
-                NavigationBarItem(
-                    selected = 0 == selectedNavBarItem,
-                    onClick = { selectedNavBarItem = 0 },
-                    icon = { Icon(Icons.Rounded.Map, contentDescription = "Map") },
-                    label = { Text("Map") },
-                )
-
-                NavigationBarItem(
-                    selected = 1 == selectedNavBarItem,
-                    onClick = { selectedNavBarItem = 1 },
-                    icon = { Icon(Icons.Rounded.Person, contentDescription = "Profile") },
-                    label = { Text("Profile") },
-                )
+            scope.launch {
+                delay(500)
+                geocaches.putAll(repository.searchAndRetrieve(it))
             }
         },
     )

@@ -1,3 +1,5 @@
+@file:Suppress("MatchingDeclarationName")
+
 package tech.pacia.opencaching
 
 import androidx.compose.runtime.Composable
@@ -7,18 +9,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
+import tech.pacia.opencaching.features.HomeRoute
 import tech.pacia.opencaching.features.geocache.GeocacheRoute
 import tech.pacia.opencaching.features.geocache.activity.GeocacheActivityRoute
 import tech.pacia.opencaching.features.geocache.description.GeocacheDescriptionRoute
-import tech.pacia.opencaching.features.map.MapRoute
 import tech.pacia.opencaching.features.signin.SignInRoute
 
-private object Destinations {
+object TopLevelDestinations {
     @Serializable
-    object SignIn
+    data object SignIn
 
     @Serializable
-    object Map
+    data object Home
 
     @Serializable
     data class Geocache(val cacheCode: String)
@@ -34,50 +36,51 @@ private object Destinations {
 fun OpencachingNavHost(
     navController: NavHostController = rememberNavController(),
 ) {
+    val homeNavController: NavHostController = rememberNavController()
+
     NavHost(
         navController = navController,
-        startDestination = Destinations.SignIn,
+        startDestination = TopLevelDestinations.SignIn,
     ) {
-        composable<Destinations.SignIn> {
+        composable<TopLevelDestinations.SignIn> {
             SignInRoute(
                 onNavigateToMap = {
-                    navController.navigate(Destinations.Map)
+                    navController.navigate(TopLevelDestinations.Home)
                 },
             )
         }
 
-        composable<Destinations.Map> {
-            MapRoute(
-                onNavigateToGeocache = { cache ->
-                    navController.navigate(Destinations.Geocache(cacheCode = cache.code))
-                },
+        composable<TopLevelDestinations.Home> {
+            HomeRoute(
+                topLevelNavController = navController,
+                homeNavController = homeNavController,
             )
         }
 
-        composable<Destinations.Geocache> { backstackEntry ->
-            val route: Destinations.Geocache = backstackEntry.toRoute()
+        composable<TopLevelDestinations.Geocache> { backstackEntry ->
+            val route: TopLevelDestinations.Geocache = backstackEntry.toRoute()
             GeocacheRoute(
                 code = route.cacheCode,
                 onNavUp = { navController.popBackStack() },
                 onNavigateToDescription = {
-                    navController.navigate(Destinations.GeocacheDescription(cacheCode = route.cacheCode))
+                    navController.navigate(TopLevelDestinations.GeocacheDescription(cacheCode = route.cacheCode))
                 },
                 onNavigateToActivity = {
-                    navController.navigate(Destinations.GeocacheActivity(cacheCode = route.cacheCode))
+                    navController.navigate(TopLevelDestinations.GeocacheActivity(cacheCode = route.cacheCode))
                 },
             )
         }
 
-        composable<Destinations.GeocacheDescription> { backstackEntry ->
-            val route: Destinations.GeocacheDescription = backstackEntry.toRoute()
+        composable<TopLevelDestinations.GeocacheDescription> { backstackEntry ->
+            val route: TopLevelDestinations.GeocacheDescription = backstackEntry.toRoute()
             GeocacheDescriptionRoute(
                 code = route.cacheCode,
                 onNavUp = { navController.popBackStack() },
             )
         }
 
-        composable<Destinations.GeocacheActivity> { backstackEntry ->
-            val route: Destinations.GeocacheActivity = backstackEntry.toRoute()
+        composable<TopLevelDestinations.GeocacheActivity> { backstackEntry ->
+            val route: TopLevelDestinations.GeocacheActivity = backstackEntry.toRoute()
             GeocacheActivityRoute(
                 code = route.cacheCode,
                 onNavUp = { navController.popBackStack() },
