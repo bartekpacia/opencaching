@@ -1,6 +1,8 @@
 package tech.pacia.okapi.cli
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.Context
+import com.github.ajalt.clikt.core.main
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.help
@@ -17,7 +19,9 @@ class App : CliktCommand() {
     override fun run() {}
 }
 
-class Logs : CliktCommand(name = "logs", help = "Perform operations on logs") {
+class Logs : CliktCommand(name = "logs") {
+
+    override fun help(context: Context): String = "Perform operations on logs"
     private val geocacheCode: String by option("--code").required().help("Cache ID")
     private val consumerKey: String by option(envvar = "OKAPI_CONSUMER_KEY").required().help("OKAPI customer key")
 
@@ -37,7 +41,8 @@ class Logs : CliktCommand(name = "logs", help = "Perform operations on logs") {
     }
 }
 
-class Geocache : CliktCommand(name = "geocache", help = "Perform operations on geocaches") {
+class Geocache : CliktCommand(name = "geocache") {
+    override fun help(context: Context): String = "Perform operations on geocaches"
     override fun run() {}
 }
 

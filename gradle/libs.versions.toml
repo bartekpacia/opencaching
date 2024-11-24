@@ -20,7 +20,7 @@ lifecycleViewmodelCompose = "2.8.2"
 mapsCompose = "6.1.2"
 navigationCompose = "2.8.0-alpha10"
 playServicesMaps = "19.0.0"
-clikt = "4.2.2"
+clikt = "5.0.1"
 landscapist = "2.3.8"
 
 [libraries]
