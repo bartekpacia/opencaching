@@ -28,7 +28,7 @@ kotlin {
     macosArm64()
 
     linuxX64()
-    // linuxArm64() // not supported by clikt
+    linuxArm64()
 
     // mingwX64() // not supported by ktor-client-cio
 
