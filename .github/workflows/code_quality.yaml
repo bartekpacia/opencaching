@@ -1,0 +1,43 @@
+name: Qodana
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: 
+      - master # The 'main' branch
+
+jobs:
+  main:
+    runs-on: ubuntu-24.04
+
+    env:
+      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
+          fetch-depth: 0  # a full history is required for pull request analysis
+
+      - name: Load secrets from 1Password
+        uses: 1password/load-secrets-action@v2
+
+      - name: Set up credentials
+        run: |
+          ./setup_credentials
+          while read -r line; do echo "$line" >> $GITHUB_ENV; done < .env
+
+      - name: Qodana Scan
+        uses: JetBrains/qodana-action@v2024.2
+        with:
+          pr-mode: false
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+          QODANA_ENDPOINT: https://qodana.cloud
