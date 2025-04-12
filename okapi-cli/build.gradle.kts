@@ -7,18 +7,18 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
 }
 
-//tasks.withType<Jar> {
-//    manifest {
-//        attributes["Main-Class"] = "tech.pacia.okapi.cli.AppKt"
-//    }
-//}
-
 kotlin {
     jvm {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget = JvmTarget.JVM_11
-            // TODO: set -Xjdk-release
+            // TODO: set -Xjdk-release. See KT-49746
+        }
+
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        binaries {
+            executable {
+                mainClass = "tech.pacia.okapi.cli.MainKt"
+            }
         }
     }
 
@@ -44,21 +44,6 @@ kotlin {
                 implementation(libs.ktor.client.darwin)
             }
         }
-
-        // TODO: Make JVM build work
-//        jvmMain {
-//            dependencies {
-//                implementation(libs.clikt)
-//                implementation(project(":okapi-client"))
-//            }
-//        }
-//
-//        targets.withType<KotlinJvmTarget> {
-//            @OptIn(ExperimentalKotlinGradlePluginApi::class)
-//            mainRun {
-//                mainClass = "tech.pacia.okapi.cli.MainKt"
-//            }
-//        }
 
         targets.withType<KotlinNativeTarget> {
             binaries {
