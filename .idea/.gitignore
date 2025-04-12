@@ -16,14 +16,14 @@
 dataSources/
 dataSources.local.xml
 misc.xml
-workspace.xml
 
+AndroidProjectSystem.xml
+deploymentTargetSelector.xml
 google-java-format.xml
+gradle.xml
 inspectionProfiles/
 
 compiler.xml
-deploymentTargetSelector.xml
-gradle.xml
 kotlinc.xml
 vcs.xml
 modules.xml
