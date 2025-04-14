@@ -21,7 +21,7 @@ AndroidProjectSystem.xml
 deploymentTargetSelector.xml
 google-java-format.xml
 gradle.xml
-inspectionProfiles/
+# inspectionProfiles/
 
 compiler.xml
 kotlinc.xml
