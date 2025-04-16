@@ -68,13 +68,13 @@ kotlin {
                 implementation(compose.materialIconsExtended)
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.content.negotiation)
-                implementation(libs.ktor.serialization.kotlinx.json)
+                implementation(libs.ktor.serialization.json)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.datetime)
 
-                implementation(libs.navigation.compose)
-                implementation(libs.lifecycle.viewmodel.compose)
+                implementation(libs.androidx.navigation.compose)
+                implementation(libs.androidx.viewmodel.compose)
 
                 implementation(libs.landscapist)
 

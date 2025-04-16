@@ -25,5 +25,6 @@ gradle.xml
 
 compiler.xml
 kotlinc.xml
+runConfigurations.xml
 vcs.xml
 modules.xml
