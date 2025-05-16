@@ -117,7 +117,7 @@ class MapViewDelegate(
 
 @OptIn(ExperimentalForeignApi::class)
 fun MKMapView.boundingBox(): BoundingBox {
-    // Be careful - don't return objects from useContents or dragons will appear
+    // Be careful - don't return objects from useContents() or dragons will appear
 
     val latitude = region.useContents { center.latitude }
     val longitude = region.useContents { center.longitude }
