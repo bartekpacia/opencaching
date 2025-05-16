@@ -1,16 +1,15 @@
 package tech.pacia.opencaching.features.geocache.activity
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -18,15 +17,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.Instant
@@ -49,7 +47,7 @@ fun GeocacheActivityScreen(
     Scaffold(
         modifier = modifier,
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 navigationIcon = {
                     IconButton(onClick = onNavUp) {
                         Icon(
@@ -59,30 +57,20 @@ fun GeocacheActivityScreen(
                     }
                 },
                 title = {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                    ) {
-                        SingleChoiceSegmentedButtonRow(
-                            modifier = Modifier.align(Alignment.Center),
-                        ) {
-                            SegmentedButton(
-                                icon = {},
-                                selected = viewMode == ViewMode.All,
-                                onClick = { viewMode = ViewMode.All },
-                                shape = MaterialTheme.shapes.small,
-                            ) {
-                                Text("Web")
-                            }
+                    SingleChoiceSegmentedButtonRow {
+                        SegmentedButton(
+                            selected = viewMode == ViewMode.All,
+                            onClick = { viewMode = ViewMode.All },
+                            shape = SegmentedButtonDefaults.itemShape(index = 0, count = 2),
+                            label = { Text("All") },
+                        )
 
-                            SegmentedButton(
-                                icon = {},
-                                selected = viewMode == ViewMode.Friends,
-                                onClick = { viewMode = ViewMode.Friends },
-                                shape = MaterialTheme.shapes.small,
-                            ) {
-                                Text("Text")
-                            }
-                        }
+                        SegmentedButton(
+                            selected = viewMode == ViewMode.Friends,
+                            onClick = { viewMode = ViewMode.Friends },
+                            shape = SegmentedButtonDefaults.itemShape(index = 1, count = 2),
+                            label = { Text("Friends") },
+                        )
                     }
                 },
             )
