@@ -23,6 +23,7 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.Navigation
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -34,6 +35,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -59,7 +64,10 @@ fun GeocacheScreen(
     onNavUp: () -> Unit = {},
     onNavigateToDescription: () -> Unit = {},
     onNavigateToActivity: () -> Unit = {},
+    showHint: Boolean = false,
 ) {
+    var showHint by remember { mutableStateOf(showHint) }
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -77,16 +85,10 @@ fun GeocacheScreen(
         },
     ) { padding ->
         Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .fillMaxWidth()
-                .padding(padding),
+            modifier = Modifier.verticalScroll(rememberScrollState()).fillMaxWidth().padding(padding),
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
-                    .padding(12.dp),
+                modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceVariant).padding(12.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Text(
@@ -147,10 +149,7 @@ fun GeocacheScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
-                    .padding(12.dp),
+                modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceVariant).padding(12.dp),
                 horizontalArrangement = Arrangement.SpaceAround,
             ) {
                 Rating(rating = geocache.difficulty, title = "Difficulty")
@@ -161,9 +160,7 @@ fun GeocacheScreen(
             Spacer(modifier = Modifier.height(12.dp))
 
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
+                modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceVariant),
             ) {
                 Text(
                     text = buildAnnotatedString {
@@ -174,24 +171,19 @@ fun GeocacheScreen(
 
                         append("\non ${geocache.dateHidden}")
                     },
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(12.dp),
+                    modifier = Modifier.align(Alignment.CenterHorizontally).padding(12.dp),
                     textAlign = TextAlign.Center,
                 )
 
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(Color.Gray),
+                    modifier = Modifier.fillMaxWidth().height(1.dp).background(Color.Gray),
                 )
 
                 Row(
                     modifier = Modifier.height(IntrinsicSize.Max),
                 ) {
                     TextButton(
-                        onClick = { /*TODO*/ },
+                        onClick = { showHint = !showHint },
                         modifier = Modifier.weight(1f),
                         shape = MaterialTheme.shapes.extraSmall,
                     ) {
@@ -199,10 +191,7 @@ fun GeocacheScreen(
                     }
 
                     Box(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .width(1.dp)
-                            .background(Color.Gray),
+                        modifier = Modifier.fillMaxHeight().width(1.dp).background(Color.Gray),
                     )
 
                     TextButton(
@@ -242,6 +231,23 @@ fun GeocacheScreen(
             }
         }
     }
+
+    if (showHint) {
+        AlertDialog(
+            title = {
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = "Hint",
+                    )
+                }
+            },
+            text = { Text(geocache.hint2, textAlign = TextAlign.Center) },
+            onDismissRequest = { showHint = false },
+            confirmButton = {},
+        )
+    }
+
 }
 
 @Composable
@@ -266,10 +272,7 @@ fun GeocacheInfoTile(
                 Text(subtitle)
                 Spacer(modifier = Modifier.height(4.dp))
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1f.dp)
-                        .background(Color.Gray),
+                    modifier = Modifier.fillMaxWidth().height(1f.dp).background(Color.Gray),
                 )
             }
         },
@@ -285,19 +288,28 @@ fun GeocacheInfoTile(
 
 @Preview
 @Composable
-private fun GeocacheScreemPreview() {
+private fun GeocacheScreenPreview() {
     OpencachingTheme {
-        GeocacheScreen(geocache = sampleGeocache) {}
+        GeocacheScreen(geocache = sampleGeocache)
     }
 }
 
 @Preview
 @Composable
-private fun GeocacheScreemPreviewDark() {
+private fun GeocacheScreenPreviewDark() {
     OpencachingTheme(darkThemeActive = true) {
-        GeocacheScreen(geocache = sampleGeocache) {}
+        GeocacheScreen(geocache = sampleGeocache)
     }
 }
+
+@Preview
+@Composable
+private fun GeocacheScreenPreviewWithHint() {
+    OpencachingTheme {
+        GeocacheScreen(geocache = sampleGeocache, showHint = true)
+    }
+}
+
 
 private val sampleGeocache = Geocache(
     code = "OP9655",
