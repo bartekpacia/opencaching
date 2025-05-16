@@ -77,7 +77,7 @@ fun GeocacheDescriptionScreen(
 private fun GeocacheDescriptionScreenPreview() {
     OpencachingTheme(darkThemeActive = true) {
         GeocacheDescriptionScreen(
-            html = "xdxdxd",
+            html = "<p>Some HTML content</p>",
         )
     }
 }

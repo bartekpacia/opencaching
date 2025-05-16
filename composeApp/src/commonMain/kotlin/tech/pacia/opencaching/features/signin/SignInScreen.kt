@@ -64,14 +64,11 @@ fun SignInScreen(
     val localFocusManager = LocalFocusManager.current
 
     Scaffold(
-        modifier = modifier
-            .pointerInput(Unit) { detectTapGestures(onTap = { localFocusManager.clearFocus() }) },
+        modifier = modifier.pointerInput(Unit) { detectTapGestures(onTap = { localFocusManager.clearFocus() }) },
         topBar = { TopAppBar(title = { Text("Opencaching") }) },
     ) { padding ->
         Column(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxWidth(),
+            modifier = Modifier.padding(padding).fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             OutlinedTextField(
@@ -115,18 +112,14 @@ fun SignInScreen(
 
             Button(
                 onClick = { onSignInSubmitted(username, password) },
-                modifier = Modifier
-                    .fillMaxWidth(fraction = 0.75f)
-                    .padding(8.dp),
+                modifier = Modifier.fillMaxWidth(fraction = 0.75f).padding(8.dp),
             ) {
                 Text("Sign in")
             }
 
             TextButton(
                 onClick = onSignInSkipped,
-                modifier = Modifier
-                    .fillMaxWidth(fraction = 0.75f)
-                    .padding(8.dp),
+                modifier = Modifier.fillMaxWidth(fraction = 0.75f).padding(8.dp),
             ) {
                 Text("Continue without signing in")
             }
@@ -135,13 +128,10 @@ fun SignInScreen(
 
     if (inProgress) {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color.Transparent)
-                .clickable(
+            modifier = Modifier.fillMaxSize().background(color = Color.Transparent).clickable(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }, // This is mandatory
-                    onClick = { /* block interactions with other UI */ },
+                    onClick = { /* block interaction with the UI behind the dialog */ },
                 ),
         ) {
             Column(
@@ -162,7 +152,10 @@ fun SignInScreen(
     if (hasError) {
         AlertDialog(
             icon = {
-                Icon(Icons.Rounded.ErrorOutline, contentDescription = "Example Icon")
+                Icon(
+                    Icons.Rounded.ErrorOutline,
+                    contentDescription = "Example Icon",
+                )
             },
             title = { Text(text = "dialogTitle") },
             text = { Text(text = "dialogText") },
@@ -183,5 +176,13 @@ fun SignInScreen(
 fun SignInScreenPreview() {
     OpencachingTheme {
         SignInScreen()
+    }
+}
+
+@Preview
+@Composable
+fun SignInScreenWithErrorPreview() {
+    OpencachingTheme {
+        SignInScreen(hasError = true)
     }
 }
