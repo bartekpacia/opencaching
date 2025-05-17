@@ -19,7 +19,7 @@ def main():
         task(
             name = "prepare",
             env = secrets(),
-            instance = container(image = "ghcr.io/cirruslabs/android-sdk:34"),
+            instance = container(image = "ghcr.io/cirruslabs/android-sdk:35"),
             only_if = "$CIRRUS_BRANCH != 'master'",
             instructions = [
                 setup_1password_cli(),
@@ -45,9 +45,11 @@ def main():
         task(
             name = "Deploy Android app",
             env = {"CIRRUS_CLONE_TAGS": "true"} | secrets(),
-            instance = container(image = "ghcr.io/cirruslabs/android-sdk:34"),
+            instance = container(
+                image = "ghcr.io/cirruslabs/android-sdk:35",
+                memory = "6GB",
+             ),
             only_if = "$CIRRUS_TAG =~ 'v.*' || $CIRRUS_BRANCH == 'master'",
-            # only_if = "$CIRRUS_TAG =~ 'v.*'",
             instructions = [
                 setup_1password_cli(),
                 setup_credentials(),
@@ -64,11 +66,9 @@ def main():
             env = {"CIRRUS_CLONE_TAGS": "true"} | secrets(),
             instance = macos_instance(
                 image = "ghcr.io/cirruslabs/macos-runner:sonoma",
-                cpu = 4,
                 memory = "6GB",
             ),
             only_if = "$CIRRUS_TAG =~ 'v.*' || $CIRRUS_BRANCH == 'master'",
-            # only_if = "$CIRRUS_TAG =~ 'v.*'",
             instructions = [
                 cache("cocoapods", "~/.cocoapods"),
                 setup_1password_cli(),
