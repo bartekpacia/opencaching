@@ -26,18 +26,24 @@ import androidx.compose.material.icons.rounded.Navigation
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,9 +70,16 @@ fun GeocacheScreen(
     onNavUp: () -> Unit = {},
     onNavigateToDescription: () -> Unit = {},
     onNavigateToActivity: () -> Unit = {},
-    showHint: Boolean = false,
+    previewShowHint: Boolean = false,
+    previewShowModalBottomSheet: Boolean = false,
 ) {
-    var showHint by remember { mutableStateOf(showHint) }
+    var coroutineScope = rememberCoroutineScope()
+    var showHint by remember { mutableStateOf(previewShowHint) }
+    var showModalBottomSheet by remember { mutableStateOf(previewShowModalBottomSheet) }
+    val sheetState = if (showModalBottomSheet) rememberStandardBottomSheetState(
+        initialValue = SheetValue.PartiallyExpanded,
+    )
+    else rememberModalBottomSheetState()
 
     Scaffold(
         modifier = modifier,
@@ -124,7 +137,7 @@ fun GeocacheScreen(
                     }
 
                     Button(
-                        onClick = {},
+                        onClick = { showModalBottomSheet = true },
                         modifier = Modifier.weight(1f),
                         shape = MaterialTheme.shapes.small,
                     ) {
@@ -230,6 +243,56 @@ fun GeocacheScreen(
                 )
             }
         }
+
+        if (showModalBottomSheet) {
+            ModalBottomSheet(
+                onDismissRequest = { showModalBottomSheet = false },
+                sheetState = sheetState,
+                dragHandle = { Box(modifier = Modifier.height(16.dp)) },
+            ) {
+                TextButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { },
+                ) {
+                    Text(
+                        text = "Found it",
+                        fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                    )
+                }
+
+                TextButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { },
+                ) {
+                    Text(
+                        text = "Didn't find it",
+                        fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                    )
+                }
+
+                TextButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { },
+                ) {
+                    Text(
+                        text = "Write note",
+                        fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                    )
+                }
+
+                HorizontalDivider()
+
+                TextButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { },
+                ) {
+                    Text(
+                        text = "Cancel",
+                        fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                    )
+                }
+            }
+        }
     }
 
     if (showHint) {
@@ -296,7 +359,7 @@ private fun GeocacheScreenPreview() {
 
 @Preview
 @Composable
-private fun GeocacheScreenPreviewDark() {
+private fun GeocacheScreenPreview_Dark() {
     OpencachingTheme(darkThemeActive = true) {
         GeocacheScreen(geocache = sampleGeocache)
     }
@@ -304,9 +367,17 @@ private fun GeocacheScreenPreviewDark() {
 
 @Preview
 @Composable
-private fun GeocacheScreenPreviewWithHint() {
+private fun GeocacheScreenPreview_WithHint() {
     OpencachingTheme {
-        GeocacheScreen(geocache = sampleGeocache, showHint = true)
+        GeocacheScreen(geocache = sampleGeocache, previewShowHint = true)
+    }
+}
+
+@Preview
+@Composable
+private fun GeocacheScreenPreview_WithModalBottomSheet() {
+    OpencachingTheme {
+        GeocacheScreen(geocache = sampleGeocache, previewShowModalBottomSheet = true)
     }
 }
 
