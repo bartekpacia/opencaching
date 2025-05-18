@@ -10,7 +10,6 @@ import androidx.compose.ui.viewinterop.UIKitView
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCSignatureOverride
 import kotlinx.cinterop.useContents
-import kotlinx.datetime.Clock
 import platform.CoreLocation.CLLocationCoordinate2DMake
 import platform.MapKit.MKAnnotationProtocol
 import platform.MapKit.MKCoordinateRegionMakeWithDistance
@@ -21,7 +20,6 @@ import platform.darwin.NSObject
 import tech.pacia.okapi.client.models.BoundingBox
 import tech.pacia.okapi.client.models.Geocache
 import tech.pacia.okapi.client.models.Location
-import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
@@ -86,15 +84,13 @@ actual fun Map(
 }
 
 /**
- * A delegate that fires a callback when map bounds change. It does so in a debounced manner.
+ * A delegate that fires a callback when map bounds change.
  */
 class MapViewDelegate(
     private val onMapBoundsChange: (BoundingBox?) -> Unit,
     private val onGeocacheTap: (String) -> Unit,
 ) : NSObject(),
     MKMapViewDelegateProtocol {
-
-    private var lastInstant = Clock.System.now()
 
     @ObjCSignatureOverride
     override fun mapView(mapView: MKMapView, didSelectAnnotation: MKAnnotationProtocol) {
@@ -104,19 +100,17 @@ class MapViewDelegate(
         }
     }
 
-    override fun mapViewDidChangeVisibleRegion(mapView: MKMapView) {
-        val currentInstant = Clock.System.now()
-        val duration = currentInstant - lastInstant
+//    override fun mapViewDidFinishLoadingMap(mapView: MKMapView) {
+//        onMapBoundsChange(mapView.boundingBox())
+//    }
 
-        if (duration >= 1.seconds) {
-            onMapBoundsChange(mapView.boundingBox())
-            lastInstant = currentInstant
-        }
+    override fun mapViewDidChangeVisibleRegion(mapView: MKMapView) {
+        onMapBoundsChange(mapView.boundingBox())
     }
 }
 
 @OptIn(ExperimentalForeignApi::class)
-fun MKMapView.boundingBox(): BoundingBox {
+private fun MKMapView.boundingBox(): BoundingBox {
     // Be careful - don't return objects from useContents() or dragons will appear
 
     val latitude = region.useContents { center.latitude }
