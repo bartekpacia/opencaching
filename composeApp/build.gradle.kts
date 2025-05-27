@@ -1,10 +1,10 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
-import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -59,7 +59,6 @@ kotlin {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
-                implementation(compose.material)
                 implementation(compose.material3)
                 implementation(compose.ui)
                 implementation(compose.components.resources)
@@ -120,15 +119,6 @@ android {
     namespace = "tech.pacia.opencaching"
     compileSdk = 35
 
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
     defaultConfig {
         applicationId = "tech.pacia.opencaching"
         minSdk = 24
@@ -183,14 +173,13 @@ android {
         }
     }
 
-    buildFeatures {
-        compose = true
-        buildConfig = true
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
-    dependencies {
-        debugImplementation(compose.uiTooling)
-        detektPlugins(libs.detekt.formatting)
+    buildFeatures {
+        buildConfig = true
     }
 }
 
@@ -214,4 +203,9 @@ tasks.withType<Detekt> {
         // See https://github.com/detekt/detekt/issues/5611#issuecomment-1364313507
         it.file.relativeTo(projectDir).startsWith("build")
     }
+}
+
+dependencies {
+    debugImplementation(compose.uiTooling)
+    detektPlugins(libs.detekt.formatting)
 }
