@@ -19,6 +19,7 @@ misc.xml
 
 AndroidProjectSystem.xml
 deploymentTargetSelector.xml
+deviceManager.xml
 google-java-format.xml
 gradle.xml
 # inspectionProfiles/
