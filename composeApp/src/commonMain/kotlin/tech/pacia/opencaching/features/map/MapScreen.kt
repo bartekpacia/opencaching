@@ -10,15 +10,15 @@ import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import tech.pacia.okapi.client.models.Geocache
 import tech.pacia.okapi.client.models.Location
 import tech.pacia.opencaching.data.CachesRepository
 import tech.pacia.opencaching.debugLog
+import kotlin.time.Clock.System
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
@@ -47,7 +47,7 @@ fun MapScreen(
 
     val repository = remember { CachesRepository() }
 
-    var lastInstant by remember { mutableStateOf(Clock.System.now()) }
+    var lastInstant by remember { mutableStateOf(System.now()) }
 
     Map(
         modifier = modifier,
@@ -57,7 +57,7 @@ fun MapScreen(
         onMapBoundsChange = {
             if (it == null) return@Map
 
-            val currentInstant = Clock.System.now()
+            val currentInstant = System.now()
             val duration = currentInstant - lastInstant
             lastInstant = currentInstant
 

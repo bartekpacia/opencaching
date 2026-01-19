@@ -11,10 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format
@@ -23,8 +23,8 @@ import kotlinx.datetime.toLocalDateTime
 import opencaching.composeapp.generated.resources.Res
 import opencaching.composeapp.generated.resources.profile
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import tech.pacia.okapi.client.models.Log
+import kotlin.time.Instant
 
 @Composable
 fun LogItem(
@@ -94,7 +94,7 @@ fun LogItem(
                         append(" on ")
 
                         val dateFormat = LocalDateTime.Format {
-                            dayOfMonth()
+                            day()
                             char('/')
                             monthNumber()
                             char('/')

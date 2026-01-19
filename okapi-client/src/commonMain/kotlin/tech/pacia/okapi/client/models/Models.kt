@@ -1,6 +1,5 @@
 package tech.pacia.okapi.client.models
 
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
@@ -9,6 +8,7 @@ import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import kotlin.time.Instant
 
 // TODO: Use kotlinx.date type instead of String for string dates in ISO 8601
 
