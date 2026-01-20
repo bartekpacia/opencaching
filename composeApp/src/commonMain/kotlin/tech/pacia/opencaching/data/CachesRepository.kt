@@ -1,14 +1,14 @@
 package tech.pacia.opencaching.data
 
-import opencaching.composeApp.BuildConfig
+// import opencaching.composeApp.BuildConfig
 import tech.pacia.okapi.client.OpencachingClient
 import tech.pacia.okapi.client.models.BoundingBox
 import tech.pacia.okapi.client.models.Geocache
 import tech.pacia.okapi.client.models.Log
 
 private const val API_URL = "https://opencaching.pl/okapi/services"
-private const val CONSUMER_KEY = BuildConfig.CONSUMER_KEY
-private const val CONSUMER_SECRET = BuildConfig.CONSUMER_SECRET
+private const val CONSUMER_KEY = "TODO" // BuildConfig.CONSUMER_KEY
+private const val CONSUMER_SECRET = "TODO" // BuildConfig.CONSUMER_SECRET
 
 private val defaultOpencachingClient = OpencachingClient(
     consumerKey = CONSUMER_KEY,

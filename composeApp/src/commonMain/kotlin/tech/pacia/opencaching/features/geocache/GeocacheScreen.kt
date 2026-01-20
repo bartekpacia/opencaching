@@ -54,13 +54,13 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlinx.datetime.Instant
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import tech.pacia.okapi.client.models.Geocache
 import tech.pacia.okapi.client.models.Location
 import tech.pacia.okapi.client.models.User
 import tech.pacia.opencaching.ui.theme.OpencachingTheme
+import kotlin.time.Instant
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

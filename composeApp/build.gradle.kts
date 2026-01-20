@@ -1,14 +1,10 @@
 import io.gitlab.arturbosch.detekt.Detekt
-import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.io.FileInputStream
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinParcelize)
@@ -17,37 +13,24 @@ plugins {
     alias(libs.plugins.detekt)
 }
 
-val properties = Properties().apply {
-    load(rootProject.file("local.properties").inputStream())
-}
-
-val key = properties["okapi.consumerKey"] as? String ?: "NOT_PROVIDED"
-val secret = properties["okapi.consumerSecret"] as? String ?: "NOT_PROVIDED"
-
-val keystoreProperties = Properties()
-val keystorePropertiesFile = rootProject.file("keystore.properties")
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
-}
-
-buildConfig {
-    buildConfigField("String", "CONSUMER_KEY", "\"$key\"")
-    buildConfigField("String", "CONSUMER_SECRET", "\"$secret\"")
-}
-
 kotlin {
-    androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    androidLibrary {
+        minSdk = 21
+        namespace = "compose.project.demo.composedemo"
+        compileSdk = 36
+
         compilerOptions {
             jvmTarget = JvmTarget.JVM_11
+        }
+
+        androidResources {
+            enable = true
         }
     }
 
     jvm("desktop")
 
-    listOf(
-        iosX64(), iosArm64(), iosSimulatorArm64()
-    ).forEach { iosTarget ->
+    listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
@@ -57,14 +40,14 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material3)
-                implementation(compose.ui)
-                implementation(compose.components.resources)
-                implementation(compose.components.uiToolingPreview)
+                implementation(libs.runtime)
+                implementation(libs.foundation)
+                implementation(libs.material3)
+                implementation(libs.ui)
+                implementation(libs.components.resources)
+                implementation(libs.ui.tooling.preview)
 
-                implementation(compose.materialIconsExtended)
+                implementation(libs.material.icons.extended)
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.json)
@@ -87,20 +70,19 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(libs.kotlin.test)
-
-                @OptIn(ExperimentalComposeLibrary::class)
-                implementation(compose.uiTest)
+                implementation(libs.ui.test)
             }
         }
 
         androidMain {
             dependencies {
-                implementation(compose.preview)
+                implementation(libs.ui.tooling.preview)
                 implementation(libs.androidx.activity.compose)
 
                 implementation(libs.ktor.client.okhttp)
                 implementation(libs.maps.compose)
                 implementation(libs.play.services.maps)
+
             }
         }
 
@@ -112,74 +94,6 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
-    }
-}
-
-android {
-    namespace = "tech.pacia.opencaching"
-    compileSdk = 35
-
-    defaultConfig {
-        applicationId = "tech.pacia.opencaching"
-        minSdk = 24
-        targetSdk = 35
-        versionCode = (findProperty("versionCode") as? String)?.toIntOrNull() ?: 1
-        versionName = findProperty("versionName") as? String ?: "1.0.0"
-
-        buildConfigField(
-            type = "String",
-            name = "OKAPI_CONSUMER_KEY",
-            value = "\"${key}\"",
-        )
-
-        buildConfigField(
-            type = "String",
-            name = "OKAPI_CONSUMER_SECRET",
-            value = "\"${secret}\"",
-        )
-    }
-
-    signingConfigs {
-        create("release") {
-            storeFile = if (keystorePropertiesFile.exists()) file(keystoreProperties["storeFile"] as String) else null
-            storePassword = if (keystorePropertiesFile.exists()) keystoreProperties["storePassword"] as String else null
-            keyAlias = if (keystorePropertiesFile.exists()) keystoreProperties["keyAlias"] as String else null
-            keyPassword = if (keystorePropertiesFile.exists()) keystoreProperties["keyPassword"] as String else null
-        }
-    }
-
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-
-    buildTypes {
-        named("debug") {
-            signingConfig = signingConfigs.getByName("debug")
-            isShrinkResources = false
-            isMinifyEnabled = false
-        }
-
-        named("release") {
-            signingConfig = signingConfigs.getByName("release")
-            isShrinkResources = true
-            isMinifyEnabled = true
-
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    buildFeatures {
-        buildConfig = true
     }
 }
 
@@ -205,7 +119,7 @@ tasks.withType<Detekt> {
     }
 }
 
-dependencies {
-    debugImplementation(compose.uiTooling)
-    detektPlugins(libs.detekt.formatting)
-}
+//dependencies {
+//    debugImplementation(compose.uiTooling)
+//    detektPlugins(libs.detekt.formatting)
+//}

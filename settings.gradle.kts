@@ -18,6 +18,7 @@ dependencyResolutionManagement {
     }
 }
 
+include(":androidApp")
 include(":composeApp")
 include(":okapi-cli")
 include(":okapi-client")

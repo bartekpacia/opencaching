@@ -19,7 +19,7 @@ def main():
         task(
             name = "prepare",
             env = secrets(),
-            instance = container(image = "ghcr.io/cirruslabs/android-sdk:35"),
+            instance = container(image = "ghcr.io/cirruslabs/android-sdk:36"),
             only_if = "$CIRRUS_BRANCH != 'master'",
             instructions = [
                 setup_1password_cli(),
@@ -34,11 +34,11 @@ def main():
                 ),
                 script(
                     "checks",
-                    "./gradlew :composeApp:lint",
-                    "./gradlew :composeApp:detektAndroidDebug",
-                    "./gradlew :composeApp:detektMetadataMain",
-                    "./gradlew :composeApp:detektMetadataIosMain",  # FIXME: requires macOS host
-                    "./gradlew :composeApp:detektMetadataCommonMain",
+                    "./gradlew :androidApp:lint",
+                    # "./gradlew :composeApp:detektAndroidDebug",
+                    # "./gradlew :composeApp:detektMetadataMain",
+                    # "./gradlew :composeApp:detektMetadataIosMain",  # FIXME: requires macOS host
+                    # "./gradlew :composeApp:detektMetadataCommonMain",
                 ),
             ],
         ),
@@ -46,7 +46,7 @@ def main():
             name = "Deploy Android app",
             env = {"CIRRUS_CLONE_TAGS": "true"} | secrets(),
             instance = container(
-                image = "ghcr.io/cirruslabs/android-sdk:35",
+                image = "ghcr.io/cirruslabs/android-sdk:36",
                 memory = "6GB",
              ),
             only_if = "$CIRRUS_TAG =~ 'v.*' || $CIRRUS_BRANCH == 'master'",

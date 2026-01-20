@@ -26,12 +26,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import tech.pacia.okapi.client.models.Log
 import tech.pacia.okapi.client.models.User
+import kotlin.time.Instant
 
 private enum class ViewMode { All, Friends }
 

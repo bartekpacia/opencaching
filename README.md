@@ -47,7 +47,7 @@ op run -- cirrus run \
 
 To display the map, a Google Maps API key is needed. It can be obtained through
 Google Cloud Console. Once you have the key, paste it into
-`composeApp/src/androidMain/res/values/google_maps_api_key.xml`:
+`androidApp/src/main/res/values/google_maps_api_key.xml`:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
