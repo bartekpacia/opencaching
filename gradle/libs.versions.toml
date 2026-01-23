@@ -32,7 +32,6 @@ maps-compose = { module = "com.google.maps.android:maps-compose", version = "7.0
 material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
 play-services-maps = { module = "com.google.android.gms:play-services-maps", version = "20.0.0" }
-detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 clikt = { module = "com.github.ajalt.clikt:clikt", version = "5.1.0" }
 landscapist = { module = "com.github.skydoves:landscapist-coil3", version = "2.8.2" }
 runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "runtime" }

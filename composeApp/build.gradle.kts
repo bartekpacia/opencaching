@@ -60,9 +60,6 @@ kotlin {
 
                 implementation(libs.landscapist)
 
-                // detektPlugins(libs.detekt.formatting)
-                // detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.6")
-
                 implementation(projects.okapiClient)
             }
         }
@@ -118,8 +115,3 @@ tasks.withType<Detekt> {
         it.file.relativeTo(projectDir).startsWith("build")
     }
 }
-
-//dependencies {
-//    debugImplementation(compose.uiTooling)
-//    detektPlugins(libs.detekt.formatting)
-//}
