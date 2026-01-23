@@ -3,50 +3,55 @@
 
 [versions]
 agp = "9.0.0" # https://mvnrepository.com/artifact/com.android.tools.build/gradle
-componentsResources = "1.10.0"
-foundation = "1.10.0"
 kotlin = "2.3.0"
-detekt = "1.23.8"
 ktor = "3.3.3"
-material3 = "1.9.0"
-materialIconsExtended = "1.7.3"
-runtime = "1.10.0"
-ui = "1.10.0"
 
 [libraries]
-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "componentsResources" }
-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "foundation" }
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+# Compose
+foundation = { module = "org.jetbrains.compose.foundation:foundation", version = "1.10.0" }
+runtime = { module = "org.jetbrains.compose.runtime:runtime", version = "1.10.0" }
+ui = { module = "org.jetbrains.compose.ui:ui", version = "1.10.0" }
+ui-test = { module = "org.jetbrains.compose.ui:ui-test", version = "1.10.0" }
+ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version = "1.10.0" }
+components-resources = { module = "org.jetbrains.compose.components:components-resources", version = "1.10.0" }
+
+# AndroidX
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version = "1.12.2" }
 androidx-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version = "2.9.6" }
 androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version = "2.9.1" }
-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.7.1" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.9.0" }
+
+# Kotlin
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+
+# KotlinX
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version = "1.10.2" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.9.0" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.7.1" }
+
+# ktor
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 maps-compose = { module = "com.google.maps.android:maps-compose", version = "7.0.0" }
-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
+material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version = "1.7.3" }
+material3 = { module = "org.jetbrains.compose.material3:material3", version = "1.9.0" }
 play-services-maps = { module = "com.google.android.gms:play-services-maps", version = "20.0.0" }
 clikt = { module = "com.github.ajalt.clikt:clikt", version = "5.1.0" }
 landscapist = { module = "com.github.skydoves:landscapist-coil3", version = "2.8.2" }
-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "runtime" }
-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "ui" }
-ui-test = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "ui" }
-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version = "1.10.0" }
+
 
 [plugins]
-kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 androidApplication = { id = "com.android.application", version.ref = "agp" }
-composeMultiplatform = { id = "org.jetbrains.compose", version = "1.10.0" }
+
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+composeMultiplatform = { id = "org.jetbrains.compose", version = "1.10.0" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version = "6.0.7" }
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.23.8" }
