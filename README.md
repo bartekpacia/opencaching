@@ -6,6 +6,8 @@ A simple, cross-platform Geocaching app built with Compose Multiplatform.
 
 Supports OpenCaching sites through [OKAPI].
 
+# Getting started
+
 ### Credentials setup
 
 It's fully automated thanks to 1Password.
@@ -56,8 +58,21 @@ Google Cloud Console. Once you have the key, paste it into
 </resources>
 ```
 
-[OKAPI]: https://www.opencaching.pl/okapi/introduction.html
+# Development
+
+**Basic basic practices**
+
+- Follow [Kotlin coding conventions](https://kotlinlang.org/docs/coding-conventions.html)
+- Follow [Style guidelines for Jetpack Compose APIs](https://developer.android.com/develop/ui/compose/api-guidelines)
+
+**Project structure**
+
+This project is a multiplatform Kotlin project.
+Run 
+
 [ci_badge]: https://api.cirrus-ci.com/github/bartekpacia/opencaching.svg
 [ci_link]: https://cirrus-ci.com/github/bartekpacia/opencaching
+[OKAPI]: https://www.opencaching.pl/okapi/introduction.html
 [1Password secret references]: https://developer.1password.com/docs/cli/secret-references
 [Cirrus CI]: https://cirrus-ci.org/
+[oprun]: https://developer.1password.com/docs/cli/reference/commands/run
