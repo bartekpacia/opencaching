@@ -9,22 +9,11 @@ plugins {
     alias(libs.plugins.buildConfig)
 }
 
-val properties = Properties().apply {
-    load(rootProject.file("local.properties").inputStream())
-}
-
-val key = properties["okapi.consumerKey"] as? String ?: "NOT_PROVIDED"
-val secret = properties["okapi.consumerSecret"] as? String ?: "NOT_PROVIDED"
 
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
-}
-
-buildConfig {
-    buildConfigField("String", "CONSUMER_KEY", "\"$key\"")
-    buildConfigField("String", "CONSUMER_SECRET", "\"$secret\"")
 }
 
 android {
@@ -37,18 +26,6 @@ android {
         targetSdk = 36
         versionCode = (findProperty("versionCode") as? String)?.toIntOrNull() ?: 1
         versionName = findProperty("versionName") as? String ?: "1.0.0"
-
-        buildConfigField(
-            type = "String",
-            name = "OKAPI_CONSUMER_KEY",
-            value = "\"${key}\"",
-        )
-
-        buildConfigField(
-            type = "String",
-            name = "OKAPI_CONSUMER_SECRET",
-            value = "\"${secret}\"",
-        )
     }
 
     signingConfigs {

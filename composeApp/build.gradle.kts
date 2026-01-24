@@ -1,6 +1,8 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
+import kotlin.apply
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -11,6 +13,18 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.buildConfig)
     alias(libs.plugins.detekt)
+}
+
+val properties = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
+}
+
+val key = properties["okapi.consumerKey"] as? String ?: "NOT_PROVIDED"
+val secret = properties["okapi.consumerSecret"] as? String ?: "NOT_PROVIDED"
+
+buildConfig {
+    buildConfigField("CONSUMER_KEY", key)
+    buildConfigField("CONSUMER_SECRET", secret)
 }
 
 kotlin {
