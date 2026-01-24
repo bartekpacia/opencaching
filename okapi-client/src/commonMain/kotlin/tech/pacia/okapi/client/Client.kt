@@ -57,8 +57,8 @@ public class OpencachingClient public constructor(
                     mapOf(
                         "fields" to Geocache.allParams,
                         "owner_fields" to User.allParams,
-                    )
-                )
+                    ),
+                ),
             )
             parameter("wrap", false)
         }
