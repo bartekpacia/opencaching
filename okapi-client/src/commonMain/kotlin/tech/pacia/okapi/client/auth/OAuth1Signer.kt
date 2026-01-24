@@ -19,7 +19,6 @@ public class OAuth1Signer {
      */
     private val UNRESERVED_CHARS = ('A'..'Z') + ('a'..'z') + ('0'..'9') + listOf('-', '.', '_', '~')
 
-
     /**
      * Returns OAuth protocol parameters that are added to the request to sign it.
      *
