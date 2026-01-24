@@ -10,7 +10,6 @@ import androidx.compose.ui.viewinterop.UIKitView
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCSignatureOverride
 import kotlinx.cinterop.useContents
-import kotlinx.datetime.Clock
 import platform.CoreLocation.CLLocationCoordinate2DMake
 import platform.MapKit.MKAnnotationProtocol
 import platform.MapKit.MKCoordinateRegionMakeWithDistance
@@ -21,6 +20,7 @@ import platform.darwin.NSObject
 import tech.pacia.okapi.client.models.BoundingBox
 import tech.pacia.okapi.client.models.Geocache
 import tech.pacia.okapi.client.models.Location
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalForeignApi::class)
