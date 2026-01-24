@@ -29,3 +29,15 @@ iosApp/iosApp.xcarchive/
 iosApp/build
 iosApp/fastlane/report.xml
 fastlane/fastlane/report.xml
+
+.idea/**
+!.idea/vcs.xml
+!.idea/codeStyles/
+!.idea/codeStyles/**
+!.idea/dictionaries/
+!.idea/dictionaries/**
+!.idea/runConfigurations/
+!.idea/runConfigurations/**
+!.idea/inspectionProfiles/
+!.idea/inspectionProfiles/**
+!.idea/icon.svg

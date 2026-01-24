@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="okapi-client-jvm">
-    <output-path>$PROJECT_DIR$/okapi-client/build/libs</output-path>
-    <root id="archive" name="okapi-client-jvm.jar">
-      <element id="module-output" name="opencaching.okapi-client.jvmMain" />
-    </root>
-  </artifact>
-</component>
