@@ -39,7 +39,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-expect fun applyPlatformSpecificStyling(darkThemeActive: Boolean, colorScheme: ColorScheme)
+expect fun applyPlatformSpecificStyling(darkTheme: Boolean, colorScheme: ColorScheme)
 
 @Composable
 fun OpencachingTheme(
@@ -48,7 +48,7 @@ fun OpencachingTheme(
 ) {
     val colorScheme = if (darkThemeActive) DarkColorScheme else LightColorScheme
 
-    applyPlatformSpecificStyling(darkThemeActive = darkThemeActive, colorScheme = colorScheme)
+    applyPlatformSpecificStyling(darkTheme = darkThemeActive, colorScheme = colorScheme)
 
     MaterialTheme(
         colorScheme = colorScheme,

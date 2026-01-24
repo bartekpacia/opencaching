@@ -81,7 +81,10 @@ actual fun Map(
         factory = { mkMapView },
         modifier = modifier.fillMaxSize(),
         update = { },
-        properties = UIKitInteropProperties(isInteractive = true, isNativeAccessibilityEnabled = true),
+        properties = UIKitInteropProperties(
+            isInteractive = true,
+            isNativeAccessibilityEnabled = true,
+        ),
     )
 }
 
@@ -91,8 +94,7 @@ actual fun Map(
 class MapViewDelegate(
     private val onMapBoundsChange: (BoundingBox?) -> Unit,
     private val onGeocacheTap: (String) -> Unit,
-) : NSObject(),
-    MKMapViewDelegateProtocol {
+) : NSObject(), MKMapViewDelegateProtocol {
 
     private var lastInstant = Clock.System.now()
 

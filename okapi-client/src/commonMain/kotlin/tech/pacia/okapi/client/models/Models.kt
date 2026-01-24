@@ -221,7 +221,8 @@ public data class User(
     @SerialName("caches_hidden") val cachesHidden: Int,
 ) {
     public companion object {
-        public val allParams: String = "uuid|username|profile_url|date_registered|caches_found|caches_hidden"
+        public val allParams: String =
+            "uuid|username|profile_url|date_registered|caches_found|caches_hidden"
     }
 }
 

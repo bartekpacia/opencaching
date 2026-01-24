@@ -5,4 +5,5 @@ import androidx.compose.runtime.Composable
 
 @Suppress("EmptyFunctionBlock")
 @Composable
-actual fun applyPlatformSpecificStyling(darkThemeActive: Boolean, colorScheme: ColorScheme) {}
+actual fun applyPlatformSpecificStyling(darkTheme: Boolean, colorScheme: ColorScheme) {
+}

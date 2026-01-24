@@ -22,11 +22,17 @@ actual fun WebView(
         factory = { webView },
         modifier = modifier.fillMaxSize(),
         update = {},
-        properties = UIKitInteropProperties(isInteractive = true, isNativeAccessibilityEnabled = true),
+        properties = UIKitInteropProperties(
+            isInteractive = true,
+            isNativeAccessibilityEnabled = true,
+        ),
     )
 }
 
-class WebViewController(private val html: String) : UIViewController(nibName = null, bundle = null) {
+class WebViewController(private val html: String) : UIViewController(
+    nibName = null,
+    bundle = null,
+) {
     private var webView: WKWebView? = null
 
     override fun loadView() {

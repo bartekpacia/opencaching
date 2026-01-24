@@ -129,10 +129,10 @@ fun SignInScreen(
     if (inProgress) {
         Box(
             modifier = Modifier.fillMaxSize().background(color = Color.Transparent).clickable(
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }, // This is mandatory
-                    onClick = { /* block interaction with the UI behind the dialog */ },
-                ),
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }, // This is mandatory
+                onClick = { /* block interaction with the UI behind the dialog */ },
+            ),
         ) {
             Column(
                 modifier = Modifier.align(Alignment.Center),

@@ -9,13 +9,13 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 @Composable
-actual fun applyPlatformSpecificStyling(darkThemeActive: Boolean, colorScheme: ColorScheme) {
+actual fun applyPlatformSpecificStyling(darkTheme: Boolean, colorScheme: ColorScheme) {
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkThemeActive
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
 }

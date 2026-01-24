@@ -10,7 +10,6 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import tech.pacia.okapi.client.OpencachingClient
 import tech.pacia.okapi.client.models.BoundingBox
@@ -20,13 +19,24 @@ class App : CliktCommand() {
 }
 
 class Logs : CliktCommand(name = "logs") {
-
     override fun help(context: Context): String = "Perform operations on logs"
-    private val geocacheCode: String by option("--code").required().help("Cache ID")
-    private val consumerKey: String by option(envvar = "OKAPI_CONSUMER_KEY").required().help("OKAPI customer key")
+    private val geocacheCode: String by option("--code")
+        .required()
+        .help("Cache ID")
 
-    private val offset: Int by option("--offset").int().default(0).help("Offset")
-    private val limit: Int by option("--limit").int().default(10).help("Number of logs to fetch")
+    private val consumerKey: String by option(envvar = "OKAPI_CONSUMER_KEY")
+        .required()
+        .help("OKAPI customer key")
+
+    private val offset: Int by option("--offset")
+        .int()
+        .default(0)
+        .help("Offset")
+
+    private val limit: Int by option("--limit")
+        .int()
+        .default(10)
+        .help("Number of logs to fetch")
 
     override fun run() = runBlocking {
         val client = OpencachingClient(consumerKey = consumerKey)
@@ -47,8 +57,11 @@ class Geocache : CliktCommand(name = "geocache") {
 }
 
 class GeocacheGet : CliktCommand(name = "get") {
-    private val geocacheCode: String by option("--code").required().help("Cache ID")
-    private val consumerKey: String by option(envvar = "OKAPI_CONSUMER_KEY").required().help("OKAPI customer key")
+    private val geocacheCode: String by option("--code")
+        .required().help("Cache ID")
+    private val consumerKey: String by option(envvar = "OKAPI_CONSUMER_KEY")
+        .required()
+        .help("OKAPI customer key")
 
     override fun run() = runBlocking {
         val client = OpencachingClient(consumerKey = consumerKey)
@@ -63,13 +76,16 @@ class GeocacheList : CliktCommand(name = "list") {
 }
 
 class SearchAndRetrieve : CliktCommand(name = "search_and_retrieve") {
-    private val boundingBox: String by option("--bbox").required().help(
-        """
-        |Bounding box in pipe format (S|W|N|E), for example:
-        |    50.18295|18.42268|50.20496|18.46956
-        """.trimMargin()
-    )
-    private val consumerKey: String by option(envvar = "OKAPI_CONSUMER_KEY").required().help("OKAPI customer key")
+    private val boundingBox: String by option("--bbox")
+        .required()
+        .help(
+            """
+            |Bounding box in pipe format (S|W|N|E), for example:
+            |    50.18295|18.42268|50.20496|18.46956
+            """.trimMargin(marginPrefix = "|")
+        )
+    private val consumerKey: String by option(envvar = "OKAPI_CONSUMER_KEY").required()
+        .help("OKAPI customer key")
 
     override fun run() = runBlocking {
         val bbox = BoundingBox.fromPipeFormat(boundingBox)

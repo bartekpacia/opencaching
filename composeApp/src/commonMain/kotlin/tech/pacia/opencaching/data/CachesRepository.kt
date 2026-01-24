@@ -20,9 +20,13 @@ private val defaultOpencachingClient = OpencachingClient(
 
 class CachesRepository(private val client: OpencachingClient = defaultOpencachingClient) {
 
-    suspend fun searchAndRetrieve(bbox: BoundingBox): Map<String, Geocache> = client.searchAndRetrieve(bbox)
+    suspend fun searchAndRetrieve(bbox: BoundingBox): Map<String, Geocache> {
+        return client.searchAndRetrieve(bbox)
+    }
 
-    suspend fun searchInBoundingBox(bbox: BoundingBox): List<Geocache> = client.searchInBoundingBox(bbox)
+    suspend fun searchInBoundingBox(bbox: BoundingBox): List<Geocache> {
+        return client.searchInBoundingBox(bbox)
+    }
 
     suspend fun getGeocache(code: String): Geocache = client.getGeocache(code)
 

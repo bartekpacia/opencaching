@@ -1,4 +1,6 @@
 # Copied from https://youtrack.jetbrains.com/issue/FL-15599/No-way-of-disabling-Java-Kotlin-wildcard-imports
+[*]
+insert_final_newline = true
 
 [*.java]
 ij_java_class_count_to_use_import_on_demand = 1024

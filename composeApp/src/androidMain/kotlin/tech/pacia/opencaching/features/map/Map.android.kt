@@ -57,7 +57,10 @@ actual fun Map(
         for (cache in caches) {
             key(cache.code) {
                 Marker(
-                    state = rememberMarkerState(key = cache.code, position = cache.location.toLatLng()),
+                    state = rememberMarkerState(
+                        key = cache.code,
+                        position = cache.location.toLatLng(),
+                    ),
                     title = cache.name,
                     snippet = cache.code,
                     icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN),
