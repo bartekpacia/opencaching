@@ -41,6 +41,8 @@ play-services-maps = { module = "com.google.android.gms:play-services-maps", ver
 clikt = { module = "com.github.ajalt.clikt:clikt", version = "5.1.0" }
 landscapist = { module = "com.github.skydoves:landscapist-coil3", version = "2.8.2" }
 
+# KotlinCrypto (for OAuth 1.0a HMAC-SHA1 signing)
+kotlincrypto-hmac-sha1 = { module = "org.kotlincrypto.macs:hmac-sha1", version = "0.8.0" }
 
 [plugins]
 androidMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
