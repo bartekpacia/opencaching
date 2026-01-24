@@ -60,15 +60,16 @@ Google Cloud Console. Once you have the key, paste it into
 
 # Development
 
-**Basic basic practices**
+**Practices**
 
 - Follow [Kotlin coding conventions](https://kotlinlang.org/docs/coding-conventions.html)
 - Follow [Style guidelines for Jetpack Compose APIs](https://developer.android.com/develop/ui/compose/api-guidelines)
+- Follow [Semantic Line Breaks](https://sembr.org)
 
 **Project structure**
 
-This project is a multiplatform Kotlin project.
-Run 
+This project is a multiplatform Kotlin project, built with Gradle.
+To discover the project structure, run `./gradlew projects`. 
 
 [ci_badge]: https://api.cirrus-ci.com/github/bartekpacia/opencaching.svg
 [ci_link]: https://cirrus-ci.com/github/bartekpacia/opencaching
