@@ -6,6 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlin.time.Instant
@@ -13,8 +14,9 @@ import kotlin.time.Instant
 // TODO: Use kotlinx.date type instead of String for string dates in ISO 8601
 
 // Custom serializer is needed because documentation says the we MUST be prepare for new enums to be added to API.
-private object GeocacheTypeSerializer : KSerializer<Geocache.Type> {
-    override val descriptor = PrimitiveSerialDescriptor("type", PrimitiveKind.STRING)
+public object GeocacheTypeSerializer : KSerializer<Geocache.Type> {
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("type", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: Geocache.Type) {
         encoder.encodeString(value.name)
@@ -190,8 +192,9 @@ public data class BoundingBox(
     }
 }
 
-private object LocationAsStringSerializer : KSerializer<Location> {
-    override val descriptor = PrimitiveSerialDescriptor("location", PrimitiveKind.STRING)
+public object LocationAsStringSerializer : KSerializer<Location> {
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("location", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: Location) {
         val string = "${value.latitude}|${value.longitude}"
@@ -273,17 +276,17 @@ public data class Log(
     }
 }
 
-// Custom serializer is needed because documentation says the we MUST be prepare for new enums to be added to API.
-private object LogTypeSerializer : KSerializer<Log.Type> {
-    override val descriptor = PrimitiveSerialDescriptor("type", PrimitiveKind.STRING)
+// Custom serializer is needed because documentation says the we MUST be prepared for new enums to be added to API.
+public object LogTypeSerializer : KSerializer<Log.Type> {
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("type", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: Log.Type) {
         encoder.encodeString(value.id)
     }
 
     override fun deserialize(decoder: Decoder): Log.Type {
-        val id = decoder.decodeString()
-        return when (id) {
+        return when (decoder.decodeString()) {
             Log.Type.DidFind.id -> Log.Type.DidFind
             Log.Type.DidNotFind.id -> Log.Type.DidNotFind
             Log.Type.Comment.id -> Log.Type.Comment
