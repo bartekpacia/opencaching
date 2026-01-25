@@ -10,6 +10,7 @@ import tech.pacia.okapi.client.models.Log
 private const val CONSUMER_KEY = BuildConfig.CONSUMER_KEY
 private const val CONSUMER_SECRET = BuildConfig.CONSUMER_SECRET
 
+// TODO: OpencachingClient instance should be injected somehow (try out Metro?)
 private val defaultOpencachingClient = OpencachingClient(
     consumerCredentials = ConsumerCredentials(key = CONSUMER_KEY, secret = CONSUMER_SECRET),
 )

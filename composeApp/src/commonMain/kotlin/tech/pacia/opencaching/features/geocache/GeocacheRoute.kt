@@ -21,6 +21,7 @@ fun GeocacheRoute(
     onNavigateToDescription: () -> Unit,
     onNavigateToActivity: () -> Unit = {},
 ) {
+    // TODO: OpencachingClient instance should be injected somehow (try out Metro?)
     val repository = remember { CachesRepository() }
     val geocache = remember { mutableStateOf<Geocache?>(null) }
 
