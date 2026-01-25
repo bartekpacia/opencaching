@@ -3,24 +3,25 @@ import platform.Foundation.NSURL
 import platform.UIKit.UIApplication
 import platform.UIKit.UIViewController
 import tech.pacia.opencaching.App
-import tech.pacia.opencaching.data.AuthRepository
-import tech.pacia.opencaching.data.TokenStorage
 import tech.pacia.opencaching.features.signin.SignInViewModel
 
 @Suppress("FunctionName", "Unused")
-fun MainViewController(): UIViewController {
-    val tokenStorage = TokenStorage()
-    val authRepository = AuthRepository(tokenStorage)
-    val signInViewModel = SignInViewModel(authRepository)
-
+fun MainViewController(
+    signInViewModel: SignInViewModel,
+): UIViewController {
     return ComposeUIViewController(
         content = {
             App(
                 signInViewModel = signInViewModel,
                 onOpenBrowser = { url ->
-                    NSURL.URLWithString(url)?.let { nsUrl ->
-                        UIApplication.sharedApplication.openURL(nsUrl)
-                    }
+                    val nsUrl = NSURL.URLWithString(url)
+                        ?: throw IllegalArgumentException("Invalid URL: $url")
+
+                    UIApplication.sharedApplication.openURL(
+                        url = nsUrl,
+                        options = emptyMap<Any?, Any>(),
+                        completionHandler = null,
+                    )
                 },
             )
         },

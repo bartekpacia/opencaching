@@ -48,5 +48,16 @@
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>OAuth Callback</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>opencaching</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

@@ -39,8 +39,15 @@ private val defaultHttpClient = HttpClient {
  */
 class AuthRepository(
     private val tokenStorage: TokenStorage,
-    private val httpClient: HttpClient = defaultHttpClient,
+    private val httpClient: HttpClient,
 ) {
+    /**
+     * Secondary constructor using the default HTTP client.
+     * This is needed for Swift interop since Kotlin default parameters
+     * don't generate separate constructors in Objective-C.
+     */
+    constructor(tokenStorage: TokenStorage) : this(tokenStorage, defaultHttpClient)
+
     private val oauthService = OAuthService(
         httpClient = httpClient,
         apiUrl = API_URL,

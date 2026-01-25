@@ -19,14 +19,31 @@ class MainActivity : ComponentActivity() {
         val authRepository = AuthRepository(tokenStorage)
         signInViewModel = SignInViewModel(authRepository)
 
+        handleOAuthCallback(intent)
+
         setContent {
             App(
                 signInViewModel = signInViewModel,
                 onOpenBrowser = { url ->
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                    startActivity(intent)
+                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    startActivity(browserIntent)
                 },
             )
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleOAuthCallback(intent)
+    }
+
+    private fun handleOAuthCallback(intent: Intent) {
+        val uri = intent.data ?: return
+        if (uri.scheme == "opencaching" && uri.host == "oauth" && uri.path == "/callback") {
+            val verifier = uri.getQueryParameter("oauth_verifier")
+            if (verifier != null) {
+                signInViewModel.handleOAuthCallback(verifier)
+            }
         }
     }
 }
