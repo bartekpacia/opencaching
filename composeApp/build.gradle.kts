@@ -120,6 +120,10 @@ compose.desktop {
     }
 }
 
+dependencies {
+    androidRuntimeClasspath(libs.ui.tooling)
+}
+
 tasks.withType<Detekt> {
     buildUponDefaultConfig = true
     autoCorrect = true

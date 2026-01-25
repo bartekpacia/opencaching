@@ -12,6 +12,7 @@ foundation = { module = "org.jetbrains.compose.foundation:foundation", version =
 runtime = { module = "org.jetbrains.compose.runtime:runtime", version = "1.10.0" }
 ui = { module = "org.jetbrains.compose.ui:ui", version = "1.10.0" }
 ui-test = { module = "org.jetbrains.compose.ui:ui-test", version = "1.10.0" }
+ui-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version = "1.10.0" }
 ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version = "1.10.0" }
 components-resources = { module = "org.jetbrains.compose.components:components-resources", version = "1.10.0" }
 
