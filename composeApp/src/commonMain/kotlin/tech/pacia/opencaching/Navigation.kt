@@ -14,6 +14,7 @@ import tech.pacia.opencaching.features.geocache.GeocacheRoute
 import tech.pacia.opencaching.features.geocache.activity.GeocacheActivityRoute
 import tech.pacia.opencaching.features.geocache.description.GeocacheDescriptionRoute
 import tech.pacia.opencaching.features.signin.SignInRoute
+import tech.pacia.opencaching.features.signin.SignInViewModel
 
 object TopLevelDestinations {
     @Serializable
@@ -35,6 +36,8 @@ object TopLevelDestinations {
 @Composable
 fun OpencachingNavHost(
     navController: NavHostController = rememberNavController(),
+    signInViewModel: SignInViewModel,
+    onOpenBrowser: (url: String) -> Unit,
 ) {
     val homeNavController: NavHostController = rememberNavController()
 
@@ -44,9 +47,11 @@ fun OpencachingNavHost(
     ) {
         composable<TopLevelDestinations.SignIn> {
             SignInRoute(
+                viewModel = signInViewModel,
                 onNavigateToMap = {
                     navController.navigate(TopLevelDestinations.Home)
                 },
+                onOpenBrowser = onOpenBrowser,
             )
         }
 

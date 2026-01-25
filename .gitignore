@@ -32,8 +32,6 @@ fastlane/fastlane/report.xml
 
 .idea/**
 !.idea/vcs.xml
-!.idea/codeStyles/
-!.idea/codeStyles/**
 !.idea/dictionaries/
 !.idea/dictionaries/**
 !.idea/runConfigurations/

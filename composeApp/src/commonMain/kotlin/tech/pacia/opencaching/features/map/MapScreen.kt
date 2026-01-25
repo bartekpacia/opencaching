@@ -45,6 +45,7 @@ fun MapScreen(
         init = { mutableStateMapOf() },
     )
 
+    // TODO: OpencachingClient instance should be injected somehow (try out Metro?)
     val repository = remember { CachesRepository() }
 
     var lastInstant by remember { mutableStateOf(System.now()) }
