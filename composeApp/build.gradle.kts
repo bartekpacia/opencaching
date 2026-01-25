@@ -27,6 +27,9 @@ buildConfig {
 }
 
 kotlin {
+    // Taken from https://youtrack.jetbrains.com/issue/KT-61573/Emit-the-compilation-warning-on-expect-actual-classes.-The-warning-must-mention-that-expect-actual-classes-are-in-Beta#focus=Comments-27-12619726.0-0
+    compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
+
     androidLibrary {
         minSdk = 21
         namespace = "compose.project.demo.composedemo"
@@ -93,6 +96,7 @@ kotlin {
                 implementation(libs.maps.compose)
                 implementation(libs.play.services.maps)
 
+                implementation(libs.androidx.datastore.preferences)
             }
         }
 
