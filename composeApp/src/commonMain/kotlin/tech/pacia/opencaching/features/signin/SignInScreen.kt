@@ -2,7 +2,6 @@ package tech.pacia.opencaching.features.signin
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,38 +10,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.rounded.ErrorOutline
-import androidx.compose.material.icons.rounded.Lock
-import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tech.pacia.opencaching.ui.theme.OpencachingTheme
@@ -51,74 +34,42 @@ import tech.pacia.opencaching.ui.theme.OpencachingTheme
 @Composable
 fun SignInScreen(
     modifier: Modifier = Modifier,
-    inProgress: Boolean = false,
-    hasError: Boolean = false,
-    onDismissError: () -> Unit = {},
-    onSignInSubmitted: (email: String, password: String) -> Unit = { _, _ -> },
+    state: SignInState = SignInState.Idle,
+    onSignInClicked: () -> Unit = {},
     onSignInSkipped: () -> Unit = {},
+    onDismissError: () -> Unit = {},
 ) {
-    var username by rememberSaveable { mutableStateOf("") }
-    var password by rememberSaveable { mutableStateOf("") }
-    var showPassword by rememberSaveable { mutableStateOf(false) }
-
-    val localFocusManager = LocalFocusManager.current
+    val isLoading = state is SignInState.Loading
+    val errorMessage = (state as? SignInState.Error)?.message
 
     Scaffold(
-        modifier = modifier.pointerInput(Unit) { detectTapGestures(onTap = { localFocusManager.clearFocus() }) },
+        modifier = modifier,
         topBar = { TopAppBar(title = { Text("Opencaching") }) },
     ) { padding ->
         Column(
             modifier = Modifier.padding(padding).fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            OutlinedTextField(
-                modifier = Modifier.padding(8.dp),
-                value = username,
-                onValueChange = { username = it },
-                label = { Text("Username") },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Rounded.Person,
-                        contentDescription = "Username",
-                    )
-                },
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Text(
+                text = "Sign in to access your geocaching profile, log finds, and more.",
+                modifier = Modifier.padding(horizontal = 24.dp),
             )
 
-            OutlinedTextField(
-                modifier = Modifier.padding(8.dp),
-                value = password,
-                onValueChange = { password = it },
-                label = { Text("Password") },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Rounded.Lock,
-                        contentDescription = "Password",
-                    )
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
-                singleLine = true,
-                trailingIcon = {
-                    IconButton(
-                        onClick = { showPassword = !showPassword },
-                    ) {
-                        Icon(
-                            imageVector = if (showPassword) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                            contentDescription = if (showPassword) "Hide password" else "Show password",
-                        )
-                    }
-                },
-            )
+            Spacer(modifier = Modifier.height(32.dp))
 
             Button(
-                onClick = { onSignInSubmitted(username, password) },
+                onClick = onSignInClicked,
+                enabled = !isLoading,
                 modifier = Modifier.fillMaxWidth(fraction = 0.75f).padding(8.dp),
             ) {
-                Text("Sign in")
+                Text("Sign in with Opencaching.pl")
             }
 
             TextButton(
                 onClick = onSignInSkipped,
+                enabled = !isLoading,
                 modifier = Modifier.fillMaxWidth(fraction = 0.75f).padding(8.dp),
             ) {
                 Text("Continue without signing in")
@@ -126,45 +77,42 @@ fun SignInScreen(
         }
     }
 
-    if (inProgress) {
+    if (isLoading) {
         Box(
-            modifier = Modifier.fillMaxSize().background(color = Color.Transparent).clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }, // This is mandatory
-                onClick = { /* block interaction with the UI behind the dialog */ },
-            ),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color.Black.copy(alpha = 0.3f))
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() },
+                    onClick = { /* block interaction */ },
+                ),
         ) {
             Column(
                 modifier = Modifier.align(Alignment.Center),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(
-                    text = "Signing in...",
-                )
-
+                Text(text = "Signing in...")
                 Spacer(modifier = Modifier.height(8.dp))
-
                 LinearProgressIndicator()
             }
         }
     }
 
-    if (hasError) {
+    if (errorMessage != null) {
         AlertDialog(
             icon = {
                 Icon(
                     Icons.Rounded.ErrorOutline,
-                    contentDescription = "Example Icon",
+                    contentDescription = "Error",
                 )
             },
-            title = { Text(text = "dialogTitle") },
-            text = { Text(text = "dialogText") },
+            title = { Text(text = "Sign in failed") },
+            text = { Text(text = errorMessage) },
             onDismissRequest = onDismissError,
             confirmButton = {
-                TextButton(
-                    onClick = onDismissError,
-                ) {
-                    Text("Try again")
+                TextButton(onClick = onDismissError) {
+                    Text("OK")
                 }
             },
         )
@@ -181,8 +129,16 @@ fun SignInScreenPreview() {
 
 @Preview
 @Composable
+fun SignInScreenLoadingPreview() {
+    OpencachingTheme {
+        SignInScreen(state = SignInState.Loading)
+    }
+}
+
+@Preview
+@Composable
 fun SignInScreenWithErrorPreview() {
     OpencachingTheme {
-        SignInScreen(hasError = true)
+        SignInScreen(state = SignInState.Error("Network error occurred"))
     }
 }

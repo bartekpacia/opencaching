@@ -1,26 +1,35 @@
 package tech.pacia.opencaching.features.signin
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.getValue
 
 @Composable
 fun SignInRoute(
+    viewModel: SignInViewModel,
     onNavigateToMap: () -> Unit,
+    onOpenBrowser: (url: String) -> Unit,
 ) {
-    // val signInViewModel: SignInViewModel = viewModel(modelClass = SignInViewModel::class.java)
-    val signInViewModel: SignInViewModel = viewModel { SignInViewModel() }
+    val state by viewModel.state.collectAsState()
 
-    val inProgress = signInViewModel.inProgress.collectAsState().value
-    val hasError = signInViewModel.hasError.collectAsState().value
+    LaunchedEffect(state) {
+        when (state) {
+            is SignInState.OpenBrowser -> {
+                onOpenBrowser((state as SignInState.OpenBrowser).url)
+                viewModel.onBrowserOpened()
+            }
+            is SignInState.Success -> {
+                onNavigateToMap()
+            }
+            else -> {}
+        }
+    }
 
     SignInScreen(
-        inProgress = inProgress,
-        hasError = hasError,
-        onDismissError = { signInViewModel.dismissError() },
-        onSignInSubmitted = { username, password ->
-            signInViewModel.signIn(username, password, onNavigateToMap)
-        },
+        state = state,
+        onSignInClicked = { viewModel.startSignIn() },
         onSignInSkipped = onNavigateToMap,
+        onDismissError = { viewModel.dismissError() },
     )
 }
